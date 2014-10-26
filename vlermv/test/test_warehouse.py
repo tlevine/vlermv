@@ -44,6 +44,7 @@ class TestImmutableVlermv(unittest.TestCase):
         n.assert_true(self.mutable.mutable)
         n.assert_false(self.immutable.mutable)
 
+@n.nottest
 class TestMemcachedVlermv(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()

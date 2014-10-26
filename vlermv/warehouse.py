@@ -45,7 +45,7 @@ class Vlermv:
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None, memcache = False):
+    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None):
         self.cachedir = cachedir
         self.serializer = serializer
         self.mutable = mutable
@@ -55,12 +55,6 @@ class Vlermv:
             os.makedirs(self.tempdir)
         except FileExistsError:
             pass
-        if not memcache:
-            self.memcache = None
-        else:
-            self.memcache = {}
-            for key, value in zip(self.keys(), self.values()):
-                self.memcache[key] = value
 
     def filename(self, index):
         subpath = parse_identifier(index)
@@ -75,25 +69,18 @@ class Vlermv:
     def __setitem__(self, index, obj):
         fn = self.filename(index)
         mkdir(fn)
-        if (not self.mutable) and ((self.memcache != None and fn in self.memcache) or os.path.exists(fn)):
+        if (not self.mutable) and os.path.exists(fn):
             raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
         else:
             tmp = mktemp(self.tempdir)
             with open(tmp, 'wb') as fp:
                 self.serializer.dump(obj, fp)
             os.rename(tmp, fn)
-            if self.memcache != None:
-                self.memcache[fn] = obj
 
     def __getitem__(self, index):
         fn = self.filename(index)
 
-        if self.memcache == None:
-            return self._get_fn(fn)
-        else:
-            if fn not in self.memcache and index in self._keys():
-                self.memcache[fn] = self._get_fn(fn)
-            return self.memcache[fn]
+        return self._get_fn(fn)
 
     def _get_fn(self, fn):
         try:
@@ -128,22 +115,12 @@ class Vlermv:
                     os.rmdir(fn)
                 else:
                     break
-            if self.memcache != None and fn in self.memcache:
-                del(self.memcache[fn])
 
     def __contains__(self, index):
         fn = self.filename(index)
-        if self.memcache == None:
-            return os.path.isfile(fn)
-        else:
-            if fn not in self.memcache and os.path.isfile(fn):
-                self.memcache[fn] = self._get_fn(fn)
-            return fn in self.memcache
+        return os.path.isfile(fn)
 
     def __len__(self):
-        if self.memcache != None:
-            return len(self.memcache)
-
         length = 0
         for dirpath, _, filenames in os.walk(self.cachedir):
             for filename in filenames:
@@ -151,9 +128,6 @@ class Vlermv:
         return length
 
     def keys(self):
-        return self._keys() if self.memcache == None else map(os.path.relpath, self.memcache.keys())
-
-    def _keys(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
             if dirpath != os.path.join(self.cachedir, '.tmp'):
                 for filename in filenames:
