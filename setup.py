@@ -8,6 +8,6 @@ setup(name='vlermv',
       packages=['vlermv'],
       install_requires = [],
       tests_require = ['nose'],
-      version='0.2',
+      version='0.2.1',
       license='AGPL',
 )
