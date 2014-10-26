@@ -103,3 +103,4 @@ Mongo replacement feature checklist
 * Inode exhaustion
 * Ability to delete an entire directory (for atomic edits within a document)
 * Transactions (Mongo `doesn't have them <http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/>`_, but they would be cool.)
+* Indices maybe? In case you want an index on something other than the filename
