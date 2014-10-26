@@ -3,7 +3,7 @@ from functools import partial
 
 from .warehouse import Vlermv
 
-class CachedFunction(Vlermv):
+class VlermvCache(Vlermv):
     def __init__(self, func, *args, **kwargs):
         self.func = func
 
@@ -13,7 +13,10 @@ class CachedFunction(Vlermv):
             cachedir = os.path.expanduser(args[0])
             args = args[1:]
 
-        super(CachedFunction, self).__init__(cachedir, *args, **kwargs)
+        super(VlermvCache, self).__init__(cachedir, *args, **kwargs)
+
+    def __repr__(self):
+        return 'VlermvCache (%s)' % self.cachedir
 
     def __call__(self, *args, **kwargs):
         if args in self:
@@ -52,4 +55,4 @@ def cache(*args, **kwargs):
     return partial(_decorator, args, kwargs)
 
 def _decorator(args, kwargs, func):
-    return CachedFunction(func, *args, **kwargs)
+    return VlermvCache(func, *args, **kwargs)
