@@ -126,3 +126,11 @@ def test_delete():
     f(6)
     del(f[6])
     n.assert_set_equal(set(f.keys()), set('45'))
+
+def test_repr():
+    tmp = mkdtemp()
+    @cache(tmp)
+    def f(x):
+        pass
+
+    n.assert_equal(repr(f), 'VlermvCache (%s)' % tmp)
