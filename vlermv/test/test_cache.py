@@ -3,13 +3,13 @@ import shutil
 from tempfile import mkdtemp
 
 import nose.tools as n
-from pickle_warehouse import Warehouse
+from .warehouse import Vlermv
 
-from picklecache import cache
+from cache import cache
 
 def test_new_success():
     tmp = mkdtemp()
-    warehouse = Warehouse(tmp)
+    warehouse = Vlermv(tmp)
     url = 'http://a.b/c'
 
     @cache(tmp)
@@ -22,7 +22,7 @@ def test_new_success():
 
 def test_old_success():
     tmp = mkdtemp()
-    warehouse = Warehouse(tmp)
+    warehouse = Vlermv(tmp)
     url = 'http://a.b/c'
     warehouse[url] = (None, 88)
 
@@ -36,7 +36,7 @@ def test_old_success():
 
 def test_new_error():
     tmp = mkdtemp()
-    warehouse = Warehouse(tmp)
+    warehouse = Vlermv(tmp)
     url = 'http://a.b/c'
     error = ValueError('This is a test.')
 
@@ -55,7 +55,7 @@ def test_new_error():
 
 def test_old_error():
     tmp = mkdtemp()
-    warehouse = Warehouse(tmp)
+    warehouse = Vlermv(tmp)
     url = 'http://a.b/c'
     error = ValueError('This is a test.')
     warehouse[url] = (error, None)
@@ -104,3 +104,23 @@ def test_function_name():
         shutil.rmtree('a_function')
     except:
         pass
+
+def test_keys():
+    @cache(tmp)
+    def f(x):
+        return x
+
+    f(4)
+    f(5)
+    n.assert_list_equal(list(f.keys()), [('4',),('5',)])
+
+def test_delete():
+    @cache(tmp)
+    def f(x):
+        return x
+
+    f(4)
+    f(5)
+    f(6)
+    del(f[6])
+    n.assert_list_equal(list(f.keys()), [('4',),('5',)])

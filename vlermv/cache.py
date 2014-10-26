@@ -4,10 +4,26 @@ import functools
 from .warehouse import Vlermv
 
 class CachedFunction(Vlermv):
-    def __init__(self):
+    def __init__(self, warehouse, func):
+        self.warehouse = warehouse
         raise NotImplementedError
+
     def __call__(self, *args, **kwargs):
-        raise NotImplementedError
+        if args in self.warehouse:
+            output = self.warehouse[args]
+        else:
+            try:
+                result = func(*args, **kwargs)
+            except Exception as error:
+                output = error, None
+            else:
+                output = None, result
+            self.warehouse[args] = output
+        error, result = output
+        if error == None:
+            return result
+        else:
+            raise error
 
 def cache(*args, **kwargs):
     '''
@@ -26,29 +42,11 @@ def cache(*args, **kwargs):
     to cache, the Vlermv directory argument (the one
     required argument) will be set to the name of the function.
     '''
-
-    def decorator(args, kwargs, func):
+    def _decorator(args, kwargs, func):
         if len(args) == 0:
             cachedir = func.__name__
         else:
             cachedir = os.path.expanduser(args[0])
             args = args[1:]
         warehouse = Vlermv(cachedir, *args, **kwargs)
-        def wrapper(*_args, **_kwargs):
-            if _args in warehouse:
-                output = warehouse[_args]
-            else:
-                try:
-                    result = func(*_args, **_kwargs)
-                except Exception as error:
-                    output = error, None
-                else:
-                    output = None, result
-                warehouse[_args] = output
-            error, result = output
-            if error == None:
-                return result
-            else:
-                raise error
-        return wrapper
-    return functools.partial(decorator, args, kwargs)
+    return functools.partial(_decorator, args, kwargs)
