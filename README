@@ -143,7 +143,7 @@ Refreshing the cache
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 I find that I sometimes want to refresh the cache for a particular
 file, only. This is usually because an error occurred and I have fixed
-the error. You can delete the cache like this.
+the error. You can delete the cache like this. ::
 
     @vlermv.cache()
     def is_prime(number):
@@ -160,7 +160,7 @@ Vlermv Cache has all of Vlermv's features
 The above method for refreshing the cache works because ``is_prime``
 isn't really a function; it's actually a ``VlermvCache`` object, which
 is a sub-class of ``Vlermv``. Thus, you can use it in all of the ways
-that you can use ``Vlermv``.
+that you can use ``Vlermv``. ::
 
     @vlermv.cache()
     def f(x, y):
@@ -172,7 +172,7 @@ that you can use ``Vlermv``.
     print(list(f.keys()))
     # ['3/4']
 
-You can even set the value to be something weird.
+You can even set the value to be something weird. ::
 
     f[('a', 8)] = None, {'key':'value'}
     print(f('a', 8))
