@@ -2,8 +2,14 @@ Vlermv
 ==================
 Vlermv makes it easy to save Python
 objects to files with meaningful identifiers.
+The package Vlermv provides two interfaces.
 
-How to use
+Vlermv
+    ``vlermv.Vlermv`` is a dictionary interface.
+VlermvCache
+    ``vlermv.cache`` is a decorator that you can use for caching the output of a function.
+
+Using Vlermv
 -------------------
 Vlermv provides a dictionary-like object
 that is associated with a particular directory on
@@ -72,21 +78,25 @@ And you can mix these formats! ::
 It also has typical dictionary methods like :code:`keys`, :code:`values`, :code:`items`,
 and :code:`update`.
 
-When to use
-----------------
-vlermv is for when you want a persistant store of Python objects.
-If you want an in-memory pickle store, look at
-_pickleDB: https://pythonhosted.org/pickleDB/.
+Using VlermvCache
+-------------------
 
-Vlermv is strictly better than Mongo, so you should use it anywhere
+Better than Mongo
+---------------------
+Vlermv is nearly better than Mongo, so you should use it anywhere
 where you were previously using Mongo. Vlermv is designed for
 write-heavy workloads that need scalability (easy sharding), flexible
 schemas, and highly configurable indexing.
 
+Things that are missing for a full Mongo replacement
+
+* Protection against inode exhaustion
+* Ability to delete an entire directory for atomic edits within a document
+* Transactions (Mongo `doesn't have them <http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/>`_, but they would be cool.)
+* Indices maybe? In case you want an index on something other than the filename
+
 ACID properties
 ----------------------------
-Here's how it accomplishes that.
-
 Atomicity
     Writes are made to a temporary file that gets renamed.
 Consistency
@@ -95,12 +105,3 @@ Isolation
     Vlermv has isolation within files/documents/values but not across. You may implement your own multi-file transactions.
 Durability
     All data are saved to disk right away.
-
-Mongo replacement feature checklist
-----------------------------------------
-
-* Schema validation on read and write (configurable), because who knows what you did yesterday or whether you change your mind later?
-* Inode exhaustion
-* Ability to delete an entire directory (for atomic edits within a document)
-* Transactions (Mongo `doesn't have them <http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/>`_, but they would be cool.)
-* Indices maybe? In case you want an index on something other than the filename
