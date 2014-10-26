@@ -5,7 +5,7 @@ from tempfile import mkdtemp
 import nose.tools as n
 from ..warehouse import Vlermv
 
-from cache import cache
+from ..cache import cache
 
 def test_new_success():
     tmp = mkdtemp()
@@ -106,6 +106,7 @@ def test_function_name():
         pass
 
 def test_keys():
+    tmp = mkdtemp()
     @cache(tmp)
     def f(x):
         return x
@@ -115,6 +116,7 @@ def test_keys():
     n.assert_list_equal(list(f.keys()), [('4',),('5',)])
 
 def test_delete():
+    tmp = mkdtemp()
     @cache(tmp)
     def f(x):
         return x
