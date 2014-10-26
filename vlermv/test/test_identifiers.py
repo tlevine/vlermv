@@ -2,7 +2,7 @@ import datetime
 
 import nose.tools as n
 
-from pickle_warehouse.identifiers import parse, parse_partial, safe_type
+from ..identifiers import parse, parse_partial, safe_type
 
 #def check_parse(index:str, path:list):
 def check_parse(index, path):

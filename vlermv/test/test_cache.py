@@ -3,7 +3,7 @@ import shutil
 from tempfile import mkdtemp
 
 import nose.tools as n
-from .warehouse import Vlermv
+from ..warehouse import Vlermv
 
 from cache import cache
 

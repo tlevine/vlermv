@@ -6,18 +6,18 @@ from shutil import rmtree
 
 import nose.tools as n
 
-from pickle_warehouse.warehouse import Warehouse
+from ..warehouse import Vlermv
 try:
-    from pickle_warehouse.warehouse import PermissionError
+    from ..warehouse import PermissionError
 except ImportError:
     pass
 
-class TestImmutableWarehouse(unittest.TestCase):
+class TestImmutableVlermv(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
-        self.default = Warehouse(self.tmp)
-        self.mutable = Warehouse(self.tmp, mutable = True)
-        self.immutable = Warehouse(self.tmp, mutable = False)
+        self.default = Vlermv(self.tmp)
+        self.mutable = Vlermv(self.tmp, mutable = True)
+        self.immutable = Vlermv(self.tmp, mutable = False)
 
     def tearDown(self):
         rmtree(self.tmp)
@@ -44,12 +44,12 @@ class TestImmutableWarehouse(unittest.TestCase):
         n.assert_true(self.mutable.mutable)
         n.assert_false(self.immutable.mutable)
 
-class TestMemcachedWarehouse(unittest.TestCase):
+class TestMemcachedVlermv(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
-        self.default = Warehouse(os.path.join(self.tmp))
-        self.yescache = Warehouse(os.path.join(self.tmp), memcache = True)
-        self.nocache = Warehouse(os.path.join(self.tmp), memcache = False)
+        self.default = Vlermv(os.path.join(self.tmp))
+        self.yescache = Vlermv(os.path.join(self.tmp), memcache = True)
+        self.nocache = Vlermv(os.path.join(self.tmp), memcache = False)
 
     def tearDown(self):
         rmtree(self.tmp)
@@ -89,28 +89,28 @@ class TestMemcachedWarehouse(unittest.TestCase):
             with n.assert_raises(KeyError):
                 self.yescache[key] = 8
 
-class TestWarehouse(unittest.TestCase):
+class TestVlermv(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
-        self.w = Warehouse(self.tmp)
+        self.w = Vlermv(self.tmp)
 
     def tearDown(self):
         rmtree(self.tmp)
 
     def test_cachedir(self):
         cachedir = self.tmp + 'aaa'
-        w = Warehouse(cachedir)
+        w = Vlermv(cachedir)
         n.assert_equal(w.cachedir, cachedir)
 
     def test_default_dump(self):
-        w = Warehouse(self.tmp)
+        w = Vlermv(self.tmp)
         n.assert_equal(w.serializer.dump, pickle.dump)
 
     def test_repr(self):
-        self.assertEqual(repr(self.w), "Warehouse('%s')" % self.tmp)
-        self.assertEqual(str(self.w), "Warehouse('%s')" % self.tmp)
+        self.assertEqual(repr(self.w), "Vlermv('%s')" % self.tmp)
+        self.assertEqual(str(self.w), "Vlermv('%s')" % self.tmp)
 
-        self.assertEqual(str(Warehouse('/tmp/a"b"c"')), '''Warehouse('/tmp/a"b"c"')''')
+        self.assertEqual(str(Vlermv('/tmp/a"b"c"')), '''Vlermv('/tmp/a"b"c"')''')
 
     def test_setitem(self):
         self.w[("Tom's", 'favorite color')] = 'pink'
@@ -240,7 +240,7 @@ class TestWarehouse(unittest.TestCase):
 
 def test_mkdir():
     d = '/tmp/not a directory'
-    w = Warehouse(d)
+    w = Vlermv(d)
     if os.path.exists(d):
         rmtree(d)
     w[('abc','def','ghi')] = 3
