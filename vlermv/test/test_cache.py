@@ -113,7 +113,7 @@ def test_keys():
 
     f(4)
     f(5)
-    n.assert_list_equal(list(f.keys()), [('4',),('5',)])
+    n.assert_set_equal(set(f.keys()), set('45'))
 
 def test_delete():
     tmp = mkdtemp()
@@ -125,4 +125,4 @@ def test_delete():
     f(5)
     f(6)
     del(f[6])
-    n.assert_list_equal(list(f.keys()), [('4',),('5',)])
+    n.assert_set_equal(set(f.keys()), set('45'))
