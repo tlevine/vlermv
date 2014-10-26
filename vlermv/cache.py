@@ -13,7 +13,8 @@ class VlermvCache(Vlermv):
             cachedir = os.path.expanduser(args[0])
             args = args[1:]
 
-        super(VlermvCache, self).__init__(cachedir, *args, **kwargs)
+       #Vlermv = super(VlermvCache, self).
+        Vlermv.__init__(self, cachedir, *args, **kwargs)
 
     def __repr__(self):
         return 'VlermvCache (%s)' % self.cachedir
