@@ -43,7 +43,7 @@ class Vlermv:
         or anything in vlermv.serializers
     '''
     def __repr__(self):
-        return 'Warehouse(%s)' % repr(self.cachedir)
+        return 'Vlermv(%s)' % repr(self.cachedir)
 
     def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None, memcache = False):
         self.cachedir = cachedir
