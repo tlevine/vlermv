@@ -3,8 +3,7 @@ from random import randint
 from string import ascii_letters
 
 def mktemp(tempdir):
-    if not os.path.isdir(tempdir):
-        os.mkdir(tempdir)
+    os.makedirs(tempdir, exist_ok = True)
     return os.path.join(tempdir, _random_file_name())
 
 def _random_file_name():
