@@ -1,15 +1,23 @@
 import os
+from functools import partial
 
 from .warehouse import Vlermv
 
 class CachedFunction(Vlermv):
-    def __init__(self, warehouse, func):
-        self.warehouse = warehouse
+    def __init__(self, func, *args, **kwargs):
         self.func = func
 
+        if len(args) == 0:
+            cachedir = func.__name__
+        else:
+            cachedir = os.path.expanduser(args[0])
+            args = args[1:]
+
+        super(CachedFunction, self).__init__(cachedir, *args, **kwargs)
+
     def __call__(self, *args, **kwargs):
-        if args in self.warehouse:
-            output = self.warehouse[args]
+        if args in self:
+            output = self[args]
         else:
             try:
                 result = self.func(*args, **kwargs)
@@ -17,7 +25,7 @@ class CachedFunction(Vlermv):
                 output = error, None
             else:
                 output = None, result
-            self.warehouse[args] = output
+            self[args] = output
         error, result = output
         if error == None:
             return result
@@ -41,12 +49,7 @@ def cache(*args, **kwargs):
     to cache, the Vlermv directory argument (the one
     required argument) will be set to the name of the function.
     '''
-    def _decorator(func):
-        if len(args) == 0:
-            cachedir = func.__name__
-        else:
-            cachedir = os.path.expanduser(args[0])
-            args = args[1:]
-        warehouse = Vlermv(cachedir, *args, **kwargs)
-        return CachedFunction(warehouse, func)
-    return _decorator
+    return partial(_decorator, args, kwargs)
+
+def _decorator(args, kwargs, func):
+    return CachedFunction(func, *args, **kwargs)
