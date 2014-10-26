@@ -1,7 +1,13 @@
 import os
 import functools
 
-from pickle_warehouse import Warehouse
+from .warehouse import Vlermv
+
+class CachedFunction(Vlermv):
+    def __init__(self):
+        raise NotImplementedError
+    def __call__(self, *args, **kwargs):
+        raise NotImplementedError
 
 def cache(*args, **kwargs):
     '''
@@ -27,7 +33,7 @@ def cache(*args, **kwargs):
         else:
             cachedir = os.path.expanduser(args[0])
             args = args[1:]
-        warehouse = Warehouse(cachedir, *args, **kwargs)
+        warehouse = Vlermv(cachedir, *args, **kwargs)
         def wrapper(*_args, **_kwargs):
             if _args in warehouse:
                 output = warehouse[_args]

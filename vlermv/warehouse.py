@@ -1,7 +1,7 @@
 import os, pickle
 
-from pickle_warehouse.identifiers import parse as parse_identifier
-from pickle_warehouse.fs import mktemp
+from .identifiers import parse as parse_identifier
+from .fs import mktemp
 
 try:
     FileNotFoundError
@@ -35,12 +35,12 @@ def mkdir(fn):
     except FileExistsError:
         pass
 
-class Warehouse:
+class Vlermv:
     '''
     :param cachedir: cachedir
     :param serializer: A thing with dump and load attribute functions,
         like pickle, json, yaml, dill, bson, 
-        or anything in pickle_warehouse.serializers
+        or anything in vlermv.serializers
     '''
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
