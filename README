@@ -207,6 +207,25 @@ Isolation
 Durability
     All data are saved to disk right away.
 
+Other interesting features
+-----------------------------
+All values have exactly one index (the key/filename). Until other indices
+are implemented, you can build other indices as other vlermv instances.
+
+You can implement sharding by mounting different directories on different
+hard driver or computers. For example, the "March 2014" and "April 2014"
+directories could be on different hard drives, and then you could save your
+data as "March 2014/2014-03-01", "March 2014/2014-03-02", ...,
+"April 2014/2014-04-01", "March 2014/2014-04-02", ....
+
+Vlermv has protection against using up all of the space in your hard drive.
+When you instantiate a vlermv, a large file is written to the `.tmp` directory
+of the vlermv database (10 mb by default). If there is not enough space to
+write the file, an error is raised. If the filesystem runs out of space while
+saving something, a similar error is raised and the `.tmp` directory is
+deleted. This strategy is chosen to reduce calls to the hard drive and to
+be simple; it is intented to protect against accidents rather than attacks.
+
 History
 ---------------------
 I wrote `pickle warehouse <https://pypi.python.org/pypi/pickle-warehouse>`_
