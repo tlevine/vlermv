@@ -28,6 +28,9 @@ try:
 except NameError:
     FileExistsError = OSError
 
+def out_of_space(exception):
+    return isinstance(exception, IOError) and exception.args == (28, 'No space left on device')
+
 def mkdir(fn):
     'Make a directory that will contain the file.'
     try:
@@ -37,24 +40,42 @@ def mkdir(fn):
 
 class Vlermv:
     '''
-    :param cachedir: cachedir
+    :param cachedir: Top-level directory of the vlermv
     :param serializer: A thing with dump and load attribute functions,
         like pickle, json, yaml, dill, bson, 
         or anything in vlermv.serializers
+    :param mutable: Whether values can be updated and deleted
+    :param tempdir: Directory to use for temporary files
+    :param buffer: Size of the buffer in megabytes
     '''
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None):
+    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = '.tmp', buffer = 10):
         self.cachedir = cachedir
         self.serializer = serializer
         self.mutable = mutable
-        if tempdir == None:
-            self.tempdir = os.path.join(cachedir, '.tmp')
+        self.tempdir = os.path.join(cachedir, tempdir)
         try:
             os.makedirs(self.tempdir)
         except FileExistsError:
             pass
+
+        # Create buffer file
+        mb = b'\x00' * int(1e6)
+        self.buffer_file = os.path.join(self.tempdir, 'buffer')
+        with open(self.buffer_file, 'wb') as fp:
+            try:
+                for i in range(buffer):
+                    fp.write(mb)
+            except Exception as e:
+                if out_of_space(e):
+                    fp.close()
+                    os.remove(self.buffer_file)
+                    msg = 'There isn\'t enough space to write the buffer file'
+                    raise BufferError(msg)
+                else:
+                    raise
 
     def filename(self, index):
         subpath = parse_identifier(index)
@@ -74,7 +95,15 @@ class Vlermv:
         else:
             tmp = mktemp(self.tempdir)
             with open(tmp, 'wb') as fp:
-                self.serializer.dump(obj, fp)
+                try:
+                    self.serializer.dump(obj, fp)
+                except Exception as e:
+                    if out_of_space(e):
+                        fp.close()
+                        os.remove(tmp)
+                        raise BufferError('Nearly out of space')
+                    else:
+                        raise
             os.rename(tmp, fn)
 
     def __getitem__(self, index):
