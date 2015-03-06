@@ -4,9 +4,10 @@ from functools import partial
 from .warehouse import Vlermv
 
 class VlermvCache(Vlermv):
-    def __init__(self, func, transformer = lambda x: x, *args, **kwargs):
+    def __init__(self, func, *args, **kwargs):
         self.func = func
-        self.transformer = transformer
+        kwargs = dict(kwargs)
+        self.transformer = kwargs.pop('transformer', lambda x: x)
 
         if len(args) == 0:
             cachedir = func.__name__
@@ -14,7 +15,6 @@ class VlermvCache(Vlermv):
             cachedir = os.path.expanduser(args[0])
             args = args[1:]
 
-       #Vlermv = super(VlermvCache, self).
         Vlermv.__init__(self, cachedir, *args, **kwargs)
 
     def __repr__(self):
@@ -55,7 +55,4 @@ def cache(*args, **kwargs):
     to cache, the Vlermv directory argument (the one
     required argument) will be set to the name of the function.
     '''
-    return partial(_decorator, args, kwargs)
-
-def _decorator(args, kwargs, func):
-    return VlermvCache(func, *args, **kwargs)
+    return lambda func: VlermvCache(func, *args, **kwargs)
