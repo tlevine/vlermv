@@ -8,6 +8,7 @@ class VlermvCache(Vlermv):
         self.func = func
         kwargs = dict(kwargs)
         self.transformer = kwargs.pop('transformer', lambda x: x)
+        # Add some tests for this based on immaterial-digital-labor
 
         if len(args) == 0:
             cachedir = func.__name__
