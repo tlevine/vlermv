@@ -4,8 +4,9 @@ from functools import partial
 from .warehouse import Vlermv
 
 class VlermvCache(Vlermv):
-    def __init__(self, func, *args, **kwargs):
+    def __init__(self, func, transformer = lambda x: x, *args, **kwargs):
         self.func = func
+        self.transformer = transformer
 
         if len(args) == 0:
             cachedir = func.__name__
@@ -20,6 +21,7 @@ class VlermvCache(Vlermv):
         return 'VlermvCache (%s)' % self.cachedir
 
     def __call__(self, *args, **kwargs):
+        args = self.transformer(args)
         if args in self:
             output = self[args]
         else:
