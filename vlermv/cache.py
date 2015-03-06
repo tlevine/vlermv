@@ -22,9 +22,9 @@ class VlermvCache(Vlermv):
         return 'VlermvCache (%s)' % self.cachedir
 
     def __call__(self, *args, **kwargs):
-        args = self.transformer(args)
-        if args in self:
-            output = self[args]
+        _args = self.transformer(args)
+        if _args in self:
+            output = self[_args]
         else:
             try:
                 result = self.func(*args, **kwargs)
@@ -32,7 +32,7 @@ class VlermvCache(Vlermv):
                 output = error, None
             else:
                 output = None, result
-            self[args] = output
+            self[_args] = output
         error, result = output
         if error == None:
             return result
