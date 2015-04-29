@@ -1,0 +1,4 @@
+* The tuple for exceptions is too confusing; come up with something else,
+    or at least document it better.
+* Change the default transformer and serializer to identity
+* Allow serializers to indicate binaryness.
