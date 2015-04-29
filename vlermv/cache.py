@@ -1,7 +1,4 @@
-import os
-from functools import partial
-
-from .warehouse import Vlermv
+from .vlermv import Vlermv
 
 def cache(*args, **kwargs):
     '''
@@ -15,9 +12,14 @@ def cache(*args, **kwargs):
         def get(url):
             return requests.get(url, auth = ('username', 'password'))
 
-    vlermv.Vlermv would ordinarily fail if
-    no arguments were passed to it. If you pass no arguments
-    to cache, the Vlermv directory argument (the one
-    required argument) will be set to the name of the function.
+    vlermv.Vlermv would ordinarily fail if no arguments were passed to it.
+    If you pass no arguments to cache, the Vlermv directory argument
+    (the one required argument) will be set to the name of the function.
     '''
-    return lambda func: VlermvCache(func, *args, **kwargs)
+    def f(func):
+        if len(args) == 0:
+            args = (func.__name__,)
+        v = Vlermv(*args, **kwargs)
+        v.func = func
+        return v
+    return f
