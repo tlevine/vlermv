@@ -53,14 +53,14 @@ and so is ``simple_identity``.
 import io as _io
 import base64 as _base64
 
+
+
 class base64:
     'Dump and load base64-encoded stuff.'
-    @staticmethod
-    def dump(obj, fp):
+    def dump(self, obj, fp):
         input_fp = io.BytesIO(obj)
         _base64.encode(input_fp, fp)
-    @staticmethod
-    def load(fp):
+    def load(self, fp):
         output_fp = io.BytesIO()
         _base64.decode(fp, output_fp)
         return output_fp.read()
