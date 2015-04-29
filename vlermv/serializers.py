@@ -1,3 +1,35 @@
+'''
+A serializer is a Python object with the following methods.
+
+``dump(obj, fp) -> None``
+    Write the object to the file pointer ``fp``.
+``dump(fp) -> obj``
+    Represent the  the file pointer ``fp`` as an object.
+
+It optionally includes another method.
+
+``binary(obj) -> bool``
+    Determine whether to use binary modes for opening file pointers.
+
+For example, ``json`` is a valid serializer, ::
+
+    import json
+
+and so is ``simple_identity``.
+
+    class simple_identity:
+        @staticmethod
+        def dump(obj, fp):
+            fp.write(obj)
+
+        @staticmethod
+        def load(fp):
+            return fp.read()
+
+        def binary(obj):
+            return True
+'''
+
 import io as _io
 import base64 as _base64
 
