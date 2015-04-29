@@ -71,7 +71,17 @@ class Vlermv:
             self[_args] = output
 
         if self.cache_exceptions:
+            if len(output) != 2:
+                msg = '''Deserializer returned %d elements,
+but it is supposed to return only two (exception, object).
+Perhaps the serializer doesn't implement exception caching properly?'''
+                raise TypeError(msg % len(output))
+
             error, result = output
+            if error != None and result != None:
+                raise TypeError('''The exception or the object (or both) must be None.
+There's probably a problem with the serializer.''')
+
             if error:
                 raise error
         else:
