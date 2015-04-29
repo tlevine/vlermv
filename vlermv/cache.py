@@ -3,42 +3,6 @@ from functools import partial
 
 from .warehouse import Vlermv
 
-class VlermvCache(Vlermv):
-    def __init__(self, func, *args, **kwargs):
-        self.func = func
-        kwargs = dict(kwargs)
-        self.transformer = kwargs.pop('transformer', lambda x: x)
-        # Add some tests for this based on immaterial-digital-labor
-
-        if len(args) == 0:
-            cachedir = func.__name__
-        else:
-            cachedir = os.path.expanduser(args[0])
-            args = args[1:]
-
-        Vlermv.__init__(self, cachedir, *args, **kwargs)
-
-    def __repr__(self):
-        return 'VlermvCache (%s)' % self.cachedir
-
-    def __call__(self, *args, **kwargs):
-        _args = self.transformer(args)
-        if _args in self:
-            output = self[_args]
-        else:
-            try:
-                result = self.func(*args, **kwargs)
-            except Exception as error:
-                output = error, None
-            else:
-                output = None, result
-            self[_args] = output
-        error, result = output
-        if error == None:
-            return result
-        else:
-            raise error
-
 def cache(*args, **kwargs):
     '''
     Cache a function with a vlermv.Vlermv.

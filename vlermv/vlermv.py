@@ -1,6 +1,7 @@
 import os, pickle
 
-from .identifiers import parse as parse_identifier
+from .serializers import identity
+from .transformers import magic
 from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
     OpenError, PermissionError,
@@ -21,31 +22,46 @@ class Vlermv:
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = '.tmp', buffer = 10):
-        self.cachedir = cachedir
+    def __init__(self, cachedir,
+            serializer = identity(binary = True), mutable = True,
+            tempdir = '.tmp', transformer = lambda x: x,
+            cache_exceptions = False):
+
+        # Default function, if called with ``Vlermv`` rather than ``cache``.
+        self.func = self.__getitem__
+
+        self.cachedir = os.path.expanduser(cachedir)
         self.serializer = serializer
         self.mutable = mutable
-        self.tempdir = os.path.join(cachedir, tempdir)
-        try:
-            os.makedirs(self.tempdir)
-        except FileExistsError:
-            pass
+        self.transformer = transformer
+        self.tempdir = os.path.join(self.cachedir, tempdir)
+        self.cache_exceptions = cache_exceptions
 
-        # Create buffer file
-        mb = b'\x00' * int(1e6)
-        self.buffer_file = os.path.join(self.tempdir, 'buffer')
-        with open(self.buffer_file, 'wb') as fp:
+        os.makedirs(self.tempdir, exist_ok = True)
+
+    def __call__(self, *args, **kwargs):
+        _args = self.transformer(args)
+        if _args in self:
+            output = self[_args]
+        else:
             try:
-                for i in range(buffer):
-                    fp.write(mb)
-            except Exception as e:
-                if out_of_space(e):
-                    fp.close()
-                    os.remove(self.buffer_file)
-                    msg = 'There isn\'t enough space to write the buffer file'
-                    raise BufferError(msg)
-                else:
-                    raise
+                result = self.func(*args, **kwargs)
+            except Exception as error:
+                if not self.cache_exceptions:
+                    raise error
+                output = error, None
+            else:
+                output = None, result
+            self[_args] = output
+
+        if self.cache_exceptions:
+            error, result = output
+            if error:
+                raise error
+        else:
+            result = output
+
+        return result
 
     def filename(self, index):
         subpath = parse_identifier(index)
@@ -128,7 +144,7 @@ class Vlermv:
 
     def keys(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
-            if dirpath != os.path.join(self.cachedir, '.tmp'):
+            if dirpath != os.path.join(self.cachedir, self.tempdir):
                 for filename in filenames:
                     yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
 

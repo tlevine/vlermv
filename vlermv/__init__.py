@@ -1,2 +1,2 @@
-from .warehouse import Vlermv
+from .vlermv import Vlermv
 from .cache import cache
