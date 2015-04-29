@@ -1,7 +1,7 @@
 import os, pickle
 
 from .identifiers import parse as parse_identifier
-from .fs import mktemp
+from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
     OpenError, PermissionError,
     DeleteError, FileExistsError,
@@ -150,11 +150,3 @@ class Vlermv:
             return self[index]
         else:
             return default
-
-def _reversed_directories(outer, inner):
-    while outer != inner:
-        yield inner
-        try:
-            inner = os.path.split(inner)[0]
-        except OSError:
-            pass
