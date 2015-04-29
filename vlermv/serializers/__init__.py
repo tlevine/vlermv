@@ -20,23 +20,40 @@ If it is ``False``, filenames will be opened like this.
     open(filename, 'r')
     open(filename, 'w')
 
-Second, ``vlermv_cache_exceptions`` tells us whether to cache exceptions when
-the serializer is used with ``vlermv.cache``. (Default is ``False``.)
+Second, ``vlermv_cache_exceptions`` tells us whether the caching of
+exceptions is supported. (Default is ``False``.) This is relevant
+when the serializer is used with ``vlermv.cache``. If it is ``False``
+but ``Vlermv`` is initialized with ``cache_exceptions = True``,
+an exception is raised.
 
-* If this is ``True``, ``dump`` is passed a tuple of
-  ``(exception, obj)``, and load is expected to return
-  the same format. ``exception`` is ``None`` if the function
-  ran without error, and ``obj`` is ``None`` if there was an error.
-* If it is ``False``, ``dump`` is passed simply the ``obj``,
-  and ``load`` is expected to return the ``obj``.
+What exactly is ``obj``?
+---------------------
 
+If ``Vlermv`` is initialized with ``cache_exceptions = False``,
+``obj`` is simply the object that was passed to ``Vlermv.__setitem__``.
+Most likely, this happened because the ``vlermv.cache`` decorator was
+used, and ``obj`` is thus the result of the decorated function.
+For example, in this case, ``obj`` is 103. ::
+
+    @cache(cache_exceptions = False)
+    def f(x):
+        return x + 3
+    f(100) # <- ``obj`` is 103
+
+If ``cache_exceptions = True``, ``obj`` is a tuple of ``(exception, result)``,
+where ``result`` is the result of the decorated function.
+``exception`` is ``None`` if the function ran without error, and ``result``
+is ``None`` if there was an error.
+
+Example serializers
+---------------------
 For example, ``json`` is a valid serializer, ::
 
     import json
 
 and so is ``simple_identity``.
 
-    class simple_identity:
+    class simple_binary_identity:
         @staticmethod
         def dump(obj, fp):
             fp.write(obj)
