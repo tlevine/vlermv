@@ -2,3 +2,5 @@
     or at least document it better.
 * Change the default transformer and serializer to identity
 * Allow serializers to indicate binaryness.
+* Maybe serializers indicate whether they are capable of caching exceptions
+  and then vlermv decides whether to cache them?
