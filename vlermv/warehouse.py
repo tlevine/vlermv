@@ -2,41 +2,11 @@ import os, pickle
 
 from .identifiers import parse as parse_identifier
 from .fs import mktemp
-
-try:
-    FileNotFoundError
-except NameError:
-    OpenError = IOError
-else:
-    OpenError = FileNotFoundError
-
-try:
-    PermissionError
-except NameError:
-    class PermissionError(EnvironmentError):
-        pass
-
-try:
-    FileNotFoundError
-except NameError:
-    DeleteError = OSError
-else:
-    DeleteError = FileNotFoundError
-
-try:
-    FileExistsError
-except NameError:
-    FileExistsError = OSError
-
-def out_of_space(exception):
-    return isinstance(exception, IOError) and exception.args == (28, 'No space left on device')
-
-def mkdir(fn):
-    'Make a directory that will contain the file.'
-    try:
-        os.makedirs(os.path.split(fn)[0])
-    except FileExistsError:
-        pass
+from .exceptions import (
+    OpenError, PermissionError,
+    DeleteError, FileExistsError,
+    out_of_space,
+)
 
 class Vlermv:
     '''
@@ -89,7 +59,7 @@ class Vlermv:
 
     def __setitem__(self, index, obj):
         fn = self.filename(index)
-        mkdir(fn)
+        os.makedirs(os.path.dirname(fn), exist_ok = True)
         if (not self.mutable) and os.path.exists(fn):
             raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
         else:
