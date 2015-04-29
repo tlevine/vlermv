@@ -62,9 +62,10 @@ class Vlermv:
             try:
                 result = self.func(*args, **kwargs)
             except Exception as error:
-                if not self.cache_exceptions:
+                if self.cache_exceptions:
+                    output = error, None
+                else:
                     raise error
-                output = error, None
             else:
                 output = None, result
             self[_args] = output
@@ -102,7 +103,7 @@ class Vlermv:
                     if out_of_space(e):
                         fp.close()
                         os.remove(tmp)
-                        raise BufferError('Nearly out of space')
+                        raise BufferError('Out of space')
                     else:
                         raise
             os.rename(tmp, fn)
@@ -140,7 +141,7 @@ class Vlermv:
         except DeleteError as e:
             raise KeyError(*e.args)
         else:
-            for fn in _reversed_directories(self.cachedir, os.path.split(fn)[0]):
+            for fn in _reversed_directories(self.cachedir, os.path.dirname(fn)):
                 if os.listdir(fn) == []:
                     os.rmdir(fn)
                 else:
