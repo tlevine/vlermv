@@ -11,13 +11,24 @@ from .exceptions import (
 
 class Vlermv:
     '''
+    Fancy dictionary database
+
     :param cachedir: Top-level directory of the vlermv
     :param serializer: A thing with dump and load attribute functions,
         like pickle, json, yaml, dill, bson, 
         or anything in vlermv.serializers
+    :param transformer: Function to transform keys to filenames.
+        The identity function is used by default, other options include
+        vlermv.transformers.magic and vlermv.transformers.base64.
     :param mutable: Whether values can be updated and deleted
     :param tempdir: Directory to use for temporary files
-    :param buffer: Size of the buffer in megabytes
+
+    This one is only relevant for initialization via ``vlermv.cache``.
+
+    :param cache_exceptions: If the decorated function raises an exception,
+        should the failure and exception be cached? The exception is raised
+        either way.
+
     '''
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
