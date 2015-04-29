@@ -38,6 +38,10 @@ class Vlermv:
             tempdir = '.tmp', transformer = lambda x: x,
             cache_exceptions = False):
 
+        if cache_exceptions and not getattr(serializer, 'cache_exceptions', False):
+            msg = 'Serializer %s cannot cache exceptions.'
+            raise TypeError(msg % repr(serializer))
+
         # Default function, if called with ``Vlermv`` rather than ``cache``.
         self.func = self.__getitem__
 
