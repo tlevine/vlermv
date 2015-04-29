@@ -43,6 +43,10 @@ def cache(*args, **kwargs):
     '''
     Cache a function with a vlermv.Vlermv.
 
+    :param cache_exceptions: If the decorated function raises an exception,
+        should the failure and exception be cached? The exception is raised
+        either way.
+
     Decorate the function with @cache(*args, **kwargs).
     The args and kwargs get passed to the Vlermv.
     For example::
