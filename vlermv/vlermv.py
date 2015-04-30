@@ -42,6 +42,8 @@ class Vlermv:
             msg = 'Serializer %s cannot cache exceptions.'
             raise TypeError(msg % repr(serializer))
 
+        self.binary_mode = getattr(serializer, 'vlermv_binary_mode', False)
+
         # Default function, if called with ``Vlermv`` rather than ``cache``.
         self.func = self.__getitem__
 
@@ -105,7 +107,7 @@ There's probably a problem with the serializer.''')
             raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
         else:
             tmp = mktemp(self.tempdir)
-            with open(tmp, 'wb') as fp:
+            with open(tmp, 'w' + self._b()) as fp:
                 try:
                     self.serializer.dump(obj, fp)
                 except Exception as e:
@@ -122,6 +124,9 @@ There's probably a problem with the serializer.''')
 
         return self._get_fn(fn)
 
+    def _b(self):
+        return 'b' if self.binary_mode else ''
+
     def _get_fn(self, fn):
         try:
             mtime_before = os.path.getmtime(fn)
@@ -129,7 +134,7 @@ There's probably a problem with the serializer.''')
             mtime_before = None
 
         try:
-            with open(fn, 'rb') as fp:
+            with open(fn, 'r' + self._b()) as fp:
                 item = self.serializer.load(fp)
         except OpenError as e:
             raise KeyError(*e.args)
