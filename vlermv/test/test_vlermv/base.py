@@ -1,3 +1,4 @@
+import os
 import pickle
 from shutil import rmtree
 
@@ -17,4 +18,4 @@ class transformer:
         return os.path.join(*path)
 
 def simple_vlermv(cachedir):
-    return Vlermv(cachedir, transformer = transformer, serializer = pickle)
+    return Vlermv(cachedir, key_transformer = transformer, serializer = pickle)
