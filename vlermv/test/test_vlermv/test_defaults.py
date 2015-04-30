@@ -1,5 +1,6 @@
-import pickle, tempfile
+import pickle, tempfile, os
 from .base import Base
+from ...vlermv import Vlermv
 
 class TestDefaults(Base):
     def setup_method(self, method):
@@ -16,5 +17,4 @@ class TestDefaults(Base):
         assert self.w.mutable
 
     def test_default_tempdir(self):
-        return self.w.tempdir
-
+        assert self.w.tempdir == os.path.join(self.directory, '.tmp')
