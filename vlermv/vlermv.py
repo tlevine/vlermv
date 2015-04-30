@@ -1,7 +1,7 @@
 import os
 
 from .serializers import pickle
-from .util import split
+from .util import split, _get_fn
 from .transformers import simple
 from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
