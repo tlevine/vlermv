@@ -16,13 +16,15 @@ class Base:
         with self.tmp() as fp:
             self.serializer.dump(self.obj, fp)
             fp.seek(0)
-            assert fp.read() == self.dumped_obj
+            result = fp.read()
+            assert result == self.dumped_obj
 
     def test_load(self):
         with self.tmp() as fp:
             fp.write(self.dumped_obj)
             fp.seek(0)
-            assert self.serializer.load(fp) == self.obj
+            result = self.serializer.load(fp)
+            assert result == self.obj
 
     def test_cache_exceptions(self):
         objs = [
@@ -34,4 +36,5 @@ class Base:
                 with self.tmp() as fp:
                     self.serializer.dump(obj, fp)
                     fp.seek(0)
-                    assert self.serializer.load(fp) == obj
+                    result = self.serializer.load(fp)
+                    assert result == obj
