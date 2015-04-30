@@ -1,5 +1,5 @@
 import os
-import pickle
+from ...serializers import pickle
 from shutil import rmtree
 
 from ...vlermv import Vlermv
@@ -18,4 +18,5 @@ class identity_transformer:
         return path
 
 def simple_vlermv(cachedir):
-    return Vlermv(cachedir, key_transformer = identity_transformer, serializer = pickle)
+    return Vlermv(cachedir, key_transformer = identity_transformer,
+        serializer = pickle)
