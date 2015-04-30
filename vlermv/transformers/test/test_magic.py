@@ -10,6 +10,8 @@ def test_to_tuple():
 def test_from_tuple():
     assert from_tuple(('a',)) == ('a',)
 
+parse = to_tuple
+
 def test_parse_int():
     assert parse_partial(3) == ['3']
     assert parse_partial(123) == ['123']

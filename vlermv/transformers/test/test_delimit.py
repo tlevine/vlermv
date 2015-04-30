@@ -14,4 +14,4 @@ def test_slash_from_tuple():
 
 def test_backslash_from_tuple():
     assert backslash.from_tuple(('a',)) == 'a'
-    assert backslash.from_tuple(('a','b')) == 'a/b'
+    assert backslash.from_tuple(('a','b')) == 'a\\b'
