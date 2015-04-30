@@ -1,6 +1,5 @@
 import os, pickle
 
-from .serializers import identity_str
 from .transformers import magic
 from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
@@ -34,8 +33,8 @@ class Vlermv:
         return 'Vlermv(%s)' % repr(self.cachedir)
 
     def __init__(self, cachedir,
-            serializer = identity_str, mutable = True,
-            tempdir = '.tmp', transformer = lambda x: x,
+            serializer = pickle, mutable = True,
+            tempdir = '.tmp', transformer = magic,
             cache_exceptions = False):
 
         if cache_exceptions and not getattr(serializer, 'cache_exceptions', False):
