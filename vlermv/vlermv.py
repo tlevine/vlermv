@@ -1,5 +1,6 @@
 import os, pickle
 
+from .util import split
 from .transformers import magic
 from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
@@ -16,9 +17,9 @@ class Vlermv:
     :param serializer: A thing with dump and load attribute functions,
         like pickle, json, yaml, dill, bson, 
         or anything in vlermv.serializers
-    :param transformer: Function to transform keys to filenames.
-        The identity function is used by default, other options include
-        vlermv.transformers.magic and vlermv.transformers.identity.
+    :param key_transformer: Function to transform keys to filenames and back.
+        Default is ``vlermv.transformers.magic``; other options are in
+        ``vlermv.transformers``.
     :param mutable: Whether values can be updated and deleted
     :param tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
 
@@ -34,7 +35,7 @@ class Vlermv:
 
     def __init__(self, cachedir,
             serializer = pickle, mutable = True,
-            tempdir = '.tmp', transformer = magic,
+            tempdir = '.tmp', key_transformer = magic,
             cache_exceptions = False):
 
         if cache_exceptions and not getattr(serializer, 'cache_exceptions', False):
@@ -47,7 +48,7 @@ class Vlermv:
         self.cachedir = os.path.expanduser(cachedir)
         self.serializer = serializer
         self.mutable = mutable
-        self.transformer = transformer
+        self.transformer = key_transformer
         self.tempdir = os.path.join(self.cachedir, tempdir)
         self.cache_exceptions = cache_exceptions
 
@@ -88,7 +89,7 @@ There's probably a problem with the serializer.''')
         return result
 
     def filename(self, index):
-        subpath = self.transformer(index)
+        subpath = self.transformer.to_tuple(index)
         if len(subpath) == 0:
             raise KeyError('You specified an empty key.')
         else:
@@ -170,7 +171,8 @@ There's probably a problem with the serializer.''')
         for dirpath, _, filenames in os.walk(self.cachedir):
             if dirpath != os.path.join(self.cachedir, self.tempdir):
                 for filename in filenames:
-                    yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+                    key = self.transformer.from_tuple(split(filename))
+                    yield os.path.relpath(os.path.join(dirpath, *key), self.cachedir)
 
     def values(self):
         for key, value in self.items():

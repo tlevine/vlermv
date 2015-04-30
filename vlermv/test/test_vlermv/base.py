@@ -7,8 +7,14 @@ class Base:
     def teardown_method(self, method):
         rmtree(self.directory)
 
-def list_identity_transformer(x):
-    return x
+class transformer:
+    @staticmethod
+    def to_tuple(key):
+        return key
+
+    @staticmethod
+    def from_tuple(path):
+        return os.path.join(*path)
 
 def simple_vlermv(cachedir):
-    return Vlermv(cachedir, transformer = list_identity_transformer, serializer = pickle)
+    return Vlermv(cachedir, transformer = transformer, serializer = pickle)
