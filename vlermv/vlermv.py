@@ -90,7 +90,7 @@ There's probably a problem with the serializer.''')
 
     def filename(self, index):
         subpath = self.transformer(index)
-        if subpath == []:
+        if len(subpath) == 0:
             raise KeyError('You specified an empty key.')
         else:
             return os.path.join(self.cachedir, *subpath)

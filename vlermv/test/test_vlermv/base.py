@@ -1,3 +1,4 @@
+import pickle
 from shutil import rmtree
 
 from ...vlermv import Vlermv
@@ -7,7 +8,7 @@ class Base:
         rmtree(self.directory)
 
 def list_identity_transformer(x):
-    return [x]
+    return x
 
 def simple_vlermv(cachedir):
-    return Vlermv(self.directory, transformer = list_identity_transformer, serializer = pickle)
+    return Vlermv(cachedir, transformer = list_identity_transformer, serializer = pickle)
