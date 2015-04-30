@@ -171,8 +171,8 @@ There's probably a problem with the serializer.''')
         for dirpath, _, filenames in os.walk(self.cachedir):
             if dirpath != os.path.join(self.cachedir, self.tempdir):
                 for filename in filenames:
-                    key = self.transformer.from_tuple(split(filename))
-                    yield os.path.relpath(os.path.join(dirpath, *key), self.cachedir)
+                    path = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+                    yield self.transformer.from_tuple(split(path))
 
     def values(self):
         for key, value in self.items():

@@ -90,7 +90,7 @@ class TestVlermv(Base):
         assert observed == {'a':'z'}
 
         self.w.update([(('tuple',), (2,4,8))])
-        expected = {'tuple': (2,4,8),  'dictionary': {'a':'z'}}
+        expected = {('tuple',): (2,4,8),  ('dictionary',): {'a':'z'}}
         assert len(self.w) == len(expected)
         for key in expected.keys():
             assert self.w[key] == expected[key]
@@ -104,7 +104,7 @@ class TestVlermv(Base):
             pass
 
         observed = set(x for x in self.w)
-        expected = {'a/b/c/d', 'z'}
+        expected = {('a', 'b', 'c', 'd',), ('z',)}
 
         assert observed == expected
 
@@ -119,7 +119,7 @@ class TestVlermv(Base):
             pass
 
         observed = set(self.w.keys())
-        expected = {'a/b/c/d', 'z'}
+        expected = {('a', 'b', 'c', 'd'), ('z',)}
 
         assert observed == expected
 
@@ -145,6 +145,6 @@ class TestVlermv(Base):
             pickle.dump(str, fp)
 
         observed = set(self.w.items())
-        expected = {('a/b/c/d',9), ('z',str)}
+        expected = {(('a', 'b', 'c', 'd'), 9), (('z',),str)}
 
         assert observed == expected
