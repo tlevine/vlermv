@@ -10,7 +10,7 @@ class _identity:
 
     vlermv_cache_exceptions = False
     def __init__(self, binary_mode = False):
-        vlermv_binary_mode = binary_mode
+        self.vlermv_binary_mode = binary_mode
 
 identity_str = _identity(binary_mode = False)
 identity_bytes = _identity(binary_mode = True)
