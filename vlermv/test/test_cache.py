@@ -6,13 +6,14 @@ from tempfile import mkdtemp
 
 import pytest
 
+from ..transformers import tuple as _tuple
 from ..vlermv import Vlermv
 from ..cache import cache
 
 def test_new_success():
     tmp = mkdtemp()
-    warehouse = Vlermv(tmp)
-    url = 'http://a.b/c'
+    warehouse = Vlermv(tmp, key_transformer = _tuple)
+    url = 'localhost'
 
     @cache(tmp, cache_exceptions = True)
     def get(_):
@@ -25,7 +26,7 @@ def test_new_success():
 def test_old_success():
     tmp = mkdtemp()
     warehouse = Vlermv(tmp)
-    url = 'http://a.b/c'
+    url = 'localhost'
     warehouse[url] = (None, 88)
 
     @cache(tmp, cache_exceptions = True)
@@ -39,7 +40,7 @@ def test_old_success():
 def test_new_error():
     tmp = mkdtemp()
     warehouse = Vlermv(tmp)
-    url = 'http://a.b/c'
+    url = 'localhost'
     error = ValueError('This is a test.')
 
     @cache(tmp, cache_exceptions = True)
@@ -58,7 +59,7 @@ def test_new_error():
 def test_old_error():
     tmp = mkdtemp()
     warehouse = Vlermv(tmp)
-    url = 'http://a.b/c'
+    url = 'localhost'
     error = ValueError('This is a test.')
     warehouse[url] = (error, None)
 
@@ -113,8 +114,8 @@ def test_keys():
     def f(x):
         return x
 
-    f(4)
-    f(5)
+    f('4')
+    f('5')
     assert set(f.keys()) == {('4',),('5',)}
 
 def test_delete():
@@ -123,10 +124,10 @@ def test_delete():
     def f(x):
         return x
 
-    f(4)
-    f(5)
-    f(6)
-    del(f[6])
+    f('4')
+    f('5')
+    f('6')
+    del(f[('6',)])
     assert set(f.keys()) == {('4',),('5',)}
 
 def test_type():
@@ -157,5 +158,5 @@ def test_cache_exceptions():
 
     with pytest.raises(TestError):
         f('x')
-    assert 'x' not in f
+    assert ('x',) not in f
 
