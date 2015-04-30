@@ -1,16 +1,20 @@
 import tempfile
 
-from .base import Base
+import pytest
+
+from .base import Base, identity_transformer
+from ...vlermv import Vlermv
+from ...serializers import pickle
 
 class TestImmutableVlermv(Base):
     def setup_method(self, method):
         self.directory = tempfile.mkdtemp()
         self.default = Vlermv(self.directory,
-            transformer = identity_transformer, serializer = pickle)
-        self.mutable = Vlermv(self.directory,
-            mutable = True, transformer = identity_transformer, serializer = pickle)
-        self.immutable = Vlermv(self.directory,
-            mutable = False, transformer = identity_transformer, serializer = pickle)
+            key_transformer = identity_transformer, serializer = pickle)
+        self.mutable = Vlermv(self.directory, mutable = True,
+            key_transformer = identity_transformer, serializer = pickle)
+        self.immutable = Vlermv(self.directory, mutable = False,
+            key_transformer = identity_transformer, serializer = pickle)
 
     def test_setitem(self):
         self.mutable['a'] = 3
