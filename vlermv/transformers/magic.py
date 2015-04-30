@@ -1,3 +1,4 @@
+import os
 try:
     from urllib.parse import urlsplit
 except ImportError:
@@ -14,7 +15,7 @@ except NameError:
     basestring = str
 
 def from_tuple(obj):
-    return os.path.join(*obj)
+    return obj
 
 def to_tuple(index):
     if not safe_type(index):
@@ -41,7 +42,7 @@ def parse_partial(item):
     if isinstance(item, basestring):
         func = parse_partial_text
     elif isinstance(item, int):
-        func = lambda x: [str(x)]
+        func = lambda x: (str(x),)
     elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
         func = parse_partial_date
     elif item == None:
