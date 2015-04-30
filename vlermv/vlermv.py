@@ -19,9 +19,9 @@ class Vlermv:
         or anything in vlermv.serializers
     :param transformer: Function to transform keys to filenames.
         The identity function is used by default, other options include
-        vlermv.transformers.magic and vlermv.transformers.base64.
+        vlermv.transformers.magic and vlermv.transformers.identity.
     :param mutable: Whether values can be updated and deleted
-    :param tempdir: Directory to use for temporary files
+    :param tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
 
     This one is only relevant for initialization via ``vlermv.cache``.
 
@@ -90,7 +90,7 @@ There's probably a problem with the serializer.''')
         return result
 
     def filename(self, index):
-        subpath = parse_identifier(index)
+        subpath = self.transformer(index)
         if subpath == []:
             raise KeyError('You specified an empty key.')
         else:
