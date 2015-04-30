@@ -124,30 +124,10 @@ There's probably a problem with the serializer.''')
             os.rename(tmp, fn)
 
     def __getitem__(self, index):
-        fn = self.filename(index)
-
-        return self._get_fn(fn)
+        return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
 
     def _b(self):
         return 'b' if self.binary_mode else ''
-
-    def _get_fn(self, fn):
-        try:
-            mtime_before = os.path.getmtime(fn)
-        except OSError:
-            mtime_before = None
-
-        try:
-            with open(fn, 'r' + self._b()) as fp:
-                item = self.serializer.load(fp)
-        except OpenError as e:
-            raise KeyError(*e.args)
-        else:
-            mtime_after = os.path.getmtime(fn)
-            if mtime_before == mtime_after:
-                return item
-            else:
-                raise EnvironmentError('File was edited during read: %s' % fn)
 
     def __delitem__(self, index):
         if not self.mutable:
