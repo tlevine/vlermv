@@ -1,4 +1,4 @@
-import os
+import os, tempfile
 
 import pytest
 

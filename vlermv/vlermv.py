@@ -34,7 +34,7 @@ class Vlermv:
         return 'Vlermv(%s)' % repr(self.cachedir)
 
     def __init__(self, cachedir,
-            serializer = identity(binary = True), mutable = True,
+            serializer = identity_str, mutable = True,
             tempdir = '.tmp', transformer = lambda x: x,
             cache_exceptions = False):
 
