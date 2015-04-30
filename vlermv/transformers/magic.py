@@ -13,7 +13,10 @@ try:
 except NameError:
     basestring = str
 
-def parse(index):
+def from_tuple(obj):
+    return os.path.join(*obj)
+
+def to_tuple(key):
     if not safe_type(index):
         warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
 
@@ -24,7 +27,7 @@ def parse(index):
     else:
         path = itertools.chain(*map(parse_partial, index))
 
-    return list(filter(lambda x: x!= '', replace_special(path)))
+    return tuple(filter(lambda x: x!= '', replace_special(path)))
 
 _special = {'.': '\\.', '..': '\\..', '.tmp': '\\.tmp'}
 def replace_special(path):
@@ -87,5 +90,3 @@ def safe_type(index):
             return False
     else:
         return True
-
-parse.__name__ = 'magic'

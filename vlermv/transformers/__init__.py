@@ -1,2 +1,2 @@
-from .magic import parse as magic
-from .simple import base64
+from . import ( magic, base64, tuple, )
+from .delimit import ( slash, backslash, )

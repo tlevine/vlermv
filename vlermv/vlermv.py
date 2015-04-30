@@ -54,7 +54,6 @@ class Vlermv:
         os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):
-        _args = self.transformer(args)
         if _args in self:
             output = self[_args]
         else:
