@@ -1,9 +1,7 @@
 '''
 These tests will be better off somewhere else in the code.
 '''
-
-import os
-import shutil
+import os, pickle, shutil
 from tempfile import mkdtemp
 
 import pytest
@@ -139,7 +137,7 @@ def test_type():
 
     assert isinstance(f, Vlermv)
 
-def test_cache_exceptions():
+def test_cache_exceptions_type_checker():
     import json
     json.vlermv_cache_exceptions = False
     tmp = mkdtemp()
@@ -149,10 +147,11 @@ def test_cache_exceptions():
         def f(x):
             return x
             
-    class TestError(Exception):
-        pass
+def test_cache_exceptions():
+    tmp = mkdtemp()
+    TestError = ZeroDivisionError
 
-    @cache(tmp, cache_exceptions = True, serializer = pickle)
+    @cache(tmp, cache_exceptions = False, serializer = pickle)
     def f(_):
         raise TestError('This error should not be cached.')
 
