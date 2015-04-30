@@ -87,3 +87,5 @@ def safe_type(index):
             return False
     else:
         return True
+
+parse.__name__ = 'magic'

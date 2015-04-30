@@ -11,19 +11,22 @@ from .. import exceptions
 # References
 # http://pytest.org/latest/xunit_setup.html
 
+def identity_transformer(x):
+    return str(x).split('/')
+
 class Base:
     def teardown_method(self, method):
-        rmtree(self.tmp)
+        rmtree(self.directory)
 
 class TestImmutableVlermv(Base):
     def setup_method(self, method):
-        self.tmp = tempfile.mkdtemp()
-        self.default = Vlermv(self.tmp,
-            transformer = lambda x: x, serializer = pickle)
-        self.mutable = Vlermv(self.tmp,
-            mutable = True, transformer = lambda x: x, serializer = pickle)
-        self.immutable = Vlermv(self.tmp,
-            mutable = False, transformer = lambda x: x, serializer = pickle)
+        self.directory = tempfile.mkdtemp()
+        self.default = Vlermv(self.directory,
+            transformer = identity_transformer, serializer = pickle)
+        self.mutable = Vlermv(self.directory,
+            mutable = True, transformer = identity_transformer, serializer = pickle)
+        self.immutable = Vlermv(self.directory,
+            mutable = False, transformer = identity_transformer, serializer = pickle)
 
     def test_setitem(self):
         self.mutable['a'] = 3
@@ -49,8 +52,8 @@ class TestImmutableVlermv(Base):
 
 class TestDefaults(Base):
     def setup_method(self, method):
-        self.tmp = tempfile.mkdtemp()
-        self.w = Vlermv(self.tmp)
+        self.directory = tempfile.mkdtemp()
+        self.w = Vlermv(self.directory)
 
     def test_default_serializer(self):
         assert self.w.serializer == pickle
@@ -66,22 +69,28 @@ class TestDefaults(Base):
 
 class TestVlermv(Base):
     def setup_method(self, method):
-        self.tmp = tempfile.mkdtemp()
-        self.w = Vlermv(self.tmp, transformer = lambda x: x, serializer = pickle)
+        self.directory = tempfile.mkdtemp()
+        self.w = Vlermv(self.directory, transformer = identity_transformer, serializer = pickle)
 
     def test_repr(self):
-        assert repr(self.w) == "Vlermv('%s')" % self.tmp
-        assert str(self.w) == "Vlermv('%s')" % self.tmp
+        assert repr(self.w) == "Vlermv('%s')" % self.directory
+        assert str(self.w) == "Vlermv('%s')" % self.directory
         assert str(Vlermv('/tmp/a"b"c"')) == '''Vlermv('/tmp/a"b"c"')'''
 
     def test_setitem(self):
         self.w[("Tom's", 'favorite color')] = 'pink'
-        with open(os.path.join(self.tmp, "Tom's", 'favorite color'), 'rb') as fp:
+        with open(os.path.join(self.directory, "Tom's", 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
         assert observed == 'pink'
 
+    def test_cachedir(self):
+        assert self.w.cachedir == self.directory
+
+    def test_filename(self):
+        assert os.path.join(self.directory, 'abc') == self.w.filename('abc')
+
     def test_getitem(self):
-        with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
+        with open(os.path.join(self.directory, 'profession'), 'wb') as fp:
             observed = pickle.dump('dada artist', fp)
         assert self.w['profession'] == 'dada artist'
 
@@ -89,13 +98,13 @@ class TestVlermv(Base):
             self.w['not a file']
 
     def test_get(self):
-        with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
+        with open(os.path.join(self.directory, 'profession'), 'wb') as fp:
             observed = pickle.dump('dada artist', fp)
         assert self.w['profession'] == 'dada artist'
         assert self.w.get('hobby','business intelligence') == 'business intelligence'
 
     def test_delitem1(self):
-        dirname = os.path.join(self.tmp, 'foo')
+        dirname = os.path.join(self.directory, 'foo')
         filename= os.path.join(dirname, 'bar')
         os.mkdir(dirname)
         with open(filename, 'wb') as fp:
@@ -108,7 +117,7 @@ class TestVlermv(Base):
             del(self.w['not a file'])
 
     def test_delitem2(self):
-        dirname = os.path.join(self.tmp, 'foo')
+        dirname = os.path.join(self.directory, 'foo')
         filename= os.path.join(dirname, 'bar')
         os.mkdir(dirname)
         with open(filename, 'wb') as fp:
@@ -124,7 +133,7 @@ class TestVlermv(Base):
 
     def test_contains(self):
         assert not ('needle' in self.w)
-        with open(os.path.join(self.tmp, 'needle'), 'wb'):
+        with open(os.path.join(self.directory, 'needle'), 'wb'):
             pass
         assert ('needle' in self.w)
 
@@ -135,7 +144,7 @@ class TestVlermv(Base):
 
     def test_update(self):
         self.w.update({'dictionary': {'a':'z'}})
-        with open(os.path.join(self.tmp, 'dictionary'), 'rb') as fp:
+        with open(os.path.join(self.directory, 'dictionary'), 'rb') as fp:
             observed = pickle.load(fp)
         assert observed == {'a':'z'}
 
@@ -146,11 +155,11 @@ class TestVlermv(Base):
             assert self.w[key] == expected[key]
 
     def test_iter(self):
-        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        abc = os.path.join(self.directory, 'a', 'b', 'c')
         os.makedirs(abc)
         with open(os.path.join(abc, 'd'), 'wb'):
             pass
-        with open(os.path.join(self.tmp, 'z'), 'wb'):
+        with open(os.path.join(self.directory, 'z'), 'wb'):
             pass
 
         observed = set(x for x in self.w)
@@ -159,13 +168,13 @@ class TestVlermv(Base):
         assert observed == expected
 
     def test_keys(self):
-        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        abc = os.path.join(self.directory, 'a', 'b', 'c')
         os.makedirs(abc)
         with open(os.path.join(abc, 'd'), 'wb'):
             pass
-        with open(os.path.join(self.tmp, 'z'), 'wb'):
+        with open(os.path.join(self.directory, 'z'), 'wb'):
             pass
-        with open(os.path.join(self.tmp, '.tmp', 'lalala'), 'wb'):
+        with open(os.path.join(self.directory, '.tmp', 'lalala'), 'wb'):
             pass
 
         observed = set(self.w.keys())
@@ -174,11 +183,11 @@ class TestVlermv(Base):
         assert observed == expected
 
     def test_values(self):
-        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        abc = os.path.join(self.directory, 'a', 'b', 'c')
         os.makedirs(abc)
         with open(os.path.join(abc, 'd'), 'wb') as fp:
             pickle.dump(123, fp)
-        with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
+        with open(os.path.join(self.directory, 'z'), 'wb') as fp:
             pickle.dump(str, fp)
 
         observed = set(self.w.values())
@@ -187,11 +196,11 @@ class TestVlermv(Base):
         assert observed == expected
 
     def test_items(self):
-        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        abc = os.path.join(self.directory, 'a', 'b', 'c')
         os.makedirs(abc)
         with open(os.path.join(abc, 'd'), 'wb') as fp:
             pickle.dump(9, fp)
-        with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
+        with open(os.path.join(self.directory, 'z'), 'wb') as fp:
             pickle.dump(str, fp)
 
         observed = set(self.w.items())
@@ -208,9 +217,4 @@ def test_mkdir():
     with open(os.path.join('/tmp/not a directory/abc/def/ghi'), 'rb') as fp:
         observed = pickle.load(fp)
     assert observed == 3
-
-def test_cachedir(self):
-    cachedir = tempfile.mkdtemp()
-    w = Vlermv(cachedir)
-    assert w.cachedir == cachedir
 
