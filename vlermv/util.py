@@ -29,7 +29,7 @@ def _get_fn(fn, mode, load):
         raise KeyError(*e.args)
     else:
         mtime_after = os.path.getmtime(fn)
-        if mtime_before == mtime_after:
+        if mtime_before in {None, mtime_after}:
             return item
         else:
             raise EnvironmentError('File was edited during read: %s' % fn)
