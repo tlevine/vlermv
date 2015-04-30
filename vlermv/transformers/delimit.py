@@ -10,7 +10,7 @@ class delimit:
 
     @staticmethod
     def from_tuple(obj):
-        return os.path.join(*obj)
+        return self.delimiter.join(obj)
 
 slash = delimit('/')
 backslash = delimit('\\')

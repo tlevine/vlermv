@@ -4,4 +4,4 @@ def to_tuple(key):
     return key
 
 def from_tuple(x):
-    return os.path.join(x)
+    return x
