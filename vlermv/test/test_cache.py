@@ -1,10 +1,12 @@
+'''
+These tests will be better off somewhere else in the code.
+'''
+
 import os
 import shutil
 from tempfile import mkdtemp
 
-import nose.tools as n
-from ..warehouse import Vlermv
-
+from ..vlermv import Vlermv
 from ..cache import cache
 
 def test_new_success():
@@ -31,8 +33,8 @@ def test_old_success():
         raise AssertionError('This should not run.')
 
     observed_response = get(url)
-    n.assert_equal(observed_response, 88)
-    n.assert_tuple_equal(warehouse[(url,)], (None, 88))
+    assert observed_response == 88
+    assert warehouse[(url,)] == (None, 88)
 
 def test_new_error():
     tmp = mkdtemp()
@@ -98,7 +100,7 @@ def test_function_name():
     @cache()
     def a_function(_):
         return 3
-    n.assert_true(os.path.isdir('a_function'))
+    assert os.path.isdir('a_function')
 
     try:
         shutil.rmtree('a_function')
@@ -125,12 +127,12 @@ def test_delete():
     f(5)
     f(6)
     del(f[6])
-    n.assert_set_equal(set(f.keys()), set('45'))
+    assert set(f.keys()) == set('45')
 
-def test_repr():
+def test_type():
     tmp = mkdtemp()
     @cache(tmp)
     def f(x):
         pass
 
-    n.assert_equal(repr(f), 'VlermvCache (%s)' % tmp)
+    assert isinstance(f, Vlermv)
