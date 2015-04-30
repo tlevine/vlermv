@@ -67,7 +67,6 @@ and so is ``simple_identity``.
 
 '''
 
-from . import base64
 from .identity import identity_str, identity_bytes
 from .lxml import html, xml
 
