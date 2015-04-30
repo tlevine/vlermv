@@ -76,6 +76,7 @@ def test_deterministic_order():
     for thing in successes:
         assert safe_type(thing)
 
-def test_warn_unsafe_type():
-    with pytest.raises(TypeError):
-        parse({'one','two','three'})
+def test_warn_unsafe_type(recwarn):
+    parse({'one','two','three'})
+    w = recwarn.pop(UserWarning)
+    assert issubclass(w.category, UserWarning)
