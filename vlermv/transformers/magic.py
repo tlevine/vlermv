@@ -45,7 +45,7 @@ def parse_partial(item):
     elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
         func = parse_partial_date
     elif item == None:
-        func = lambda _: ['']
+        func = lambda _: ('',)
     else:
         raise ValueError('item must be string, datetime.date, datetime.datetime or int')
     return func(item)
@@ -79,10 +79,10 @@ def parse_partial_url(item):
     if url.fragment:
         path[-1] += '#' + url.fragment
 
-    return path
+    return tuple(path)
 
 def parse_partial_date(item):
-    return ['%04d' % item.year, '%02d' % item.month, '%02d' % item.day]
+    return ('%04d' % item.year, '%02d' % item.month, '%02d' % item.day)
 
 def safe_type(index):
     for bad in [set,dict]:
