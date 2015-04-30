@@ -6,7 +6,9 @@ def split(path):
         raise ValueError('Path may not be empty.')
 
     dn, fn = os.path.split(path)
-    if dn == '':
-        return path
+    if fn == '':
+        return (dn,)
+    elif dn == '':
+        return (fn,)
     else:
         return split(dn) + (fn,)
