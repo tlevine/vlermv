@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from .. magic import parse, parse_partial, safe_type, from_tuple, to_tuple
+from .. magic import parse_partial, safe_type, from_tuple, to_tuple
 
 def test_to_tuple():
     assert to_tuple(('a',)) == ('a',)
