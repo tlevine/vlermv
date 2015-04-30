@@ -1,41 +1,32 @@
 import datetime
 
-import nose.tools as n
+import pytest
 
-from ..identifiers import parse, parse_partial, safe_type
-
-#def check_parse(index:str, path:list):
-def check_parse(index, path):
-    observed = parse(index)
-    n.assert_list_equal(observed, path)
-
-def test_parse():
-    for index, path in testcases:
-        yield check_parse, index, path
+from .. magic import parse, parse_partial, safe_type
 
 def test_parse_int():
-    n.assert_equal(parse_partial(3), ['3'])
-    n.assert_equal(parse_partial(123), ['123'])
-    n.assert_equal(parse(123), ['123'])
+    assert parse_partial(3) == ['3']
+    assert parse_partial(123) == ['123']
+    assert parse(123) == ['123']
 
 def test_parse_url():
     o = list(parse_partial('http://thomaslevine.com/!/about?a=b#lala'))
     e = ['http', 'thomaslevine.com', '!', 'about?a=b#lala']
-    n.assert_list_equal(o, e)
+    assert o == e
 
 def test_parse_date():
     o = list(parse_partial(datetime.date(2014, 2, 5)))
     e = ['2014', '02', '05']
-    n.assert_list_equal(o, e)
+    assert o == e
 
 def test_parse_datetime():
     o = list(parse_partial(datetime.datetime(2014, 2, 5, 11, 18, 30)))
     e = ['2014', '02', '05']
-    n.assert_list_equal(o, e)
+    assert o == e
 
 def test_parse_none():
-    n.assert_equal(parse_partial(None), [''])
-    n.assert_equal(parse(None), [])
+    assert parse_partial(None) == ['']
+    assert parse(None) == []
 
 testcases = [
     # iterables
@@ -67,26 +58,24 @@ testcases = [
 
     # Starting with hash
     ('#9 BAC GIANG CONSTRUCTION JOINT STOCK COMPANY', ['#9 BAC GIANG CONSTRUCTION JOINT STOCK COMPANY']),
-
 ]
+
+@pytest.mark.parametrize('index,path', testcases)
+def test_parse(index, path):
+    observed = parse(index)
+    assert observed == path
+
 
 def test_deterministic_order():
     'The iterable should have a deterministic order.'
     failures = [{3,5}, {'a':'apple','b':'banana'}]
     for thing in failures:
-        n.assert_false(safe_type(thing))
+        assert not safe_type(thing)
 
     successes = [[3,6], (2,1), 'aoeua']
     for thing in successes:
-        n.assert_true(safe_type(thing))
+        assert safe_type(thing)
 
-try:
-    n.assert_warns
-except AttributeError:
-    @n.nottest
-    def test_warn_unsafe_type():
-        pass
-else:
-    def test_warn_unsafe_type():
-        with n.assert_warns(UserWarning):
-            parse({'one','two','three'})
+def test_warn_unsafe_type():
+    with pytest.raises(TypeError):
+        parse({'one','two','three'})
