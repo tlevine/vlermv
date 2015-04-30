@@ -1,5 +1,7 @@
 import os
 
+from .exceptions import OpenError
+
 def split(path):
     'Split a path into a tuple of all directories and then the final directory/file.'
     if path == '':

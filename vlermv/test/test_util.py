@@ -29,8 +29,9 @@ def test_get_fn_success():
 
 def test_get_fn_fail():
     def f(fp):
-        with open(fp.name, 'w') as fp:
-            fp.write('other-process')
+        with open(fp.name, 'w') as fp2:
+            fp2.write('other-process')
+        return fp.read()
 
     with tempfile.NamedTemporaryFile('w') as tmp:
         tmp.file.write('this-process')
