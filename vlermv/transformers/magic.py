@@ -16,7 +16,7 @@ except NameError:
 def from_tuple(obj):
     return os.path.join(*obj)
 
-def to_tuple(key):
+def to_tuple(index):
     if not safe_type(index):
         warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
 
