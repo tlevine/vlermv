@@ -1,23 +1,22 @@
 import os
 import pickle
 import tempfile
-import unittest
 from shutil import rmtree
 
-from ..warehouse import Vlermv
-try:
-    from ..warehouse import PermissionError
-except ImportError:
-    pass
+from ..vlermv import Vlermv
+from .. import exceptions
 
-class TestImmutableVlermv(unittest.TestCase):
-    def setUp(self):
+# References
+# http://pytest.org/latest/xunit_setup.html
+
+class TestImmutableVlermv:
+    def setup_method(self):
         self.tmp = tempfile.mkdtemp()
         self.default = Vlermv(self.tmp)
         self.mutable = Vlermv(self.tmp, mutable = True)
         self.immutable = Vlermv(self.tmp, mutable = False)
 
-    def tearDown(self):
+    def teardown_method(self):
         rmtree(self.tmp)
 
     def test_setitem(self):
@@ -42,12 +41,12 @@ class TestImmutableVlermv(unittest.TestCase):
         assert (self.mutable.mutable)
         assert not (self.immutable.mutable)
 
-class TestVlermv(unittest.TestCase):
-    def setUp(self):
+class TestVlermv:
+    def setup_method(self):
         self.tmp = tempfile.mkdtemp()
         self.w = Vlermv(self.tmp)
 
-    def tearDown(self):
+    def teardown_method(self):
         rmtree(self.tmp)
 
     def test_cachedir(self):
@@ -189,7 +188,6 @@ class TestVlermv(unittest.TestCase):
         expected = {('a/b/c/d',9), ('z',str)}
 
         assert observed == expected
-
 
 def test_mkdir():
     d = '/tmp/not a directory'
