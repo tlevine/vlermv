@@ -8,7 +8,7 @@ class TestDefaults(Base):
         self.w = Vlermv(self.directory)
 
     def test_default_serializer(self):
-        assert self.w.serializer == pickle
+        assert 'pickle' in self.w.serializer.__name__
 
     def test_default_transformer(self):
         assert 'magic' in self.w.transformer.__name__

@@ -1,5 +1,6 @@
-import os, pickle
+import os
 
+from .serializers import pickle
 from .util import split
 from .transformers import magic
 from .fs import mktemp, _random_file_name, _reversed_directories
