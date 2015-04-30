@@ -1,6 +1,6 @@
 import os, pickle
 
-from .serializers import identity
+from .serializers import identity_str
 from .transformers import magic
 from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
