@@ -16,9 +16,11 @@ def cache(*args, **kwargs):
     If you pass no arguments to cache, the Vlermv directory argument
     (the one required argument) will be set to the name of the function.
     '''
+    if len(args) == 0:
+        args = (func.__name__,)
+    else:
+        args = args
     def f(func):
-        if len(args) == 0:
-            args = (func.__name__,)
         v = Vlermv(*args, **kwargs)
         v.func = func
         return v

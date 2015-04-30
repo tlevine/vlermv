@@ -1,3 +1,5 @@
+import tempfile
+
 from .base import Base
 
 class TestImmutableVlermv(Base):

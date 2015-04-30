@@ -55,8 +55,8 @@ class Vlermv:
         os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):
-        if _args in self:
-            output = self[_args]
+        if args in self:
+            output = self[args]
         else:
             try:
                 result = self.func(*args, **kwargs)
@@ -67,7 +67,7 @@ class Vlermv:
                     raise error
             else:
                 output = None, result
-            self[_args] = output
+            self[args] = output
 
         if self.cache_exceptions:
             if len(output) != 2:

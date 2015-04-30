@@ -11,7 +11,7 @@ class TestDefaults(Base):
         assert self.w.serializer == pickle
 
     def test_default_transformer(self):
-        assert self.w.transformer.__name__ == 'magic'
+        assert 'magic' in self.w.transformer.__name__
 
     def test_default_mutable(self):
         assert self.w.mutable
