@@ -20,3 +20,6 @@ def test_random_file_name():
     assert fs._random_file_name() == 'dZTruUBGba'
 
 def test_reversed_directories():
+    observed = list(fs._reversed_directories('/usr', '/usr/local/bin'))
+    expected = ['/usr/local/bin', '/usr/local']
+    assert observed == expected
