@@ -38,7 +38,7 @@ class Vlermv:
             tempdir = '.tmp', key_transformer = magic,
             cache_exceptions = False):
 
-        if cache_exceptions and not getattr(serializer, 'cache_exceptions', False):
+        if cache_exceptions and not getattr(serializer, 'cache_exceptions', True):
             msg = 'Serializer %s cannot cache exceptions.'
             raise TypeError(msg % repr(serializer))
 

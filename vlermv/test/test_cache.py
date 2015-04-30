@@ -142,9 +142,21 @@ def test_type():
 def test_cache_exceptions():
     import json
     json.vlermv_cache_exceptions = False
-
     tmp = mkdtemp()
+
     with pytest.raises(TypeError):
         @cache(tmp, cache_exceptions = True, serializer = json)
-        def f(_):
-            raise AssertionError('This should not be raised.')
+        def f(x):
+            return x
+            
+    class TestError(Exception):
+        pass
+
+    @cache(tmp, cache_exceptions = True, serializer = pickle)
+    def f(_):
+        raise TestError('This error should not be cached.')
+
+    with pytest.raises(TestError):
+        f('x')
+    assert 'x' not in f
+
