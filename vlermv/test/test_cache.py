@@ -19,8 +19,8 @@ def test_new_success():
         return 88
 
     observed_response = get(url)
-    n.assert_equal(observed_response, 88)
-    n.assert_tuple_equal(warehouse[(url,)], (None, 88))
+    assert observed_response == 88
+    assert warehouse[(url,)] == (None, 88)
 
 def test_old_success():
     tmp = mkdtemp()
@@ -49,8 +49,8 @@ def test_new_error():
     try:
         get(url)
     except ValueError as e:
-        n.assert_equal(str(e), str(error))
-        n.assert_equal(str(warehouse[(url,)]), str((error, None)))
+        assert str(e) == str(error)
+        assert str(warehouse[(url,)]) == str((error, None))
     else:
         raise AssertionError('An error should have been raised.')
 
@@ -69,7 +69,7 @@ def test_old_error():
     try:
         get(url)
     except ValueError as e:
-        n.assert_equal(str(e), str(error))
+        assert str(e) == str(error)
     else:
         raise AssertionError('An error should have been raised.')
 
@@ -84,7 +84,7 @@ def test_expanduser():
     def a(_):
         return 3
     a('b')
-    n.assert_true(os.path.isfile(os.path.expanduser('~/.picklecache-test/b')))
+    assert os.path.isfile(os.path.expanduser('~/.picklecache-test/b'))
 
     try:
         shutil.rmtree(os.path.expanduser('~/.picklecache-test'))
@@ -115,7 +115,7 @@ def test_keys():
 
     f(4)
     f(5)
-    n.assert_set_equal(set(f.keys()), set('45'))
+    assert set(f.keys()) == set('45')
 
 def test_delete():
     tmp = mkdtemp()
