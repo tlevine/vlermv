@@ -1,76 +1,17 @@
 import os
 import pickle
 import tempfile
-from shutil import rmtree
 
 import pytest
 
-from ..vlermv import Vlermv
-from .. import exceptions
-
-# References
-# http://pytest.org/latest/xunit_setup.html
-
-def identity_transformer(x):
-    return str(x).split('/')
-
-class Base:
-    def teardown_method(self, method):
-        rmtree(self.directory)
-
-class TestImmutableVlermv(Base):
-    def setup_method(self, method):
-        self.directory = tempfile.mkdtemp()
-        self.default = Vlermv(self.directory,
-            transformer = identity_transformer, serializer = pickle)
-        self.mutable = Vlermv(self.directory,
-            mutable = True, transformer = identity_transformer, serializer = pickle)
-        self.immutable = Vlermv(self.directory,
-            mutable = False, transformer = identity_transformer, serializer = pickle)
-
-    def test_setitem(self):
-        self.mutable['a'] = 3
-        self.default['a'] = 3
-        with pytest.raises(PermissionError):
-            self.immutable['a'] = 3
-
-    def test_delitem(self):
-        self.mutable['a'] = 3
-        del(self.default['a'])
-
-        self.mutable['a'] = 3
-        del(self.mutable['a'])
-
-        self.mutable['a'] = 3
-        with pytest.raises(PermissionError):
-            del(self.immutable['a'])
-
-    def test_kwarg(self):
-        assert (self.default.mutable)
-        assert (self.mutable.mutable)
-        assert not (self.immutable.mutable)
-
-class TestDefaults(Base):
-    def setup_method(self, method):
-        self.directory = tempfile.mkdtemp()
-        self.w = Vlermv(self.directory)
-
-    def test_default_serializer(self):
-        assert self.w.serializer == pickle
-
-    def test_default_transformer(self):
-        assert self.w.transformer.__name__ == 'magic'
-
-    def test_default_mutable(self):
-        assert self.w.mutable
-
-    def test_default_tempdir(self):
-        return self.w.tempdir
+from .base import simple_vlermv, Base
+from ...vlermv import Vlermv
+from ... import exceptions
 
 class TestVlermv(Base):
     def setup_method(self, method):
         self.directory = tempfile.mkdtemp()
-        self.w = Vlermv(self.directory, transformer = identity_transformer, serializer = pickle)
+        self.w = simple_vlermv
 
     def test_repr(self):
         assert repr(self.w) == "Vlermv('%s')" % self.directory

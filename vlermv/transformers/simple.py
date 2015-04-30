@@ -4,4 +4,8 @@ def base64(x):
     return b64encode(x.encode('utf-8'))
 
 def identity(x):
-    return x
+    '''
+    Handle both tuple/list types and bytes/str types.
+    '''
+    if 
+        str(x).split('/')
