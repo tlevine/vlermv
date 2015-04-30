@@ -27,7 +27,7 @@ def test_old_success():
     tmp = mkdtemp()
     warehouse = Vlermv(tmp, key_transformer = _tuple)
     url = 'localhost'
-    warehouse[url] = (None, 88)
+    warehouse[(url,)] = (None, 88)
 
     @cache(tmp, cache_exceptions = True)
     def get(_):
@@ -35,7 +35,6 @@ def test_old_success():
 
     observed_response = get(url)
     assert observed_response == 88
-    assert warehouse[(url,)] == (None, 88)
 
 def test_new_error():
     tmp = mkdtemp()
@@ -61,7 +60,7 @@ def test_old_error():
     warehouse = Vlermv(tmp, key_transformer = _tuple)
     url = 'localhost'
     error = ValueError('This is a test.')
-    warehouse[url] = (error, None)
+    warehouse[(url,)] = (error, None)
 
     @cache(tmp, cache_exceptions = True)
     def get(_):

@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from .. magic import parse_partial, safe_type, from_path, to_tuple
+from .. magic import parse_partial, safe_type, from_path, to_path
 
 def test_to_path():
     assert to_path(('a',)) == ('a',)
