@@ -2,6 +2,7 @@ from tempfile import mkdtemp
 
 import pytest
 
+from .base import identity_transformer
 from ...vlermv import Vlermv
 
 class _mode_checker:
@@ -17,6 +18,7 @@ class _mode_checker:
 @pytest.mark.parametrize('mode', [True, False])
 def test_mode(mode):
     tmp = mkdtemp()
-    w = Vlermv(tmp, serializer = _mode_checker(mode))
+    w = Vlermv(tmp, serializer = _mode_checker(mode),
+        key_transformer = identity_transformer)
     w[('a',)] = 8
     w[('a',)]

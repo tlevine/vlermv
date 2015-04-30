@@ -1,4 +1,7 @@
 import pickle, tempfile, os
+
+import pytest
+
 from .base import Base
 from ...vlermv import Vlermv
 
@@ -11,7 +14,13 @@ class TestDefaults(Base):
         assert 'pickle' in self.w.serializer.__name__
 
     def test_default_transformer(self):
-        assert 'magic' in self.w.transformer.__name__
+        'The default transformer should be very simple.'
+        assert self.w.transformer.to_path('abc') == ('abc',)
+        assert self.w.transformer.from_path(('abc',)) == 'abc'
+
+        with pytest.raises(ValueError):
+            self.w.transformer.to_path('abc/def')
+        assert self.w.transformer.from_path(('abc', 'def')) == os.path.join('abc', 'def')
 
     def test_default_mutable(self):
         assert self.w.mutable

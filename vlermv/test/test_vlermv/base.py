@@ -10,11 +10,11 @@ class Base:
 
 class identity_transformer:
     @staticmethod
-    def to_tuple(key):
+    def to_path(key):
         return key
 
     @staticmethod
-    def from_tuple(path):
+    def from_path(path):
         return path
 
 def simple_vlermv(cachedir):

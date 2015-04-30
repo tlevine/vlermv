@@ -1,7 +1,7 @@
 from .. import tuple
 
-def test_to_tuple():
-    assert tuple.to_tuple(('a',)) == ('a',)
+def test_to_path():
+    assert tuple.to_path(('a',)) == ('a',)
 
-def test_from_tuple():
-    assert tuple.from_tuple(('a',)) == ('a',)
+def test_from_path():
+    assert tuple.from_path(('a',)) == ('a',)

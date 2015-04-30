@@ -2,7 +2,7 @@ import os
 
 from .serializers import pickle
 from .util import split
-from .transformers import magic
+from .transformers import simple
 from .fs import mktemp, _random_file_name, _reversed_directories
 from .exceptions import (
     OpenError, PermissionError,
@@ -19,7 +19,7 @@ class Vlermv:
         like pickle, json, yaml, dill, bson, 
         or anything in vlermv.serializers
     :param key_transformer: Function to transform keys to filenames and back.
-        Default is ``vlermv.transformers.magic``; other options are in
+        Default is ``vlermv.transformers.simple``; other options are in
         ``vlermv.transformers``.
     :param mutable: Whether values can be updated and deleted
     :param tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
@@ -36,7 +36,7 @@ class Vlermv:
 
     def __init__(self, cachedir,
             serializer = pickle, mutable = True,
-            tempdir = '.tmp', key_transformer = magic,
+            tempdir = '.tmp', key_transformer = simple,
             cache_exceptions = False):
 
         if cache_exceptions and not getattr(serializer, 'vlermv_cache_exceptions', True):
@@ -92,7 +92,7 @@ There's probably a problem with the serializer.''')
         return result
 
     def filename(self, index):
-        subpath = self.transformer.to_tuple(index)
+        subpath = self.transformer.to_path(index)
         if len(subpath) == 0:
             raise KeyError('You specified an empty key.')
 
@@ -181,7 +181,7 @@ There's probably a problem with the serializer.''')
             if dirpath != os.path.join(self.cachedir, self.tempdir):
                 for filename in filenames:
                     path = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
-                    yield self.transformer.from_tuple(split(path))
+                    yield self.transformer.from_path(split(path))
 
     def values(self):
         for key, value in self.items():

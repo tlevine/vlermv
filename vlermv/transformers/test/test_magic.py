@@ -2,15 +2,15 @@ import datetime
 
 import pytest
 
-from .. magic import parse_partial, safe_type, from_tuple, to_tuple
+from .. magic import parse_partial, safe_type, from_path, to_tuple
 
-def test_to_tuple():
-    assert to_tuple(('a',)) == ('a',)
+def test_to_path():
+    assert to_path(('a',)) == ('a',)
 
-def test_from_tuple():
-    assert from_tuple(('a',)) == ('a',)
+def test_from_path():
+    assert from_path(('a',)) == ('a',)
 
-parse = to_tuple
+parse = to_path
 
 def test_parse_int():
     assert parse_partial(3) == ('3',)

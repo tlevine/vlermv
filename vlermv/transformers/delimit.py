@@ -4,10 +4,10 @@ class delimit:
     def __init__(self, delimiter):
         self.delimiter = delimiter
 
-    def to_tuple(self, key):
+    def to_path(self, key):
         return tuple(key.split(self.delimiter))
 
-    def from_tuple(self, obj):
+    def from_path(self, obj):
         return self.delimiter.join(obj)
 
 slash = delimit('/')

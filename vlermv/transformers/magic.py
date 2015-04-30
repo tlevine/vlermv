@@ -14,10 +14,10 @@ try:
 except NameError:
     basestring = str
 
-def from_tuple(obj):
+def from_path(obj):
     return obj
 
-def to_tuple(index):
+def to_path(index):
     if not safe_type(index):
         warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
 
