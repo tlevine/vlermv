@@ -6,6 +6,8 @@ import os
 import shutil
 from tempfile import mkdtemp
 
+import pytest
+
 from ..vlermv import Vlermv
 from ..cache import cache
 
@@ -14,7 +16,7 @@ def test_new_success():
     warehouse = Vlermv(tmp)
     url = 'http://a.b/c'
 
-    @cache(tmp)
+    @cache(tmp, cache_exceptions = True)
     def get(_):
         return 88
 
@@ -28,7 +30,7 @@ def test_old_success():
     url = 'http://a.b/c'
     warehouse[url] = (None, 88)
 
-    @cache(tmp)
+    @cache(tmp, cache_exceptions = True)
     def get(_):
         raise AssertionError('This should not run.')
 
@@ -42,7 +44,7 @@ def test_new_error():
     url = 'http://a.b/c'
     error = ValueError('This is a test.')
 
-    @cache(tmp)
+    @cache(tmp, cache_exceptions = True)
     def get(_):
         raise error
 
@@ -62,7 +64,7 @@ def test_old_error():
     error = ValueError('This is a test.')
     warehouse[url] = (error, None)
 
-    @cache(tmp)
+    @cache(tmp, cache_exceptions = True)
     def get(_):
         raise AssertionError('This should not run.')
 
@@ -136,3 +138,13 @@ def test_type():
         pass
 
     assert isinstance(f, Vlermv)
+
+def test_cache_exceptions():
+    import json
+    json.vlermv_cache_exceptions = False
+
+    tmp = mkdtemp()
+    with pytest.raises(TypeError):
+        @cache(tmp, cache_exceptions = True, serializer = json)
+        def f(_):
+            raise AssertionError('This should not be raised.')
