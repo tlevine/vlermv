@@ -23,3 +23,7 @@ def test_delete_error():
 def test_file_exists_error():
     with pytest.raises(exceptions.FileExistsError):
         os.mkdir('/')
+
+def test_out_of_space(exception):
+    import warnings
+    warnings.warn('out_of_space is not tested.')
