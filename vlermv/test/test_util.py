@@ -1,4 +1,4 @@
-import tempfile
+import tempfile, time
 
 import pytest
 
@@ -29,6 +29,7 @@ def test_get_fn_success():
 
 def test_get_fn_fail():
     def f(fp):
+        time.sleep(0.1) # so mtime changes
         with open(fp.name, 'w') as fp2:
             fp2.write('other-process')
         return fp.read()
