@@ -95,8 +95,11 @@ There's probably a problem with the serializer.''')
         subpath = self.transformer.to_tuple(index)
         if len(subpath) == 0:
             raise KeyError('You specified an empty key.')
-        else:
-            return os.path.join(self.cachedir, *subpath)
+
+        if subpath[0] == '/':
+            subpath = subpath[1:]
+
+        return os.path.join(self.cachedir, *subpath)
 
     def __iter__(self):
         return (k for k in self.keys())
