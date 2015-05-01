@@ -141,7 +141,6 @@ mode rather than string mode; the Vlermv's default
 
 .. literalinclude:: ../vlermv/serializers/pickle.py
 
-
 Serializers included with Vlermv
 ------------------------------------
 .. py:module:: vlermv.serializers
