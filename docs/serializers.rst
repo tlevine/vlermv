@@ -7,32 +7,39 @@ Components of a serializer
 ----------------------------
 A serializer is a Python object with the following methods.
 
-``dump(obj, fp) -> None``
-    Write the object to the file pointer ``fp``.
-``load(fp) -> obj``
-    Represent the  the file pointer ``fp`` as an object.
+.. py:method:: dump(obj, fp) -> None
+
+   Write the object ``obj`` to the file pointer ``fp``.
+   
+.. py:method:: load(fp) -> obj
+
+   Represent the file pointer ``fp`` as an object ``obj``.
 
 It optionally includes two boolean properties.
 
-First, ``vlermv_binary_mode`` indicates whether binary modes be used
-for opening file pointers. (Default is ``False``.) If this is ``True``,
-pointers will be opened like this. ::
+.. py:attribute:: vlermv_binary_mode
 
-    open(filename, 'rb')
-    open(filename, 'wb')
+   Should binary modes be used for opening file pointers?
+   Default is ``False``.
+   If this is ``True``, pointers will be opened like this. ::
 
-If it is ``False``, filenames will be opened like this.
+       open(filename, 'rb')
+       open(filename, 'wb')
 
-    open(filename, 'r')
-    open(filename, 'w')
+   If it is ``False``, pointers will be opened like this. ::
 
-Second, ``vlermv_cache_exceptions`` tells us whether the caching of
-exceptions is supported. (Default is ``True``.) This is relevant
-when the serializer is used with ``vlermv.cache``.
+       open(filename, 'r')
+       open(filename, 'w')
 
-If ``vermv_cache_exceptions`` is ``False``
-but :py:class:`vlermv.Vlermv` is initialized with ``cache_exceptions = True``,
-an exception is raised.
+.. py:attribute:: vlermv_cache_exceptions
+
+   Is caching of exceptions is supported? Default is ``True``.
+   This is relevant when the serializer is used with
+   :py:func:`vlermv.cache`.
+
+   If :py:attr:`vermv_cache_exceptions` is ``False`` but
+   :py:class:`vlermv.Vlermv` is initialized with
+   ``cache_exceptions = True``, an exception is raised.
 
 What exactly is ``obj``?
 --------------------------
@@ -42,8 +49,9 @@ is disabled by default.)
 
 Default behavior
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If ``Vlermv`` is initialized with ``cache_exceptions = False``,
-``obj`` is simply the object that was passed to ``Vlermv.__setitem__``.
+If :py:class:`vlermv.Vlermv` is initialized with ``cache_exceptions = False``,
+``obj`` is simply the object that was passed to
+:py:func:`vlermv.Vlermv.__setitem__`.
 This is the default; in the following example ``obj`` is ``8``. ::
 
     Vlermv('/tmp/a')['b'] = 8 
@@ -126,22 +134,31 @@ serializer. ::
 
 This is because pickle requires that file pointers be opened in binary
 mode rather than string mode; the Vlermv's default
-:py:mod:`vlermv.serializers.pickle` serializer thus has to set
+:py:data:`vlermv.serializers.pickle` serializer thus has to set
 ``vlermv_binary_mode`` to ``True``.
 
 Serializers included with Vlermv
 ------------------------------------
-The following serializers are included.
-
 .. py:module:: vlermv.serializers
 
-``vlermv.serializers.identity_str``
-    Write raw strings to files.
-``vlermv.serializers.identity_bytes``
-    Write raw bytes to files.
-``vlermv.serializers.pickle``
-    Serialize with :py:mod:`pickle`.
-``vlermv.serializers.html``
-    Serialize HTML trees from `lxml <http://lxml.de/>`.
-``vlermv.serializers.xml``
-    Serialize XML etrees from `lxml <http://lxml.de/>`.
+The following serializers are included.
+
+.. py:data:: vlermv.serializers.identity_str
+
+   Write raw strings to files.
+
+.. py:data:: vlermv.serializers.identity_bytes
+
+   Write raw bytes to files.
+
+.. py:data:: vlermv.serializers.pickle
+
+   Serialize with :py:mod:`pickle`.
+
+.. py:data:: vlermv.serializers.html
+
+   Serialize HTML trees from `lxml <http://lxml.de/>`_.
+
+.. py:data:: vlermv.serializers.xml
+
+   Serialize XML etrees from `lxml <http://lxml.de/>`_.

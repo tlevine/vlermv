@@ -6,26 +6,39 @@ vlermv directory, and writing to subdirectories is not allowed.
 
 Other transformers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. py:module:: vlermv.transformers
+
 The following transformers are included in Vlermv.
 
-``magic``
-    Magically figure out a reasonable file name.
-``base64``
-    File name is the base 64 encoding of the key.
-``tuple``
-    Key must be a tuple; the right most element becomes a file name,
-    and the preceding elements are directories.
-``simple``
-    Key is used as the file name directory. It must be a string without slashes.
-``slash``
-    Like simple, except that slashes may be used to separate directories
-``backslash``
-    Like simple, except that backslashes may be used to separate directories
+.. py:data:: vlermv.transformers.magic
+
+   Magically figure out a reasonable file name.
+
+.. py:data:: vlermv.transformers.base64
+
+   File name is the base 64 encoding of the key.
+
+.. py:data:: vlermv.transformers.tuple
+
+   Key must be a tuple; the right most element becomes a file name,
+   and the preceding elements are directories.
+
+.. py:data:: vlermv.transformers.simple
+
+   Key is used as the file name directory. It must be a string without slashes.
+
+.. py:data:: vlermv.transformers.slash
+
+   Like simple, except that slashes may be used to separate directories
+
+.. py:data:: vlermv.transformers.backslash
+
+   Like simple, except that backslashes may be used to separate directories
 
 The magic transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 One of the coolest parts of Vlermv is the
-:py:module:`vlermv.transformers.magic` transformer, as it interprets
+:py:data:`vlermv.transformers.magic` transformer, as it interprets
 keys in a very fancy way, combining the features of the
 other transformers.
 
@@ -44,7 +57,7 @@ that is, strings get split on slashes and backslashes. ::
     vlermv['foo/bar/baz']
     vlermv['foo\\bar\\baz']
 
-(This is like the :py:module`vlermv.transformers.tuple`_ transformer.)
+(This is like the :py:data:`vlermv.transformers.tuple` transformer.)
 
 If you pass a URL, it will also get broken up in a reasonable way. ::
 
