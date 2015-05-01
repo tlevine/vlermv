@@ -1,6 +1,6 @@
-Using :py:class:`vlermv.Vlermv` as a dictionary
+The dictionary API
 ---------------------------------------------------
-Vlermv provides a dictionary-like object
+:py:class:`~vlermv.Vlermv` create a dictionary-like object
 that is associated with a particular directory on
 your computer. ::
 
@@ -18,7 +18,7 @@ The default serialization is :py:mod:`pickle`. ::
     range(100) == pickle.load(open('/tmp/a-directory/filename', 'rb'))
 
 (Default serialization is technically :py:data:`vlermv.serializers.pickle`,
-but it's pretty much the same thing as :py:mod:`pickle`.)
+but it's pretty much the same thing as pickle.)
 
 Get and delete
 ~~~~~~~~~~~~~~~~~
