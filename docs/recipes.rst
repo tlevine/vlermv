@@ -24,8 +24,11 @@ documents quickly. I could do this. ::
 
 :py:obj:`index` could also be a :py:class:`~vlermv.Vlermv`, of course.
 
+.. _sharding:
+
 Sharding
 ------------
+
 You can implement sharding by mounting different directories on different
 hard driver or computers. For example, the "March 2014" and "April 2014"
 directories could be on different hard drives, and then you could save your
@@ -81,8 +84,8 @@ Most likely, each Mongo collection should correspond to a Vlermv instance.
 Instead of Object IDs, you have Vlermv keys (filenames), and instead of
 documents you have Vlermv values (file contents).
 
-See the above discussion on sharding for ideas on implementing sharding in
-Vlermv.
+See the above discussion on :ref:`sharding` for ideas on implementing
+sharding in Vlermv.
 
 If you need to make isolated updates on properties of your documents,
 separate the documents into a directory of several documents, one document
