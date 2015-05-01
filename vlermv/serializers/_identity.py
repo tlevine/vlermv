@@ -9,8 +9,11 @@ class _identity:
         return fp.read()
 
     vlermv_cache_exceptions = False
-    def __init__(self, binary_mode = False):
-        self.vlermv_binary_mode = binary_mode
 
-identity_str = _identity(binary_mode = False)
-identity_bytes = _identity(binary_mode = True)
+class identity_str(_identity):
+    'Dump and load raw strings.'
+    vlermv_binary_mode = False
+
+class identity_bytes(_identity):
+    'Dump and load raw bytes.'
+    vlermv_binary_mode = True
