@@ -22,7 +22,7 @@ documents quickly. I could do this. ::
     for primary_key in index['a']:
         print(db[primary_key])
 
-``index`` could also be a :py:class:`~vlermv.Vlermv`, of course.
+:py:obj:`index` could also be a :py:class:`~vlermv.Vlermv`, of course.
 
 Sharding
 ------------
@@ -96,7 +96,7 @@ Vlermv is all about mapping Python objects to files in a normal filesystem.
 Thus, you'll wind up using general file manipulation tools for things that
 you otherwise would have used Mongo features for.
 You can use :command:`rsync` for replication;
-shell (:command:`ls`, :command:`cat`, :command:`find``, &c.)
+shell (:command:`ls`, :command:`cat`, :command:`find`, &c.)
 for ad-hoc queries and backups; and
 :command:`chmod` and :command:`chown` for permissions management.
 

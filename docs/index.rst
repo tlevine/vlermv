@@ -14,7 +14,7 @@ Then call :py:class:`vlermv.Vlermv` like this. ::
     from vlermv import Vlermv
     like_a_dictionary = Vlermv('a-directory')
 
-Now you can mostly pretend that ``like_a_dictionary`` is a :py:class:`dict`,
+Now you can mostly pretend that :py:obj:`like_a_dictionary` is a :py:class:`dict`,
 except that it will persist across Python session.
 
 Alternatively, you can cache a function's results with :py:func:`vlermv.cache`. ::

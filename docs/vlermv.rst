@@ -38,10 +38,9 @@ like this work too. ::
     vlermv.items()
     vlermv.update({'a': 1, 'b': 2})
 
-Further configuration
+More options
 ~~~~~~~~~~~~~~~~~~~~~~~~
 There are several parameters that you can change when initializing Vlermv,
+and we'll discuss those in later sections.
 
 .. autoclass:: vlermv.Vlermv
-
-and we'll discuss those in later sections.

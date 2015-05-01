@@ -45,7 +45,7 @@ other transformers.
 
 Aside from strings and string-like objects,
 you can use iterables of strings; these indices both refer
-to the file ``foo/bar/baz``::
+to the file :file:`foo/bar/baz`::
 
     vlermv[('foo','bar','baz')]
     vlermv[['foo','bar','baz']]
@@ -92,7 +92,7 @@ to implement a transformer for translating between keys and paths.
 
 Keys
 ^^^^^^^^^^
-In the following query, ``234`` is the key. ::
+In the following query, :py:obj:`234` is the key. ::
 
     Vlermv('tmp')[234]
 
@@ -100,7 +100,7 @@ And in this one, ::
 
     Vlermv('tmp')[('a', (1, 2))]
 
-``('a'), (1, 2))`` is the key.
+:py:obj:`('a'), (1, 2))` is the key.
 
 
 Paths
@@ -108,37 +108,38 @@ Paths
 Internally in Vlermv, paths get represented as tuples of directory
 and file names. Here are some examples of how the mapping works.
 
-=======================  =====================
-Vlermv tuple path        Ordinary string path 
-=======================  =====================
-``('./x', 'y', 'z')``    x/y/z              
-``('x', 'y', 'z')``      x/y/z              
-``('', 'x', 'y', 'z')``  x/y/z              
-``('/', 'usr', 'bin')``  usr/bin             
-=======================  =====================
+=============================  =====================
+Vlermv tuple path              Ordinary string path 
+=============================  =====================
+:py:obj:`('./x', 'y', 'z')`    x/y/z              
+:py:obj:`('x', 'y', 'z')`      x/y/z              
+:py:obj:`('', 'x', 'y', 'z')`  x/y/z              
+:py:obj:`('/', 'usr', 'bin')`  usr/bin             
+=============================  =====================
 
 All paths are relative the vlermv root; absolute directories are
-converted to relative paths. Empty paths, paths resolving to ``./``,
+converted to relative paths. Empty paths, paths resolving to :file:`./`,
 and relative paths outside of the vlermv root are not allowed.
 Here are more complex examples.
 
-=============================   =========================
-Vlermv tuple path               Ordinary string path     
-=============================   =========================
-``('a', '..', 'b', 'c')``       b/c
-``('..', '..', 'bin', 'sh')``   (Not allowed)
-``('/', '..')``                 (Not allowed)
-``('./', 'd')``                 d
-``('./',)``                     (Not allowed)
-``('', '', '')``                (Not allowed)
-``tuple()``                     (Not allowed)
-=============================   =========================
+===================================    =========================
+Vlermv tuple path                      Ordinary string path     
+===================================    =========================
+:py:obj:`('a', '..', 'b', 'c')`        b/c
+:py:obj:`('..', '..', 'bin', 'sh')`    (Not allowed)
+:py:obj:`('/', '..')`                  (Not allowed)
+:py:obj:`('./', 'd')`                  d
+:py:obj:`('./',)`                      (Not allowed)
+:py:obj:`('', '', '')`                 (Not allowed)
+:py:obj:`tuple()`                      (Not allowed)
+===================================    =========================
 
 When tuple paths are created from file names in
 :py:func:`vlermv.Vlermv.keys` or  :py:func:`vlermv.Vlermv.items`,
-they contain none of these elements: ``'/'``. ``'.'``, ``'..'``.
+they contain none of the elements:
+:py:obj:`'/'`, :py:obj:`'.'`, or :py:obj:`'..'`.
 That is, they are normal and relative. For example,
-a path ``./a/b/c`` becomes ``('a', 'b', 'c')``.
+a path :file:`./a/b/c` becomes :py:obj:`('a', 'b', 'c')`.
 
 Transformer API
 ^^^^^^^^^^^^^^^^^^^^^^^

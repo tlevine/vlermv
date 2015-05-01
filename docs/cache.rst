@@ -4,7 +4,7 @@ A function receives input, does something, and then returns output.
 
 If you decorate a function :py:func:`~vlermv.cache`, the inputs and
 outputs get recorded;
-if you call the function again with the same input, it loads the
+if you call the function again with the same input, it returns the
 output from the cache instead of doing what it would normally do.
 
 Simplest usage
@@ -19,7 +19,7 @@ arguments. ::
                 return False
         return True
 
-Now you can call ``is_prime`` as if it's a normal function, and
+Now you can call :py:func:`is_prime` as if it's a normal function, and
 if you call it twice, the second call will load from the cache.
 
 How it works
@@ -60,7 +60,7 @@ but don't form the identifier. For example, ::
     def get(url, auth = None):
         return requests.get(url, auth = auth)
 
-    get('http://this.website.com', auth = ('username', 'password')
+    get('http://this.website.com', auth = ('username', 'password'))
 
 Refreshing the cache
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,9 +80,9 @@ the error. You can delete the cache like this. ::
 
 The cache is an instance of :py:class:`vlermv.Vlermv`.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The above method for refreshing the cache works because ``is_prime``
+The above method for refreshing the cache works because :py:func:`is_prime`
 isn't really a function; it's actually a :py:class:`~vlermv.Vlermv` object,
-and Vlermv has a special ``__call__`` method.
+and Vlermv has a special :py:meth:`~object.__call__` method.
 
 Thus, you can use it in all of the ways that you can use
 :py:class:`~vlermv.Vlermv`. ::
@@ -103,8 +103,8 @@ You can even set the value to be something weird. ::
     print(f('a', 8))
     # 0
 
-Each value in ``f`` is a tuple of the error and the actual value.
-Exactly one of these is always ``None``. If the error is None, the
+Each value in :py:obj:`f` is a tuple of the error and the actual value.
+Exactly one of these is always :py:const:`None`. If the error is None, the
 value is returned, and if the value is None, the error is raised.
 
 Vlermv configuration
