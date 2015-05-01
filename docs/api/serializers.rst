@@ -2,8 +2,15 @@
 Serializers
 ***********
 
-.. autoclass:: vlermv.serializers.identity_str
-.. autoclass:: vlermv.serializers.identity_bytes
-.. autoclass:: vlermv.serializers.pickle
-.. autoclass:: vlermv.serializers.html
-.. autoclass:: vlermv.serializers.xml
+The following serializers are included.
+
+``vlermv.serializers.identity_str``
+    Write raw strings to files.
+``vlermv.serializers.identity_bytes``
+    Write raw bytes to files.
+``vlermv.serializers.pickle``
+    Serialize with :py:mod:`pickle`.
+``vlermv.serializers.html``
+    Serialize HTML trees from :py:mod:`lxml.html`.
+``vlermv.serializers.xml``
+    Serialize XML etrees from :py:mod:`lxml.etree`.
