@@ -1,1 +1,5 @@
-.. autofunc:: vlermv.cache
+*******************
+Cache decorator
+*******************
+
+.. autofunction:: vlermv.cache

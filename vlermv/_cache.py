@@ -7,8 +7,8 @@ def cache(*args, key_transformer = _tuple, **kwargs):
     '''
     Cache a function with a vlermv.Vlermv.
 
-    When you decorate a function with @cache(*args, **kwargs).
-    The args and kwargs get passed to the Vlermv. For example::
+    When you decorate a function with ``@cache(*args, **kwargs)``,
+    the args and kwargs get passed to the Vlermv. For example::
 
         @cache('~/.http')
         def get(url):
