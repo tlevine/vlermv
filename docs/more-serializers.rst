@@ -62,7 +62,7 @@ the same as the previous one. ::
     f(100) # <- Returns 103
 
 If exception caching is enabled
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You probably want to set ``cache_exceptions`` only if you are using the
 :py:func:`vlermv.cache` decorator, as it doesn't do anything otherwise.
 
@@ -98,8 +98,8 @@ If exception caching had been disabled, the serializer would never have gotten
 called; the error would have been raised but not saved.
 
 Example serializers
-~~~~~~~~~~~~~~~~~~~~~
-For example, ``json`` is a valid serializer, ::
+---------------------
+The :py:mod:`json` module is a valid serializer, ::
 
     import json
 
@@ -126,3 +126,18 @@ This is because pickle requires that file pointers be opened in binary
 mode rather than string mode; the Vlermv's default
 :py:mod:`vlermv.serializers.pickle` serializer thus has to set
 ``vlermv_binary_mode`` to ``True``.
+
+Serializers included with Vlermv
+------------------------------------
+The following serializers are included.
+
+``vlermv.serializers.identity_str``
+    Write raw strings to files.
+``vlermv.serializers.identity_bytes``
+    Write raw bytes to files.
+``vlermv.serializers.pickle``
+    Serialize with :py:mod:`pickle`.
+``vlermv.serializers.html``
+    Serialize HTML trees from :py:mod:`lxml.html`.
+``vlermv.serializers.xml``
+    Serialize XML etrees from :py:mod:`lxml.etree`.

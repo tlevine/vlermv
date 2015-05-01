@@ -22,3 +22,9 @@ You can also read and delete things. ::
 
     # Delete
     del(vlermv['filename'])
+
+
+
+.. autoclass:: vlermv.Vlermv
+   :members:
+   .. automethod::  __call__

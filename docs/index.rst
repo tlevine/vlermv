@@ -4,7 +4,8 @@ Vlermv
 .. toctree::
    :maxdepth: 2
 
-   api/index
+   vlermv
+   cache
 
 Indices and tables
 ==================

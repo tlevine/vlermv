@@ -1,5 +1,5 @@
-Using Vlermv Cache
--------------------
+Using :py:func:`vlermv.cache`
+---------------------------------
 A function receives input, does something, and then returns output.
 If you decorate a function with Vlermv Cache, it caches the output;
 if you call the function again with the same input, it loads the
@@ -65,7 +65,7 @@ I find that I sometimes want to refresh the cache for a particular
 file, only. This is usually because an error occurred and I have fixed
 the error. You can delete the cache like this. ::
 
-    @vlermv.cache()
+    @vlermv.cache(key_transformer = vlermv.transformers.magic)
     def is_prime(number):
         for n in range(2, number):
             if number % n == 0:
@@ -75,14 +75,14 @@ the error. You can delete the cache like this. ::
     is_prime(100)
     del(is_prime[100])
 
-Vlermv Cache has all of Vlermv's features
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The cache is an instance of :py:class:`vlermv.Vlermv`.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The above method for refreshing the cache works because ``is_prime``
-isn't really a function; it's actually a ``VlermvCache`` object, which
-is a sub-class of ``Vlermv``. Thus, you can use it in all of the ways
+isn't really a function; it's actually a ``Vlermv`` object with a special
+``__call__`` method. Thus, you can use it in all of the ways
 that you can use ``Vlermv``. ::
 
-    @vlermv.cache()
+    @vlermv.cache(key_transformer = vlermv.transformers.magic)
     def f(x, y):
         return x + y
 
@@ -90,7 +90,7 @@ that you can use ``Vlermv``. ::
     # 7
 
     print(list(f.keys()))
-    # ['3/4']
+    # [('3', '4')]
 
 You can even set the value to be something weird. ::
 
@@ -101,3 +101,11 @@ You can even set the value to be something weird. ::
 Each value in ``f`` is a tuple of the error and the actual value.
 Exactly one of these is always ``None``. If the error is None, the
 value is returned, and if the value is None, the error is raised.
+
+Full API documentation
+-------------------------
+:py:func:`vlermv.cache` is a function that returns a decorator.
+That is, it is a function that returns a function that takes a
+function and returns yet another function.
+
+.. autofunction:: vlermv.cache
