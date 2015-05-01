@@ -62,7 +62,7 @@ safe_path_testcases = [
     ('/home', '..', '/home', None),
 ]
 
-@pytest.mark.parametrize('unsafe,safe', safe_path_testcases)
+@pytest.mark.parametrize('dirpath, filename, root, safe', safe_path_testcases)
 def test_safe_path(dirpath, filename, root, safe):
     if safe:
         assert safe_path(dirpath, filename, root) == safe
