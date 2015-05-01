@@ -4,6 +4,6 @@
    :maxdepth: 1
 
    cache
-   dictionary
+   vlermv
    serializers
    transformers

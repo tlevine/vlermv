@@ -1,9 +1,6 @@
 ***********
-serializers
+Serializers
 ***********
-
-:mod:`vlermv.serializers`
-===========================
 
 .. automodule:: vlermv.serializers
    :members:
