@@ -5,7 +5,7 @@ from ._vlermv import Vlermv
 
 def cache(*args, key_transformer = _tuple, **kwargs):
     '''
-    Cache a function with a :py:class:`~vlermv.Vlermv`.
+    Cache a function with a :py:class:`~vlermv.Vlermv`. ::
 
         @cache('~/.http')
         def get(url):
