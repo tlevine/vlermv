@@ -94,9 +94,11 @@ constraints. Consider using :py:mod:`bson` or :py:mod:`json`.
 
 Vlermv is all about mapping Python objects to files in a normal filesystem.
 Thus, you'll wind up using general file manipulation tools for things that
-you otherwise would have used Mongo features for. You can use rsync for
-replication; shell (``ls``, ``cat``, ``find``, &c.) for ad-hoc queries and
-backups; chmod and chown for permissions management.
+you otherwise would have used Mongo features for.
+You can use :command:`rsync` for replication;
+shell (:command:`ls``:command:`cat`, :command:`find``, &c.)
+for ad-hoc queries and backups; and
+:command:`chmod` and :command:`chown` for permissions management.
 
 If you are using GridFS simply to store and retrieve file contents, you
 can put those contents directly into Vlermv. If you are accessing the file

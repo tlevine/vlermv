@@ -8,11 +8,8 @@ responses to HTTP requests.
 
 And then I finally changed the names because these two packages don't really
 have much to do with pickles. ``pickle_warehouse.Warehouse`` became
-``vlermv.Vlermv``, and ``picklecache.cache`` became ``vlermv.cache``.
+:py:class:`vlermv.Vlermv`, and ``picklecache.cache`` became :py:func:`vlermv.cache`.
+And I have substantially extended both of these since.
+
 I chose the name "vlermv" by banging on the keyboard; this is how I have
 been naming things now that I have discovered Dada.
-
-During the transition from pickle warehouse and pickle cache to vlermv,
-I also added a particular feature that I wanted: the ability to refresh
-the cache. (And I implemented this by subclassing ``vlermv.Vlermv``, as
-discussed in the documentation above.)

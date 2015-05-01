@@ -10,12 +10,15 @@ your computer. ::
 Items are files
 ~~~~~~~~~~~~~~~~~
 The keys correspond to file names, and the values get serialized to files.
-The default serialization is pickle. ::
+The default serialization is :py:mod:`pickle`. ::
 
     vlermv['filename'] = range(100)
 
     import pickle
     range(100) == pickle.load(open('/tmp/a-directory/filename', 'rb'))
+
+(Default serialization is technically :py:class:`vlermv.serializers.pickle`,
+but it's pretty much the same thing as :py:mod:`pickle`.)
 
 Get and delete
 ~~~~~~~~~~~~~~~~~

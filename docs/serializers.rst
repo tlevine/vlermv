@@ -133,6 +133,8 @@ Serializers included with Vlermv
 ------------------------------------
 The following serializers are included.
 
+.. py:module:: vlermv.serializers
+
 ``vlermv.serializers.identity_str``
     Write raw strings to files.
 ``vlermv.serializers.identity_bytes``
