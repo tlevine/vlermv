@@ -1,4 +1,4 @@
-import os
+import os, posixpath
 
 from ._exceptions import OpenError
 
@@ -53,21 +53,5 @@ def method_or_name(namespace, x):
 These attributes are available: %s.''' % (x, namespace.__name__, attrs)
     raise AttributeError(msg)
 
-def _root(pathmodule):
-    'Test this with ntdrive, &c.'
-    prev_root = root = pathmodule.abspath(__file__)
-    drive, _ = pathmodule.splitdrive(root)
-    while True:
-        prev_root = root
-        root = pathmodule.dirname(prev_root)
-        if prev_root == root:
-            return drive + root
-
-def safe_path(unsafe_path, pathmodule = os.path, root = _root(os.path)):
-    if not pathmodule.isabs(unsafe_path):
-        unsafe_path = pathmodule.join(root, unsafe_path)
-
-    try:
-        return pathmodule.normpath(pathmodule.relpath(unsafe_path, root))
-    except AttributeError:
-        raise NotImplementedError('Path safety is not implemented for your system. Please report this so I can fix it.')
+def safe_path(unsafe_path):
+    return tuple(posixpath.normpath(posixpath.join('/', posixpath.join(*unsafe_path))).split('/')[1:])
