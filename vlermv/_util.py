@@ -65,9 +65,9 @@ def _root(pathmodule):
 
 def safe_path(unsafe_path, pathmodule = os.path, root = _root(os.path)):
     if not pathmodule.isabs(unsafe_path):
-        raise ValueError('unsafe_path must be an absolute path.')
+        unsafe_path = pathmodule.join(root, unsafe_path)
 
     try:
-        return pathmodule.relpath(unsafe_path, root)
+        return pathmodule.normpath(pathmodule.relpath(unsafe_path, root))
     except AttributeError:
-        return unsafe_path # raise NotImplementedError('Path safety is not implemented for your system. Please report this so I can fix it.')
+        raise NotImplementedError('Path safety is not implemented for your system. Please report this so I can fix it.')
