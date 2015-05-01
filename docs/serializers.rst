@@ -66,9 +66,9 @@ If exception caching is enabled
 You probably want to set ``cache_exceptions`` only if you are using the
 :py:func:`vlermv.cache` decorator, as it doesn't do anything otherwise.
 
-If ``cache_exceptions = True``, ``obj`` is a tuple of ``(exception, result)``,
+If ``cache_exceptions`` is ``True``, ``obj`` is a tuple of ``(exception, result)``,
 where ``result`` is the result of the decorated function.
-(If ``cache_exceptions = True``, ``obj`` is simply ``result``.)
+(If ``cache_exceptions`` is ``False``, ``obj`` is simply ``result``.)
 
 ``exception`` is ``None`` if the function ran without error, and ``result``
 is ``None`` if there was an error.
@@ -138,6 +138,6 @@ The following serializers are included.
 ``vlermv.serializers.pickle``
     Serialize with :py:mod:`pickle`.
 ``vlermv.serializers.html``
-    Serialize HTML trees from :py:mod:`lxml.html`.
+    Serialize HTML trees from `lxml <http://lxml.de/>`.
 ``vlermv.serializers.xml``
-    Serialize XML etrees from :py:mod:`lxml.etree`.
+    Serialize XML etrees from `lxml <http://lxml.de/>`.

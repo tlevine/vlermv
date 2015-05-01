@@ -27,8 +27,8 @@ exclude_patterns = ['_build']
 
 autoclass_content = 'both'
 
-# If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = False
+intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None)}
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
