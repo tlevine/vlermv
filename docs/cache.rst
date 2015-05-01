@@ -1,10 +1,12 @@
-Using :py:func:`vlermv.cache`
----------------------------------
+Caching functions with :py:func:`vlermv.cache`
+==================================================
 A function receives input, does something, and then returns output.
 If you decorate a function with Vlermv Cache, it caches the output;
 if you call the function again with the same input, it loads the
 output from the cache instead of doing what it would normally do.
 
+Simplest usage
+------------------
 The simplest usage is to decorate the function with ``@vlermv.cache()``.
 For example, ::
 
@@ -18,6 +20,16 @@ For example, ::
 Now you can call ``is_prime`` as if it's a normal function, and
 if you call it twice, the second call will load from the cache.
 
+How it works
+-----------------
+:py:func:`vlermv.cache` is a function that returns a decorator.
+That is, it is a function that returns a function that takes a
+function and returns yet another function.
+
+.. autofunction:: vlermv.cache
+
+Less-simple usage
+------------------
 Some fancier uses are discussed below.
 
 Non-default directory
@@ -35,17 +47,6 @@ To set a different directory, pass it as an argument. ::
 
 I recommend storing your caches in dotted directories under your
 home directory, as you see above.
-
-Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The kwargs get passed to :py:class:`vlermv.Vlermv`, so you
-can do fun things like changing the serialization function. ::
-
-    @vlermv.cache('~/.http', serializer = vlermv.serializers.identity_str)
-    def get(url):
-        return requests.get(url).text
-
-Read more about the keyword arguments in the Vlermv section above.
 
 Non-identifying arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,10 +103,11 @@ Each value in ``f`` is a tuple of the error and the actual value.
 Exactly one of these is always ``None``. If the error is None, the
 value is returned, and if the value is None, the error is raised.
 
-Full API documentation
--------------------------
-:py:func:`vlermv.cache` is a function that returns a decorator.
-That is, it is a function that returns a function that takes a
-function and returns yet another function.
+Vlermv configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The kwargs get passed to :py:class:`vlermv.Vlermv`, so you
+can do fun things like changing the serialization function. ::
 
-.. autofunction:: vlermv.cache
+    @vlermv.cache('~/.http', serializer = vlermv.serializers.identity_str)
+    def get(url):
+        return requests.get(url).text

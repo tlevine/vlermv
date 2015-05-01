@@ -19,7 +19,7 @@ except that it will persist across Python sessions.
 Vlermv has many other features that you may read about below.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    vlermv
    cache

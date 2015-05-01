@@ -1,8 +1,10 @@
 Serializers
------------------------
+=======================
 Serializers specify how Python objects should be saved to disk and
 how files from disk should be read as Python objects.
 
+Components of a serializer
+----------------------------
 A serializer is a Python object with the following methods.
 
 ``dump(obj, fp) -> None``
