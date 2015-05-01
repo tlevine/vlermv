@@ -1,3 +1,7 @@
+'''
+Come up with a reasonable file name from a wide range of possible
+input formats. (Multiple inputs can map to the same file name.)
+'''
 import os
 try:
     from urllib.parse import urlsplit

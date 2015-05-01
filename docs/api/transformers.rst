@@ -2,5 +2,4 @@
 Key Transformers
 *****************
 
-.. automodule:: vlermv.transformers
-    :members:
+.. automodule:: vlermv.transformers.magic
