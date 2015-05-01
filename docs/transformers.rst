@@ -11,28 +11,28 @@ Other transformers
 
 The following transformers are included in Vlermv.
 
-.. py:data:: vlermv.transformers.magic
+.. py:data:: magic
 
    Magically figure out a reasonable file name.
 
-.. py:data:: vlermv.transformers.base64
+.. py:data:: base64
 
    File name is the base 64 encoding of the key.
 
-.. py:data:: vlermv.transformers.tuple
+.. py:data:: tuple
 
    Key must be a tuple; the right most element becomes a file name,
    and the preceding elements are directories.
 
-.. py:data:: vlermv.transformers.simple
+.. py:data:: simple
 
    Key is used as the file name directory. It must be a string without slashes.
 
-.. py:data:: vlermv.transformers.slash
+.. py:data:: slash
 
    Like simple, except that slashes may be used to separate directories
 
-.. py:data:: vlermv.transformers.backslash
+.. py:data:: backslash
 
    Like simple, except that backslashes may be used to separate directories
 
@@ -142,6 +142,8 @@ a path ``./a/b/c`` becomes ``('a', 'b', 'c')``.
 
 Transformer API
 ^^^^^^^^^^^^^^^^^^^
+.. py:currentmodule:: vlermv.hypothetical_transformer
+
 Now on to the transformer itself!
 A transformer is a Python object with the following methods.
 

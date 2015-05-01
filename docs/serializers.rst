@@ -9,11 +9,13 @@ Components of a serializer
 ----------------------------
 A serializer is a Python object with the following methods.
 
-.. py:method:: dump(obj, fp) -> None
+.. py:module:: vlermv.serializers.hypothetical_serializer
+
+.. py:function:: dump(obj, fp) -> None
 
    Write the object ``obj`` to the file pointer ``fp``.
    
-.. py:method:: load(fp) -> obj
+.. py:function:: load(fp) -> obj
 
    Represent the file pointer ``fp`` as an object ``obj``.
 
@@ -143,25 +145,26 @@ mode rather than string mode; the Vlermv's default
 
 Serializers included with Vlermv
 ------------------------------------
+.. py:currentmodule:: vlermv.serializers
 
 The following serializers are included.
 
-.. py:data:: vlermv.serializers.identity_str
+.. py:data:: identity_str
 
    Write raw strings to files.
 
-.. py:data:: vlermv.serializers.identity_bytes
+.. py:data:: identity_bytes
 
    Write raw bytes to files.
 
-.. py:data:: vlermv.serializers.pickle
+.. py:data:: pickle
 
    Serialize with :py:mod:`pickle`.
 
-.. py:data:: vlermv.serializers.html
+.. py:data:: html
 
    Serialize HTML trees from `lxml <http://lxml.de/>`_.
 
-.. py:data:: vlermv.serializers.xml
+.. py:data:: xml
 
    Serialize XML etrees from `lxml <http://lxml.de/>`_.
