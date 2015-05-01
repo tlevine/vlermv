@@ -5,16 +5,14 @@ from ._vlermv import Vlermv
 
 def cache(*args, key_transformer = _tuple, **kwargs):
     '''
-    Cache a function with a :py:class:`vlermv.Vlermv`.
-
-    When you decorate a function with ``@cache(*args, **kwargs)``,
-    the args and kwargs get passed to the Vlermv. For example::
+    Cache a function with a :py:class:`~vlermv.Vlermv`.
 
         @cache('~/.http')
         def get(url):
             return requests.get(url, auth = ('username', 'password'))
 
-    The arguments are slightly different from those of Vlermv.
+    The args and kwargs get passed to the Vlermv with some slight changes.
+    Here are the changes.
 
     First, the default ``key_transformer`` is the tuple transformer
     rather than the simple transformer.
@@ -25,7 +23,7 @@ def cache(*args, key_transformer = _tuple, **kwargs):
     (the one required argument) will be set to the name of the function.
 
     Third, you are more likely to use the ``cache_exceptions`` keyword
-    argument; see :py:class:`vlermv.Vlermv` for documentation on that.
+    argument; see :py:class:`~vlermv.Vlermv` for documentation on that.
     '''
     def decorator(func):
         if len(args) == 0:

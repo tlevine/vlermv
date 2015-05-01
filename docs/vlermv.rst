@@ -17,6 +17,10 @@ The default serialization is :py:mod:`pickle`. ::
     import pickle
     range(100) == pickle.load(open('/tmp/a-directory/filename', 'rb'))
 
+:py:mod:`vlermv.serializers`
+
+:py:data:`vlermv.serializers.pickle`
+
 (Default serialization is technically :py:data:`vlermv.serializers.pickle`,
 but it's pretty much the same thing as pickle.)
 

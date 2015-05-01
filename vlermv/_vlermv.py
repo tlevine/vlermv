@@ -28,10 +28,10 @@ class Vlermv:
         :param serializer: A thing with dump and load functions for
             serializing and deserializing Python objects,
             like json, yaml, dill, or anything in :py:mod:`vlermv.serializers`
-        :type serializer: :ref:`serializer`
+        :type serializer: :py:mod:`serializer <vlermv.serializers>`
         :param key_transformer: How to transform keys to filenames and back.
             Several are available in :py:mod:`vlermv.transformers`.
-        :type key_transformer: :ref:`transformer`
+        :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
 
