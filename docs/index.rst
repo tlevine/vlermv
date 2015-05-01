@@ -11,7 +11,7 @@ Install from PyPI. ::
 Then call it like this. ::
 
     from vlermv import Vlermv
-    like_a_dictionary = Vlermv('/tmp/a-directory')
+    like_a_dictionary = Vlermv('a-directory')
 
 Now you can mostly pretend that ``like_a_dictionary`` is a :py:class:`dict`,
 except that it will persist across Python sessions.
