@@ -141,7 +141,7 @@ That is, they are normal and relative. For example,
 a path ``./a/b/c`` becomes ``('a', 'b', 'c')``.
 
 Transformer API
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 .. py:currentmodule:: vlermv.hypothetical_transformer
 
 Now on to the transformer itself!
@@ -164,7 +164,7 @@ Other notes
 ~~~~~~~~~~~~~~~~~~
 Specifying an absolute path, regardless of the transformer, will not let you
 save things outside the vlermv directory. Here's an example that uses the
-magic transformer.
+magic transformer. ::
 
     vlermv['/foo/bar/baz'] # Saves to ./foo/bar/baz
     vlermv['C:\\foo\\bar\\baz'] # Saves to ./c/foo/bar/baz

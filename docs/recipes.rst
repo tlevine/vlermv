@@ -33,7 +33,7 @@ data as "March 2014/2014-03-01", "March 2014/2014-03-02", ...,
 "April 2014/2014-04-01", "March 2014/2014-04-02", ....
 
 Vlermv in RAM
------------------
+----------------------
 In some cases, it is be beneficial to store Vlermv in RAM rather than on
 a hard drive.
 
