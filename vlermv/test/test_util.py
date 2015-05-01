@@ -58,20 +58,21 @@ def test_method_or_name_invalid_str():
 
 import ntpath, posixpath, macpath
 tuple_path_testcases = [
-    ('/home/abc', 'home/abc'),
-    ('/abc/../../..', '.'),
-    ('abc/../../../..', '.'),
-    ('', '.'),
-    ('.', '.'),
-    ('/abc', 'abc'),
-    ('/abc/def', 'abc/def'),
-    ('abc/def', 'abc/def'),
+    (('/', 'home', 'abc'), ('home', 'abc')),
+    (('/', 'abc', '..', '..', '..'), None),
+    (('abc', '..', '..', '..', '..'), None),
+    (('.','.'), None),
+    (('',), None),
+    (('.',), None),
+    (('/', 'abc'), ('abc',)),
+    (('/', 'abc', 'def'), ('abc', 'def')),
+    (('abc', 'def'), ('abc', 'def')),
 ]
 
 def check_safe_path(pathmodule, unsafe_path, expected):
     observed = safe_path(unsafe_path, pathmodule = pathmodule,
                          root = _root(pathmodule))
-    assert observed == expected.replace('/', pathmodule.sep)
+    assert observed == expected
 
 @pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
 def test_safe_path_posix(unsafe_path, expected):
