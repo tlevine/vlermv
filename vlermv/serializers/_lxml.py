@@ -1,7 +1,4 @@
 class _meta_xml:
-    def __init__(self, lxml_module):
-        self.module = lxml_module
-
     @staticmethod
     def dump(obj, fp):
         fp.write(self.module.tostring(obj))
@@ -19,5 +16,7 @@ except ImportError:
     pass
 else:
     import lxml.html, lxml.etree
-    html = _meta_xml(lxml.html)
-    xml = _meta_xml(lxml.etree)
+    class html(_meta_xml):
+        module = lxml.html
+    class xml(_meta_xml):
+        module = lxml.etree
