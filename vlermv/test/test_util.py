@@ -2,7 +2,7 @@ import tempfile, time
 
 import pytest
 
-from .._util import split, _get_fn
+from .._util import split, _get_fn, method_or_name
 
 def test_split_empty():
     '''
@@ -39,3 +39,19 @@ def test_get_fn_fail():
         tmp.file.close()
         with pytest.raises(EnvironmentError):
             _get_fn(tmp.name, 'r', f)
+
+def test_method_or_name_not_str():
+    class namespace:
+        attribute = 8
+    assert method_or_name(namespace, [2,9]) == [2,9]
+
+def test_method_or_name_valid_str():
+    class namespace:
+        attribute = 8
+    assert method_or_name(namespace, 'attribute') == 8
+
+def test_method_or_name_invalid_str():
+    class namespace:
+        attribute = 8
+    with pytest.raises(AttributeError):
+        method_or_name(namespace, 'not_attribute')

@@ -35,3 +35,20 @@ def _get_fn(fn, mode, load):
             return item
         else:
             raise EnvironmentError('File was edited during read: %s' % fn)
+
+def method_or_name(namespace, x):
+    '''
+    If x is a ``str``, get ``namespace.x``.
+
+    Otherwise, simply return ``x``.
+    '''
+    if not isinstance(x, str):
+        return x
+
+    if hasattr(namespace, x):
+        return getattr(namespace, x)
+
+    attrs = [y for y in dir(namespace) if not y.startswith('_')]
+    msg = '''"%s" is not available in %s.
+These attributes are available: %s.''' % (x, namespace.__name__, attrs)
+    raise AttributeError(msg)
