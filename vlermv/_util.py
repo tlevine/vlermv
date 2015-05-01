@@ -54,4 +54,10 @@ These attributes are available: %s.''' % (x, namespace.__name__, attrs)
     raise AttributeError(msg)
 
 def safe_path(dirpath, filename, root):
-    return os.path.relpath(os.path.join(dirpath, filename), root)
+    if unsafe.startswith('/'):
+        unsafe = unsafe[1:]
+    unsafe = os.path.relpath(os.path.join(dirpath, filename), root)
+
+    if not os.path.abspath(os.path.join(root, unsafe)).startswith(root):
+        msg = 'Path %s references a directory above the starting directory.\nThis is not allowed.'
+        raise ValueError(msg % unsafe)
