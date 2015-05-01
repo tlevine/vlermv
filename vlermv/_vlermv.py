@@ -19,12 +19,11 @@ class Vlermv:
         like pickle, json, yaml, dill, bson, 
         or anything in vlermv.serializers
     :param key_transformer: Function to transform keys to filenames and back.
-        Default is ``vlermv.transformers.simple``; other options are in
-        ``vlermv.transformers``.
+        Several are available in :py:mod:`vlermv.transformers`.
     :param mutable: Whether values can be updated and deleted
     :param tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
 
-    This one is only relevant for initialization via ``vlermv.cache``.
+    This one is only relevant for initialization via :py:func`vlermv.cache`.
 
     :param cache_exceptions: If the decorated function raises an exception,
         should the failure and exception be cached? The exception is raised
