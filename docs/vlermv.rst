@@ -23,7 +23,15 @@ You can also read and delete things. ::
     # Delete
     del(vlermv['filename'])
 
+And remember that vlermv is a :py:class:`dict`-like object, so things
+like this work too. ::
 
+    vlermv.items()
+    vlermv.update({'a': 1, 'b': 2})
+
+We have just scratched the surface of what Vlermv can do; here are
+some of Vlermv's other methods, and we'll discuss them in the subsequent
+sections.
 
 .. autoclass:: vlermv.Vlermv
    :members:
