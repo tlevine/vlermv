@@ -20,7 +20,7 @@ class TestDefaults(Base):
 
         with pytest.raises(ValueError):
             self.w.transformer.to_path('abc/def')
-        assert self.w.transformer.from_path(('abc', 'def')) == os.path.join('abc', 'def')
+        assert self.w.transformer.from_path(('abcdef',)) == 'abcdef'
 
     def test_default_mutable(self):
         assert self.w.mutable

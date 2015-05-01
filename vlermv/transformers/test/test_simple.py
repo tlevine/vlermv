@@ -9,4 +9,4 @@ def test_to_path():
 
 def test_from_path():
     with pytest.raises(ValueError):
-        simple.to_path(('abc', 'def'))
+        simple.from_path(('abc', 'def'))
