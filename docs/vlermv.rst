@@ -1,5 +1,5 @@
-Using Vlermv as a dictionary
---------------------------------
+Using :py:class:`vlermv.Vlermv` as a dictionary
+---------------------------------------------------
 Vlermv provides a dictionary-like object
 that is associated with a particular directory on
 your computer. ::
@@ -29,6 +29,8 @@ like this work too. ::
     vlermv.items()
     vlermv.update({'a': 1, 'b': 2})
 
-We have just scratched the surface of what Vlermv can do; here are
-some of Vlermv's other methods, and we'll discuss them in the subsequent
-sections.
+There are several parameters that you can change when initializing Vlermv,
+
+.. autoclass:: vlermv.Vlermv
+
+and we'll discuss those in later sections.
