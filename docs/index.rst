@@ -26,10 +26,7 @@ Vlermv has many other features that you may read about below.
    serializers
    transformers
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`
 
