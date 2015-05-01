@@ -1,3 +1,6 @@
+*********************
+Vlermv API Reference
+*********************
 .. _api-index:
 
 .. toctree::
