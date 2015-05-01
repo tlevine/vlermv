@@ -104,11 +104,7 @@ There's probably a problem with the serializer.''')
         subpath = self.transformer.to_path(index)
         if len(subpath) == 0:
             raise KeyError('You specified an empty key.')
-
-        if subpath[0] == '/':
-            subpath = subpath[1:]
-
-        return os.path.join(self.cachedir, *subpath)
+        return os.path.join(self.cachedir, *safe_path(subpath))
 
     def __iter__(self):
         return (k for k in self.keys())
@@ -169,7 +165,7 @@ There's probably a problem with the serializer.''')
         for dirpath, _, filenames in os.walk(self.cachedir):
             if dirpath != os.path.join(self.cachedir, self.tempdir):
                 for filename in filenames:
-                    path = split(safe_path(dirpath, filename, self.cachedir))
+                    path = split(os.path.relpath(os.path.join(dirpath, filename), self.cachedir))
                     yield self.transformer.from_path(path)
 
     def values(self):

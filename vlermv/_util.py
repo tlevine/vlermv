@@ -53,11 +53,15 @@ def method_or_name(namespace, x):
 These attributes are available: %s.''' % (x, namespace.__name__, attrs)
     raise AttributeError(msg)
 
-def safe_path(dirpath, filename, root):
-    if unsafe.startswith('/'):
-        unsafe = unsafe[1:]
-    unsafe = os.path.relpath(os.path.join(dirpath, filename), root)
+def _root(path = os.path):
+    'Test this with ntdrive, &c.'
+    prev_root = root = path.abspath(__file__)
+    drive, _ = path.splitdrive(root)
+    while True:
+        prev_root = root
+        root = path.dirname(prev_root)
+        if prev_root == root:
+            return drive + root
 
-    if not os.path.abspath(os.path.join(root, unsafe)).startswith(root):
-        msg = 'Path %s references a directory above the starting directory.\nThis is not allowed.'
-        raise ValueError(msg % unsafe)
+def safe_path(unsafe_path):
+    return os.path.relpath(unsafe_path, '/')

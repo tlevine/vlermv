@@ -56,16 +56,15 @@ def test_method_or_name_invalid_str():
     with pytest.raises(AttributeError):
         method_or_name(namespace, 'not_attribute')
 
-safe_path_testcases = [
-    ('/home', 'abc', '/home', '/home/abc'),
-    ('/home', '/abc', '/home', '/home/abc'),
-    ('/home', '..', '/home', None),
+tuple_path_testcases = [
+    ('/home', 'abc', '/home', ('abc',)),
+    ('/home', 'abc/def', '/home', ('abc', 'def')),
 ]
 
-@pytest.mark.parametrize('dirpath, filename, root, safe', safe_path_testcases)
-def test_safe_path(dirpath, filename, root, safe):
-    if safe:
-        assert safe_path(dirpath, filename, root) == safe
-    else:
-        with pytest.raises(ValueError):
-            safe_path(dirpath, filename, root)
+@pytest.mark.parametrize('dirpath, filename, root, safe', tuple_path_testcases)
+def test_tuple_path(dirpath, filename, root, result):
+    assert tuple_path(dirpath, filename, root) == result
+
+
+    #    with pytest.raises(ValueError):
+     #       safe_path(dirpath, filename, root)
