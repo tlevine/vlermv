@@ -12,23 +12,7 @@ from .transformers import simple
 
 class Vlermv:
     '''
-    Fancy dictionary database
-
-    :param cachedir: Top-level directory of the vlermv
-    :param serializer: A thing with dump and load attribute functions,
-        like pickle, json, yaml, dill, bson, 
-        or anything in vlermv.serializers
-    :param key_transformer: Function to transform keys to filenames and back.
-        Several are available in :py:mod:`vlermv.transformers`.
-    :param mutable: Whether values can be updated and deleted
-    :param tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
-
-    This one is only relevant for initialization via :py:func`vlermv.cache`.
-
-    :param cache_exceptions: If the decorated function raises an exception,
-        should the failure and exception be cached? The exception is raised
-        either way.
-
+    Fancy database with a :py:class:`dict` API.
     '''
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
@@ -39,6 +23,21 @@ class Vlermv:
             mutable = True,
             tempdir = '.tmp',
             cache_exceptions = False):
+        '''
+        :param str cachedir: Top-level directory of the vlermv
+        :param serializer: A thing with dump and load attribute functions,
+            like json, yaml, dill, or anything in vlermv.serializers
+        :param key_transformer: How to transform keys to filenames and back.
+            Several are available in :py:mod:`vlermv.transformers`.
+        :param bool mutable: Whether values can be updated and deleted
+        :param str tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
+
+        This one is only relevant for initialization via :py:func:`vlermv.cache`.
+
+        :param cache_exceptions: If the decorated function raises an exception,
+            should the failure and exception be cached? The exception is raised
+            either way.
+        '''
 
         if cache_exceptions and not getattr(serializer, 'vlermv_cache_exceptions', True):
             msg = 'Serializer %s cannot cache exceptions.'
@@ -93,6 +92,10 @@ There's probably a problem with the serializer.''')
         return result
 
     def filename(self, index):
+        '''
+        Get the filename corresponding to a key; that is, run the
+        transformer on the key.
+        '''
         subpath = self.transformer.to_path(index)
         if len(subpath) == 0:
             raise KeyError('You specified an empty key.')
