@@ -2,7 +2,7 @@ import tempfile, time
 
 import pytest
 
-from .._util import split, _get_fn, method_or_name, safe_path
+from .._util import split, _get_fn, method_or_name, safe_path, _root
 
 def test_split_empty():
     '''
@@ -56,15 +56,19 @@ def test_method_or_name_invalid_str():
     with pytest.raises(AttributeError):
         method_or_name(namespace, 'not_attribute')
 
+import ntpath, posixpath, macpath
 tuple_path_testcases = [
-    ('/home', 'abc', '/home', ('abc',)),
-    ('/home', 'abc/def', '/home', ('abc', 'def')),
+    ('/home/abc', 'home/abc'),
+    ('../../abc', 'abc'),
+    ('abc', 'abc'),
+    ('abc/def', 'abc/def'),
 ]
 
-@pytest.mark.parametrize('dirpath, filename, root, safe', tuple_path_testcases)
-def test_tuple_path(dirpath, filename, root, result):
-    assert tuple_path(dirpath, filename, root) == result
+def check_safe_path(pathmodule, unsafe_path, expected):
+    observed = safe_path(unsafe_path, pathmodule = pathmodule,
+                         root = _root(pathmodule))
+    assert observed == expected.replace('/', pathmodule.sep)
 
-
-    #    with pytest.raises(ValueError):
-     #       safe_path(dirpath, filename, root)
+@pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
+def test_safe_path_posix(unsafe_path, expected):
+    check_safe_path(posixpath, unsafe_path, expected)

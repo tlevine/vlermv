@@ -53,15 +53,18 @@ def method_or_name(namespace, x):
 These attributes are available: %s.''' % (x, namespace.__name__, attrs)
     raise AttributeError(msg)
 
-def _root(path = os.path):
+def _root(pathmodule):
     'Test this with ntdrive, &c.'
-    prev_root = root = path.abspath(__file__)
-    drive, _ = path.splitdrive(root)
+    prev_root = root = pathmodule.abspath(__file__)
+    drive, _ = pathmodule.splitdrive(root)
     while True:
         prev_root = root
-        root = path.dirname(prev_root)
+        root = pathmodule.dirname(prev_root)
         if prev_root == root:
             return drive + root
 
-def safe_path(unsafe_path):
-    return os.path.relpath(unsafe_path, '/')
+def safe_path(unsafe_path, pathmodule = os.path, root = _root(os.path)):
+    try:
+        return pathmodule.relpath(unsafe_path, root)
+    except NameError:
+        raise NotImplementedError('Path safety is not implemented for your system. Please report this so I can fix it.')
