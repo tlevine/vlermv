@@ -67,7 +67,15 @@ and so is ``simple_identity``.
 
 '''
 
-from .identity import identity_str, identity_bytes
-from .lxml import html, xml
+__all__ = []
 
-__all__ = [f for f in dir() if not f.startswith('_')]
+from .identity import identity_str, identity_bytes
+__all__.extend(['identity_str', 'identity_bytes'])
+
+try:
+    from .lxml import html, xml
+except ImportError:
+    pass
+else:
+    __all__.extend(['html', 'lxml'])
+
