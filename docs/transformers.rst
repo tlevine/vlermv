@@ -135,6 +135,15 @@ Vlermv tuple path           Ordinary string path
 tuple()                     (Not allowed)
 =========================   =========================
 
+When tuple paths are created from file names in
+:py:func:`vlermv.Vlermv.keys` or  :py:func:`vlermv.Vlermv.items`,
+they contain none of these elements: ``'/'``. ``'.'``, ``'..'``.
+That is, they are normal and relative. For example,
+a path ``./a/b/c`` becomes ``('a', 'b', 'c')``.
+
+Transformer API
+^^^^^^^^^^^^^^^^^^^
+Now on to the transformer itself!
 A transformer is a Python object with the following methods.
 
 .. py:method:: to_path(key) -> path:tuple
