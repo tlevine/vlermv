@@ -52,3 +52,6 @@ def method_or_name(namespace, x):
     msg = '''"%s" is not available in %s.
 These attributes are available: %s.''' % (x, namespace.__name__, attrs)
     raise AttributeError(msg)
+
+def safe_path(dirpath, filename, root):
+    return os.path.relpath(os.path.join(dirpath, filename), root)

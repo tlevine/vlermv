@@ -2,7 +2,7 @@ import tempfile, time
 
 import pytest
 
-from .._util import split, _get_fn, method_or_name
+from .._util import split, _get_fn, method_or_name, safe_path
 
 def test_split_empty():
     '''
@@ -55,3 +55,17 @@ def test_method_or_name_invalid_str():
         attribute = 8
     with pytest.raises(AttributeError):
         method_or_name(namespace, 'not_attribute')
+
+safe_path_testcases = [
+    ('/home', 'abc', '/home', '/home/abc'),
+    ('/home', '/abc', '/home', '/home/abc'),
+    ('/home', '..', '/home', None),
+]
+
+@pytest.mark.parametrize('unsafe,safe', safe_path_testcases)
+def test_safe_path(dirpath, filename, root, safe):
+    if safe:
+        assert safe_path(dirpath, filename, root) == safe
+    else:
+        with pytest.raises(ValueError):
+            safe_path(dirpath, filename, root)

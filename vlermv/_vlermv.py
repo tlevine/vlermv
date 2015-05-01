@@ -1,6 +1,6 @@
 import os
 
-from ._util import split, _get_fn
+from ._util import split, _get_fn, safe_path
 from ._fs import mktemp, _random_file_name, _reversed_directories
 from ._exceptions import (
     OpenError, PermissionError,
@@ -169,8 +169,8 @@ There's probably a problem with the serializer.''')
         for dirpath, _, filenames in os.walk(self.cachedir):
             if dirpath != os.path.join(self.cachedir, self.tempdir):
                 for filename in filenames:
-                    path = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
-                    yield self.transformer.from_path(split(path))
+                    path = split(safe_path(dirpath, filename, self.cachedir))
+                    yield self.transformer.from_path(path)
 
     def values(self):
         for key, value in self.items():
