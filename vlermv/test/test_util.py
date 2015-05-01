@@ -72,3 +72,11 @@ def check_safe_path(pathmodule, unsafe_path, expected):
 @pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
 def test_safe_path_posix(unsafe_path, expected):
     check_safe_path(posixpath, unsafe_path, expected)
+
+@pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
+def test_safe_path_nt(unsafe_path, expected):
+    check_safe_path(ntpath, unsafe_path, expected)
+
+@pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
+def test_safe_path_mac(unsafe_path, expected):
+    check_safe_path(macpath, unsafe_path, expected)
