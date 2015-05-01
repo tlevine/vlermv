@@ -34,7 +34,7 @@ class Vlermv:
 
         This one is only relevant for initialization via :py:func:`vlermv.cache`.
 
-        :param cache_exceptions: If the decorated function raises an exception,
+        :param bool cache_exceptions: If the decorated function raises an exception,
             should the failure and exception be cached? The exception is raised
             either way.
         '''

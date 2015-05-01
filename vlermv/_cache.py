@@ -25,7 +25,7 @@ def cache(*args, key_transformer = _tuple, **kwargs):
     (the one required argument) will be set to the name of the function.
 
     Third, you are more likely to use the ``cache_exceptions`` keyword
-    argument; see help(Vlermv) for documentation on that.
+    argument; see :py:class:`vlermv.Vlermv` for documentation on that.
     '''
     def decorator(func):
         if len(args) == 0:
