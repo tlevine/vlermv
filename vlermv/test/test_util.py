@@ -67,6 +67,8 @@ tuple_path_testcases = [
     (('/', 'abc'), ('abc',)),
     (('/', 'abc', 'def'), ('abc', 'def')),
     (('abc', 'def'), ('abc', 'def')),
+    (('..', '..', 'abc', 'def'), None), # This one's weird.
+  # (('..', '..', 'abc', 'def'), ('abc', 'def')), # This one's weird.
 ]
 
 @pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)

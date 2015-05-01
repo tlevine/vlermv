@@ -109,25 +109,31 @@ Paths
 Internally in Vlermv, paths get represented as tuples of directory
 and file names. Here are some examples of how the mapping works.
 
-=====================  =======================
-Ordinary string path   Vlermv tuple path
-=====================  =======================
-./x/y/z                ('x', 'y', 'z')
-/usr/bin               ('usr', 'bin')
-=====================  =======================
+=======================  =====================
+Vlermv tuple path        Ordinary string path 
+=======================  =====================
+('./x', 'y', 'z')        x/y/z              
+('x', 'y', 'z')          x/y/z              
+('', 'x', 'y', 'z')      x/y/z              
+('/', 'usr', 'bin')      usr/bin             
+=======================  =====================
 
 All paths are relative the vlermv root; absolute directories are
-converted to relative paths. Also, relative directories outside
-of the vlermv root are not allowed. Here are more examples.
+converted to relative paths. Empty paths, paths resolving to ``./``,
+and relative paths outside of the vlermv root are not allowed.
+Here are more complex examples.
 
-=====================  =======================
-Ordinary string path   Vlermv tuple path
-=====================  =======================
-../../../../var/log    Not allowed
-./x/y/z                ('x', 'y', 'z')
-/x/y/z                 ('x', 'y', 'z')
-/usr/bin               ('usr', 'bin')
-=====================  =======================
+=========================   =========================
+Vlermv tuple path           Ordinary string path     
+=========================   =========================
+('a', '..', 'b', 'c')       b/c
+('..', '..', 'bin', 'sh')   (Not allowed)
+('/', '..')                 (Not allowed)
+('./', 'd')                 d
+('./',)                     (Not allowed)
+('', '', '')                (Not allowed)
+tuple()                     (Not allowed)
+=========================   =========================
 
 A transformer is a Python object with the following methods.
 
