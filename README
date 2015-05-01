@@ -8,3 +8,26 @@ You should concern yourself primarily with these two elements.
     Class that helps you use the filesystem like a dictionary.
 ``vlermv.cache``
     Decorator that helps you use ``vlermv.Vlermv`` for caching the output of a function.
+
+Install from PyPI. ::
+
+    pip install vlermv
+
+Then call it like this. ::
+
+    from vlermv import Vlermv
+    like_a_dictionary = Vlermv('a-directory')
+
+Now you can mostly pretend that ``like_a_dictionary`` is a :py:class:`dict`,
+except that it will persist across Python sessions.
+
+Decorate the function with ``@vlermv.cache()`` to cache its results. ::
+
+    @vlermv.cache()
+    def is_prime(number):
+        for n in range(2, number):
+            if number % n == 0:
+                return False
+        return True
+
+Read the full documentation for more information.
