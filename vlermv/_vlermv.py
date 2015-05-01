@@ -1,8 +1,8 @@
 import os
 
-from .util import split, _get_fn
-from .fs import mktemp, _random_file_name, _reversed_directories
-from .exceptions import (
+from ._util import split, _get_fn
+from ._fs import mktemp, _random_file_name, _reversed_directories
+from ._exceptions import (
     OpenError, PermissionError,
     DeleteError, FileExistsError,
     out_of_space,

@@ -1,7 +1,7 @@
 from functools import partial
 
 from .transformers import tuple as _tuple
-from .vlermv import Vlermv
+from ._vlermv import Vlermv
 
 def cache(*args, key_transformer = _tuple, **kwargs):
     '''

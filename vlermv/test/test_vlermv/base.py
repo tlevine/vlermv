@@ -2,7 +2,7 @@ import os
 from ...serializers import pickle
 from shutil import rmtree
 
-from ...vlermv import Vlermv
+from ..._vlermv import Vlermv
 
 class Base:
     def teardown_method(self, method):

@@ -3,7 +3,7 @@ import pickle, tempfile, os
 import pytest
 
 from .base import Base
-from ...vlermv import Vlermv
+from ..._vlermv import Vlermv
 
 class TestDefaults(Base):
     def setup_method(self, method):

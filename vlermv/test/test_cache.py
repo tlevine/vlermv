@@ -7,8 +7,8 @@ from tempfile import mkdtemp
 import pytest
 
 from ..transformers import tuple as _tuple
-from ..vlermv import Vlermv
-from ..cache import cache
+from .._vlermv import Vlermv
+from .._cache import cache
 
 def test_new_success():
     tmp = mkdtemp()

@@ -2,7 +2,7 @@ import os, tempfile
 
 import pytest
 
-from .. import exceptions
+from .. import _exceptions as exceptions
 
 def test_open_error():
     with pytest.raises(exceptions.OpenError):

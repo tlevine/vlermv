@@ -5,8 +5,8 @@ import tempfile
 import pytest
 
 from .base import simple_vlermv, Base
-from ...vlermv import Vlermv
-from ... import exceptions
+from ..._vlermv import Vlermv
+from ... import _exceptions as exceptions
 
 class TestVlermv(Base):
     def setup_method(self, method):

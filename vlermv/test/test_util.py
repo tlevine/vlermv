@@ -2,7 +2,7 @@ import tempfile, time
 
 import pytest
 
-from ..util import split, _get_fn
+from .._util import split, _get_fn
 
 def test_split_empty():
     '''

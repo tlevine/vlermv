@@ -3,7 +3,7 @@ import tempfile
 import pytest
 
 from .base import Base, identity_transformer
-from ...vlermv import Vlermv
+from ..._vlermv import Vlermv
 from ...serializers import pickle
 
 class TestImmutableVlermv(Base):

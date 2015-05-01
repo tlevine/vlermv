@@ -4,7 +4,7 @@ from tempfile import mkdtemp
 
 import pytest
 
-from .. import fs
+from .. import _fs as fs
 
 def test_mktemp():
     outer = mkdtemp()
