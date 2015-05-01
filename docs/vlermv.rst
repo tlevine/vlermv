@@ -32,7 +32,3 @@ like this work too. ::
 We have just scratched the surface of what Vlermv can do; here are
 some of Vlermv's other methods, and we'll discuss them in the subsequent
 sections.
-
-.. autoclass:: vlermv.Vlermv
-   :members:
-   .. automethod::  __call__
