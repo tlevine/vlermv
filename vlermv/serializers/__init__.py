@@ -67,15 +67,5 @@ and so is ``simple_identity``.
 
 '''
 
-__all__ = []
-
-from .identity import identity_str, identity_bytes
-__all__.extend(['identity_str', 'identity_bytes'])
-
-try:
-    from .lxml import html, xml
-except ImportError:
-    pass
-else:
-    __all__.extend(['html', 'lxml'])
-
+from ._identity import identity_str, identity_bytes
+from ._lxml import html, xml

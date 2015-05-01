@@ -1,4 +1,4 @@
-from ..delimit import slash, backslash
+from .._delimit import slash, backslash
 
 def test_slash_to_path():
     assert slash.to_path('a') == ('a',)
