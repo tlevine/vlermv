@@ -27,3 +27,7 @@ class TestDefaults(Base):
 
     def test_default_tempdir(self):
         assert self.w.tempdir == os.path.join(self.directory, '.tmp')
+
+    def test_that_it_works(self):
+        self.w['x'] = 3
+        assert self.w['x'] == 3

@@ -27,13 +27,15 @@ class Vlermv:
         :param str cachedir: Top-level directory of the vlermv
         :param serializer: A thing with dump and load functions for
             serializing and deserializing Python objects,
-            like json, yaml, dill, or anything in :py:mod:`vlermv.serializers`
+            like :py:mod`json`, :py:mod:`yaml`, or
+            anything in :py:mod:`vlermv.serializers`
         :type serializer: :py:mod:`serializer <vlermv.serializers>`
-        :param key_transformer: How to transform keys to filenames and back.
+        :param key_transformer: A thing with to_path and from_path functions
+            for transforming keys to file paths and back.
             Several are available in :py:mod:`vlermv.transformers`.
         :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
         :param bool mutable: Whether values can be updated and deleted
-        :param str tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
+        :param str tempdir: Subdirectory inside of cachedir to use for temporary files
 
         This stuff one is mostly relevant for initialization via :py:func:`vlermv.cache`.
 
@@ -50,8 +52,9 @@ class Vlermv:
 
         self.binary_mode = getattr(serializer, 'vlermv_binary_mode', False)
 
-        # Default function, if called with ``Vlermv`` rather than ``cache``.
-        self.func = self.__getitem__
+        def func(*args, **kwargs):
+            raise NotImplementedError('Set %s.func to something if you want to call %s' % (self.__name__, self))
+        self.func = func
 
         self.cachedir = os.path.expanduser(cachedir)
         self.serializer = serializer
