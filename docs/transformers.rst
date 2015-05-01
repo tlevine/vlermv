@@ -80,6 +80,69 @@ And you can mix these formats! ::
     # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
     vlermv[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
 
+Creating a transformer
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _transformer:
+
+A transformer converts keys to paths and paths to keys, where keys
+are things that we use to index a :py:class:`~vlermv.Vlermv` object
+and paths Vlermv's internal representation of file paths.
+
+In this section I define a "key" and a "path" and then explain how
+to implement a transformer for translating between keys and paths.
+
+Keys
+^^^^^^^^^^
+In the following query, ``234`` is the key. ::
+
+    Vlermv('tmp')[234]
+
+And in this one, ::
+
+    Vlermv('tmp')[('a', (1, 2))]
+
+``('a'), (1, 2))`` is the key.
+
+
+Paths
+^^^^^^^^^^
+Internally in Vlermv, paths get represented as tuples of directory
+and file names. Here are some examples of how the mapping works.
+
+=====================  =======================
+Ordinary string path   Vlermv tuple path
+=====================  =======================
+./x/y/z                ('x', 'y', 'z')
+/usr/bin               ('usr', 'bin')
+=====================  =======================
+
+All paths are relative the vlermv root; absolute directories are
+converted to relative paths. Also, relative directories outside
+of the vlermv root are not allowed. Here are more examples.
+
+=====================  =======================
+Ordinary string path   Vlermv tuple path
+=====================  =======================
+../../../../var/log    Not allowed
+./x/y/z                ('x', 'y', 'z')
+/x/y/z                 ('x', 'y', 'z')
+/usr/bin               ('usr', 'bin')
+=====================  =======================
+
+A transformer is a Python object with the following methods.
+
+.. py:method:: to_path(key) -> path:tuple
+
+    Convert keys
+
+def to_path(key):
+    if not isinstance(key, tuple):
+        raise ValueError('x must be of class tuple.')
+    return key
+
+def from_path(x):
+    return x
+
 Other notes
 ~~~~~~~~~~~~~~~~~~
 Specifying an absolute path, regardless of the transformer, will not let you

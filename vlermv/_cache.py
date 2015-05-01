@@ -5,7 +5,7 @@ from ._vlermv import Vlermv
 
 def cache(*args, key_transformer = _tuple, **kwargs):
     '''
-    Cache a function with a vlermv.Vlermv.
+    Cache a function with a :py:class:`vlermv.Vlermv`.
 
     When you decorate a function with ``@cache(*args, **kwargs)``,
     the args and kwargs get passed to the Vlermv. For example::
@@ -20,7 +20,7 @@ def cache(*args, key_transformer = _tuple, **kwargs):
     rather than the simple transformer.
 
     Second, it is valid for cache to be called without arguments.
-    vlermv.Vlermv would ordinarily fail if no arguments were passed to it.
+    Vlermv would ordinarily fail if no arguments were passed to it.
     If you pass no arguments to cache, the Vlermv directory argument
     (the one required argument) will be set to the name of the function.
 

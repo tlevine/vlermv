@@ -12,7 +12,7 @@ from .transformers import simple
 
 class Vlermv:
     '''
-    Fancy database with a :py:class:`dict` API.
+    Fancy database with a :py:class:`dict` :abbr:`API`.
     '''
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
@@ -25,18 +25,23 @@ class Vlermv:
             cache_exceptions = False):
         '''
         :param str cachedir: Top-level directory of the vlermv
-        :param serializer: A thing with dump and load attribute functions,
-            like json, yaml, dill, or anything in vlermv.serializers
+        :param serializer: A thing with dump and load functions for
+            serializing and deserializing Python objects,
+            like json, yaml, dill, or anything in :py:mod:`vlermv.serializers`
+        :type serializer: :ref:`serializer`
         :param key_transformer: How to transform keys to filenames and back.
             Several are available in :py:mod:`vlermv.transformers`.
+        :type key_transformer: :ref:`transformer`
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of ``cachedir`` to use for temporary files
 
-        This one is only relevant for initialization via :py:func:`vlermv.cache`.
+        This stuff one is mostly relevant for initialization via :py:func:`vlermv.cache`.
 
-        :param bool cache_exceptions: If the decorated function raises an exception,
-            should the failure and exception be cached? The exception is raised
-            either way.
+        :param bool cache_exceptions: If the decorated function raises
+            an exception, should the failure and exception be cached?
+            The exception is raised either way.
+        :raises TypeError: If cache_exceptions is True but the serializer
+            can't cache exceptions
         '''
 
         if cache_exceptions and not getattr(serializer, 'vlermv_cache_exceptions', True):

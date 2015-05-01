@@ -5,6 +5,8 @@ how files from disk should be read as Python objects.
 
 Components of a serializer
 ----------------------------
+.. _transformer:
+
 A serializer is a Python object with the following methods.
 
 .. py:method:: dump(obj, fp) -> None
