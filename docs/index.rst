@@ -17,7 +17,7 @@ Then call :py:class:`vlermv.Vlermv` like this. ::
 Now you can mostly pretend that ``like_a_dictionary`` is a :py:class:`dict`,
 except that it will persist across Python session.
 
-Alternatively, you can cache a function's results with :py:func:`vlermv.cache`.
+Alternatively, you can cache a function's results with :py:func:`vlermv.cache`. ::
 
     @cache()
     def f(x):

@@ -22,7 +22,7 @@ documents quickly. I could do this. ::
     for primary_key in index['a']:
         print(db[primary_key])
 
-``index`` could also be a :py:class:`vlermv.Vlermv`, of course.
+``index`` could also be a :py:class:`~vlermv.Vlermv`, of course.
 
 Sharding
 ------------
@@ -49,7 +49,7 @@ better. Here are some instances where you might want to use Vlermv.
 
 To do this, create a `tmpfs <https://en.wikipedia.org/wiki/tmpfs>`_,
 and initialize Vlermv in there. It is common in modern GNU/Linux distributions
-that ``/tmp`` is a tmpfs; you can run ``mount`` to check whether this is the
+that :file:`/tmp` is a tmpfs; you can run :command:`mount` to check whether this is the
 case on your system. If it is, you can just do this. ::
 
     Vlermv('/tmp/this-is-a-tmpfs')
@@ -96,11 +96,11 @@ Vlermv is all about mapping Python objects to files in a normal filesystem.
 Thus, you'll wind up using general file manipulation tools for things that
 you otherwise would have used Mongo features for.
 You can use :command:`rsync` for replication;
-shell (:command:`ls``:command:`cat`, :command:`find``, &c.)
+shell (:command:`ls`, :command:`cat`, :command:`find``, &c.)
 for ad-hoc queries and backups; and
 :command:`chmod` and :command:`chown` for permissions management.
 
 If you are using GridFS simply to store and retrieve file contents, you
 can put those contents directly into Vlermv. If you are accessing the file
-metadata, consider writing a custom :py:mod:`vlermv.serializer` or simply
+metadata, consider writing a custom :py:mod:`serializer <vlermv.serializers>` or simply
 storing those files outside of Vlermv.

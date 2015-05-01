@@ -1,7 +1,8 @@
 Key transformers
 ----------------------------
-Vlermv uses the rather basic :py:data:`vlermv.transformers.simple`
-transformer by default; ``str`` keys are mapped to file names inside of the
+Vlermv uses the rather basic :py:data:`~vlermv.transformers.simple`
+transformer by default; :py:class:`str` keys are mapped to file names
+inside of the
 vlermv directory, and writing to subdirectories is not allowed.
 
 Other transformers
@@ -38,7 +39,7 @@ The following transformers are included in Vlermv.
 The magic transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 One of the coolest parts of Vlermv is the
-:py:data:`vlermv.transformers.magic` transformer, as it interprets
+:py:data:`~vlermv.transformers.magic` transformer, as it interprets
 keys in a very fancy way, combining the features of the
 other transformers.
 
@@ -57,7 +58,7 @@ that is, strings get split on slashes and backslashes. ::
     vlermv['foo/bar/baz']
     vlermv['foo\\bar\\baz']
 
-(This is like the :py:data:`vlermv.transformers.tuple` transformer.)
+(This is like the :py:data:`~vlermv.transformers.tuple` transformer.)
 
 If you pass a URL, it will also get broken up in a reasonable way. ::
 
@@ -82,8 +83,6 @@ And you can mix these formats! ::
 
 Creating a transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. _transformer:
-
 A transformer converts keys to paths and paths to keys, where keys
 are things that we use to index a :py:class:`~vlermv.Vlermv` object
 and paths Vlermv's internal representation of file paths.

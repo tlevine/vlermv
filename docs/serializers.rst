@@ -1,12 +1,12 @@
 Serializers
 =======================
+.. py:module:: vlermv.serializers
+
 Serializers specify how Python objects should be saved to disk and
 how files from disk should be read as Python objects.
 
 Components of a serializer
 ----------------------------
-.. _transformer:
-
 A serializer is a Python object with the following methods.
 
 .. py:method:: dump(obj, fp) -> None
@@ -37,10 +37,10 @@ It optionally includes two boolean properties.
 
    Is caching of exceptions is supported? Default is ``True``.
    This is relevant when the serializer is used with
-   :py:func:`vlermv.cache`.
+   :py:func:`~vlermv.cache`.
 
    If :py:attr:`vermv_cache_exceptions` is ``False`` but
-   :py:class:`vlermv.Vlermv` is initialized with
+   :py:class:`~vlermv.Vlermv` is initialized with
    ``cache_exceptions = True``, an exception is raised.
 
 What exactly is ``obj``?
@@ -51,7 +51,7 @@ is disabled by default.)
 
 Default behavior
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If :py:class:`vlermv.Vlermv` is initialized with ``cache_exceptions = False``,
+If :py:class:`~vlermv.Vlermv` is initialized with ``cache_exceptions = False``,
 ``obj`` is simply the object that was passed to
 :py:func:`vlermv.Vlermv.__setitem__`.
 This is the default; in the following example ``obj`` is ``8``. ::
@@ -76,7 +76,7 @@ the same as the previous one. ::
 If exception caching is enabled
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You probably want to set ``cache_exceptions`` only if you are using the
-:py:func:`vlermv.cache` decorator, as it doesn't do anything otherwise.
+:py:func:`~vlermv.cache` decorator, as it doesn't do anything otherwise.
 
 If ``cache_exceptions`` is ``True``, ``obj`` is a tuple of ``(exception, result)``,
 where ``result`` is the result of the decorated function.
@@ -143,7 +143,6 @@ mode rather than string mode; the Vlermv's default
 
 Serializers included with Vlermv
 ------------------------------------
-.. py:module:: vlermv.serializers
 
 The following serializers are included.
 
