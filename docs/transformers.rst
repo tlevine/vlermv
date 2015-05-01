@@ -1,6 +1,6 @@
 Key transformers
 ----------------------------
-Vlermv uses the rather basic :py:mod:`vlermv.transformers.simple`
+Vlermv uses the rather basic :py:data:`vlermv.transformers.simple`
 transformer by default; ``str`` keys are mapped to file names inside of the
 vlermv directory, and writing to subdirectories is not allowed.
 

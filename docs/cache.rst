@@ -1,14 +1,16 @@
 Caching functions with :py:func:`vlermv.cache`
 ==================================================
 A function receives input, does something, and then returns output.
-If you decorate a function with Vlermv Cache, it caches the output;
+
+If you decorate a function :py:func:`vlermv.cache`, the inputs and
+outputs get recorded;
 if you call the function again with the same input, it loads the
 output from the cache instead of doing what it would normally do.
 
 Simplest usage
 ------------------
-The simplest usage is to decorate the function with ``@vlermv.cache()``.
-For example, ::
+Decorate your function with :py:func:`vlermv.cache`, passing it no
+arguments. ::
 
     @vlermv.cache()
     def is_prime(number):
@@ -79,10 +81,11 @@ the error. You can delete the cache like this. ::
 The cache is an instance of :py:class:`vlermv.Vlermv`.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The above method for refreshing the cache works because ``is_prime``
-isn't really a function; it's actually a :py:class:`Vlermv` object,
+isn't really a function; it's actually a :py:class:`vlermv.Vlermv` object,
 and Vlermv has a special ``__call__`` method.
 
-Thus, you can use it in all of the ways that you can use ``Vlermv``. ::
+Thus, you can use it in all of the ways that you can use
+:py:class:'vlermv.Vlermv`. ::
 
     @vlermv.cache(key_transformer = vlermv.transformers.magic)
     def f(x, y):

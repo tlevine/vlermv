@@ -12,4 +12,5 @@ have much to do with pickles. ``pickle_warehouse.Warehouse`` became
 And I have substantially extended both of these since.
 
 I chose the name "vlermv" by banging on the keyboard; this is how I have
-been naming things now that I have discovered Dada.
+been naming things now that I have discovered
+`Dada <https://thomaslevine.com/!/dada/>`_. 
