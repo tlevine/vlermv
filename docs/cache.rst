@@ -38,10 +38,10 @@ home directory, as you see above.
 
 Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The kwargs get passed to ``vlermv.Vlermv``, so you
+The kwargs get passed to :py:class:`vlermv.Vlermv`, so you
 can do fun things like changing the serialization function. ::
 
-    @vlermv.cache('~/.http', serializer = vlermv.serializers.identity)
+    @vlermv.cache('~/.http', serializer = vlermv.serializers.identity_str)
     def get(url):
         return requests.get(url).text
 

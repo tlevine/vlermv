@@ -46,12 +46,6 @@ that is, strings get split on slashes and backslashes. ::
 
 (This is like the :py:module`vlermv.transformers.tuple`_ transformer.)
 
-Note well: Specifying an absolute path won't save things outside the vlermv directory. ::
-
-    vlermv['/foo/bar/baz'] # -> foo, bar, baz
-    vlermv['C:\\foo\\bar\\baz'] # -> c, foo, bar, baz
-                                   # (lowercase "c")
-
 If you pass a URL, it will also get broken up in a reasonable way. ::
 
     # /tmp/a-directory/http/thomaslevine.com/!/?foo=bar#baz
@@ -76,4 +70,12 @@ And you can mix these formats! ::
 Other notes
 ~~~~~~~~~~~~~~~~~~
 Specifying an absolute path, regardless of the transformer, will not let you
-save things outside the vlermv directory. ::
+save things outside the vlermv directory. Here's an example that uses the
+magic transformer.
+
+    vlermv['/foo/bar/baz'] # Saves to ./foo/bar/baz
+    vlermv['C:\\foo\\bar\\baz'] # Saves to ./c/foo/bar/baz
+                                # (lowercase "c")
+
+As you see, absolute paths are converted into paths relative the root of
+the vlermv directory.
