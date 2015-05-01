@@ -79,9 +79,10 @@ the error. You can delete the cache like this. ::
 The cache is an instance of :py:class:`vlermv.Vlermv`.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The above method for refreshing the cache works because ``is_prime``
-isn't really a function; it's actually a ``Vlermv`` object with a special
-``__call__`` method. Thus, you can use it in all of the ways
-that you can use ``Vlermv``. ::
+isn't really a function; it's actually a :py:class:`Vlermv` object,
+and Vlermv has a special ``__call__`` method.
+
+Thus, you can use it in all of the ways that you can use ``Vlermv``. ::
 
     @vlermv.cache(key_transformer = vlermv.transformers.magic)
     def f(x, y):
