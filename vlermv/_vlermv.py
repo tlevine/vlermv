@@ -35,8 +35,10 @@ class Vlermv:
         return 'Vlermv(%s)' % repr(self.cachedir)
 
     def __init__(self, cachedir,
-            serializer = pickle, mutable = True,
-            tempdir = '.tmp', key_transformer = simple,
+            serializer = pickle,
+            key_transformer = simple,
+            mutable = True,
+            tempdir = '.tmp',
             cache_exceptions = False):
 
         if cache_exceptions and not getattr(serializer, 'vlermv_cache_exceptions', True):
