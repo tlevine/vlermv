@@ -158,11 +158,11 @@ The following serializers are included.
 
 .. py:data:: identity_str
 
-   Write raw strings to files.
+   Write raw :py:class:`strings <str>` to files.
 
 .. py:data:: identity_bytes
 
-   Write raw bytes to files.
+   Write raw :py:class:`bytes` to files.
 
 .. py:data:: pickle
 

@@ -78,10 +78,10 @@ the error. You can delete the cache like this. ::
     is_prime(100)
     del(is_prime[100])
 
-The cache is an instance of :py:class:`vlermv.Vlermv`.
+The cache is an instance of :py:class:`~vlermv.Vlermv`.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The above method for refreshing the cache works because :py:func:`is_prime`
-isn't really a function; it's actually a :py:class:`~vlermv.Vlermv` object,
+isn't really a function; it is in fact a :py:class:`~vlermv.Vlermv` object,
 and Vlermv has a special :py:meth:`~object.__call__` method.
 
 Thus, you can use it in all of the ways that you can use
@@ -103,9 +103,11 @@ You can even set the value to be something weird. ::
     print(f('a', 8))
     # 0
 
-Each value in :py:obj:`f` is a tuple of the error and the actual value.
-Exactly one of these is always :py:const:`None`. If the error is None, the
-value is returned, and if the value is None, the error is raised.
+Each value in :py:obj:`f` is a tuple of the error and the returned value.
+At least one of these is always :py:const:`None`.
+If the error is :py:const:`None`, the decorated function returns the
+the value; otherwise, the error is raised. (And the value is :py:const:`None`
+because the function never returned.)
 
 Vlermv configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

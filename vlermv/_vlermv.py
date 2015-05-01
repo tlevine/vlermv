@@ -27,7 +27,7 @@ class Vlermv:
         :param str cachedir: Top-level directory of the vlermv
         :param serializer: A thing with dump and load functions for
             serializing and deserializing Python objects,
-            like :py:mod`json`, :py:mod:`yaml`, or
+            like :py:mod:`json`, :py:mod:`yaml`, or
             anything in :py:mod:`vlermv.serializers`
         :type serializer: :py:mod:`serializer <vlermv.serializers>`
         :param key_transformer: A thing with to_path and from_path functions

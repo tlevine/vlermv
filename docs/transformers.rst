@@ -50,7 +50,7 @@ to the file :file:`foo/bar/baz`::
     vlermv[('foo','bar','baz')]
     vlermv[['foo','bar','baz']]
 
-(This is like the :py:module`vlermv.transformers.tuple`_ transformer.)
+(This is like the :py:data:`~vlermv.transformers.tuple` transformer.)
 
 If you pass a relative path to a file, it will be broken up as you'd expect;
 that is, strings get split on slashes and backslashes. ::
@@ -58,7 +58,8 @@ that is, strings get split on slashes and backslashes. ::
     vlermv['foo/bar/baz']
     vlermv['foo\\bar\\baz']
 
-(This is like the :py:data:`~vlermv.transformers.tuple` transformer.)
+(This is like the :py:data:`~vlermv.transformers.slash` and
+:py:data:`~vlermv.transformers.backslash` transformers.)
 
 If you pass a URL, it will also get broken up in a reasonable way. ::
 
@@ -117,10 +118,22 @@ Vlermv tuple path              Ordinary string path
 :py:obj:`('/', 'usr', 'bin')`  usr/bin             
 =============================  =====================
 
-All paths are relative the vlermv root; absolute directories are
-converted to relative paths. Empty paths, paths resolving to :file:`./`,
-and relative paths outside of the vlermv root are not allowed.
-Here are more complex examples.
+Aside from the basic conversion between strings and tuples, the main thing
+that is going on here is sandboxing the paths to be descendants of the
+vlermv directory; there is no path that you can specify that will let you
+read or write outside of the vlermv directory. Here are two examples that
+use the magic transformer. ::
+
+    vlermv['/foo/bar/baz'] # Saves to ./foo/bar/baz
+    vlermv['C:\\foo\\bar\\baz'] # Saves to ./c/foo/bar/baz
+                                # (lowercase "c")
+
+All paths are relative the vlermv root, and absolute directories are
+converted to relative paths.
+
+Also, some paths are not allowed. An attempt to use empty paths, paths
+resolving to :file:`./`, and relative paths outside of the vlermv root
+will raise an error. Here are more complex examples.
 
 ===================================    =========================
 Vlermv tuple path                      Ordinary string path     
@@ -131,7 +144,7 @@ Vlermv tuple path                      Ordinary string path
 :py:obj:`('./', 'd')`                  d
 :py:obj:`('./',)`                      (Not allowed)
 :py:obj:`('', '', '')`                 (Not allowed)
-:py:obj:`tuple()`                      (Not allowed)
+``tuple()``                            (Not allowed)
 ===================================    =========================
 
 When tuple paths are created from file names in
@@ -160,16 +173,3 @@ For example, this is what the default :py:data:`~vlermv.transformers.simple`
 transformer looks like.
 
 .. literalinclude:: ../vlermv/transformers/simple.py
-
-Other notes
-~~~~~~~~~~~~~~~~~~
-Specifying an absolute path, regardless of the transformer, will not let you
-save things outside the vlermv directory. Here's an example that uses the
-magic transformer. ::
-
-    vlermv['/foo/bar/baz'] # Saves to ./foo/bar/baz
-    vlermv['C:\\foo\\bar\\baz'] # Saves to ./c/foo/bar/baz
-                                # (lowercase "c")
-
-As you see, absolute paths are converted into paths relative the root of
-the vlermv directory.
