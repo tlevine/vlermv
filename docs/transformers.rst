@@ -111,10 +111,10 @@ and file names. Here are some examples of how the mapping works.
 =======================  =====================
 Vlermv tuple path        Ordinary string path 
 =======================  =====================
-('./x', 'y', 'z')        x/y/z              
-('x', 'y', 'z')          x/y/z              
-('', 'x', 'y', 'z')      x/y/z              
-('/', 'usr', 'bin')      usr/bin             
+``('./x', 'y', 'z')``    x/y/z              
+``('x', 'y', 'z')``      x/y/z              
+``('', 'x', 'y', 'z')``  x/y/z              
+``('/', 'usr', 'bin')``  usr/bin             
 =======================  =====================
 
 All paths are relative the vlermv root; absolute directories are
@@ -122,17 +122,17 @@ converted to relative paths. Empty paths, paths resolving to ``./``,
 and relative paths outside of the vlermv root are not allowed.
 Here are more complex examples.
 
-=========================   =========================
-Vlermv tuple path           Ordinary string path     
-=========================   =========================
-('a', '..', 'b', 'c')       b/c
-('..', '..', 'bin', 'sh')   (Not allowed)
-('/', '..')                 (Not allowed)
-('./', 'd')                 d
-('./',)                     (Not allowed)
-('', '', '')                (Not allowed)
-tuple()                     (Not allowed)
-=========================   =========================
+=============================   =========================
+Vlermv tuple path               Ordinary string path     
+=============================   =========================
+``('a', '..', 'b', 'c')``       b/c
+``('..', '..', 'bin', 'sh')``   (Not allowed)
+``('/', '..')``                 (Not allowed)
+``('./', 'd')``                 d
+``('./',)``                     (Not allowed)
+``('', '', '')``                (Not allowed)
+``tuple()``                     (Not allowed)
+=============================   =========================
 
 When tuple paths are created from file names in
 :py:func:`vlermv.Vlermv.keys` or  :py:func:`vlermv.Vlermv.items`,
