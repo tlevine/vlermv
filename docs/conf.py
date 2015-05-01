@@ -50,6 +50,13 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 html_theme = 'default'
 
+# Themes in PyPI
+# hachibee-sphinx-theme guzzle_sphinx_theme sphinx_bernard_theme
+# sphinx_drove_theme bw_sphinxtheme klink oslosphinx zzzeeksphinx
+# sphinxjp.themes.bizstyle sphinx_py3doc_enhanced_theme sphinx-better-theme
+# sphinx-readable-theme ritzfizz sphinx-kr-theme nostrain
+# sphinxjp.themes.dotted sphinx-nameko-theme
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
