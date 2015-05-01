@@ -262,3 +262,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+# Add vlermv directory to the PYTHONPATH.
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
