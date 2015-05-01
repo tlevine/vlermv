@@ -53,7 +53,7 @@ For example, ``json`` is a valid serializer, ::
 
 and so is ``simple_identity``.
 
-    class simple_binary_identity:
+    class simple_identity:
         @staticmethod
         def dump(obj, fp):
             fp.write(obj)
