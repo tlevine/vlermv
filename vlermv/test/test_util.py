@@ -59,15 +59,19 @@ def test_method_or_name_invalid_str():
 import ntpath, posixpath, macpath
 tuple_path_testcases = [
     ('/home/abc', 'home/abc'),
-    ('../../abc', 'abc'),
-    ('abc', 'abc'),
-    ('abc/def', 'abc/def'),
+    ('/abc/../../..', '.'),
+    ('/abc', 'abc'),
+    ('/abc/def', 'abc/def'),
 ]
 
 def check_safe_path(pathmodule, unsafe_path, expected):
     observed = safe_path(unsafe_path, pathmodule = pathmodule,
                          root = _root(pathmodule))
     assert observed == expected.replace('/', pathmodule.sep)
+
+def test_safe_path_type():
+    with pytest.raises(ValueError):
+        safe_path('not/absolute/path', pathmodule = posixpath, root = '/')
 
 @pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
 def test_safe_path_posix(unsafe_path, expected):
@@ -77,6 +81,6 @@ def test_safe_path_posix(unsafe_path, expected):
 def test_safe_path_nt(unsafe_path, expected):
     check_safe_path(ntpath, unsafe_path, expected)
 
-@pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
-def test_safe_path_mac(unsafe_path, expected):
-    check_safe_path(macpath, unsafe_path, expected)
+#@pytest.mark.parametrize('unsafe_path, expected', tuple_path_testcases)
+#def test_safe_path_mac(unsafe_path, expected):
+#    check_safe_path(macpath, unsafe_path, expected)
