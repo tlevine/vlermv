@@ -136,8 +136,11 @@ serializer. ::
 
 This is because pickle requires that file pointers be opened in binary
 mode rather than string mode; the Vlermv's default
-:py:data:`vlermv.serializers.pickle` serializer thus has to set
+:py:data:`~vlermv.serializers.pickle` serializer thus has to set
 ``vlermv_binary_mode`` to ``True``.
+
+.. literalinclude:: ../vlermv/serializers/pickle.py
+
 
 Serializers included with Vlermv
 ------------------------------------

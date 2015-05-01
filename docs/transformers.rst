@@ -146,17 +146,18 @@ Transformer API
 Now on to the transformer itself!
 A transformer is a Python object with the following methods.
 
-.. py:method:: to_path(key) -> path:tuple
+.. py:method:: to_path(key:str) -> path:tuple
 
-    Convert keys
+    Convert a key to a path.
 
-def to_path(key):
-    if not isinstance(key, tuple):
-        raise ValueError('x must be of class tuple.')
-    return key
+.. py:method:: from_path(path:tuple) -> key:str
 
-def from_path(x):
-    return x
+    Convert a path to a key.
+
+For example, this is what the default :py:data:`~vlermv.transformers.simple`
+transformer looks like.
+
+.. literalinclude:: ../vlermv/transformers/simple.py
 
 Other notes
 ~~~~~~~~~~~~~~~~~~
