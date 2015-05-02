@@ -1,1 +1,2 @@
 Sphinx-PyPI-upload
+sphinxjp.themes.dotted
