@@ -158,4 +158,14 @@ def test_cache_exceptions():
     with pytest.raises(TestError):
         f('x')
     assert ('x',) not in f
+            
+def test_cache_exceptions_save_type():
+    tmp = mkdtemp()
 
+    @cache(tmp, cache_exceptions = False, serializer = pickle)
+    def f(_):
+        return 3
+
+    first = f('x')
+    second = f('x')
+    assert first == second == 3
