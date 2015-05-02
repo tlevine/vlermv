@@ -78,7 +78,10 @@ class Vlermv:
                 else:
                     raise error
             else:
-                output = None, result
+                if self.cache_exceptions:
+                    output = None, result
+                else:
+                    output = result
             self[args] = output
 
         if self.cache_exceptions:
