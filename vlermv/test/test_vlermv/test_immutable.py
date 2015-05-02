@@ -17,21 +17,21 @@ class TestImmutableVlermv(Base):
             key_transformer = identity_transformer, serializer = pickle)
 
     def test_setitem(self):
-        self.mutable['a'] = 3
-        self.default['a'] = 3
+        self.mutable[('a',)] = 3
+        self.default[('a',)] = 3
         with pytest.raises(PermissionError):
-            self.immutable['a'] = 3
+            self.immutable[('a',)] = 3
 
     def test_delitem(self):
-        self.mutable['a'] = 3
-        del(self.default['a'])
+        self.mutable[('a',)] = 3
+        del(self.default[('a',)])
 
-        self.mutable['a'] = 3
-        del(self.mutable['a'])
+        self.mutable[('a',)] = 3
+        del(self.mutable[('a',)])
 
-        self.mutable['a'] = 3
+        self.mutable[('a',)] = 3
         with pytest.raises(PermissionError):
-            del(self.immutable['a'])
+            del(self.immutable[('a',)])
 
     def test_kwarg(self):
         assert (self.default.mutable)
