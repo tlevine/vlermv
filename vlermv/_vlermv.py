@@ -52,9 +52,7 @@ class Vlermv:
 
         self.binary_mode = getattr(serializer, 'vlermv_binary_mode', False)
 
-        def func(*args, **kwargs):
-            raise NotImplementedError('Set %s.func to something if you want to call %s' % (self.__name__, self))
-        self.func = func
+        self.func = None
 
         self.cachedir = os.path.expanduser(cachedir)
         self.serializer = serializer
@@ -66,6 +64,9 @@ class Vlermv:
         os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):
+        if not self.func:
+            msg = 'Set %s.func to something if you want to call %s.'
+            raise NotImplementedError(msg % (self, self))
         if args in self:
             output = self[args]
         else:
