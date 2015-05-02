@@ -1,7 +1,7 @@
 '''
 These tests will be better off somewhere else in the code.
 '''
-import os, pickle, shutil
+import os, pickle, shutil, json
 from tempfile import mkdtemp
 
 import pytest
@@ -151,7 +151,7 @@ def test_cache_exceptions():
     tmp = mkdtemp()
     TestError = ZeroDivisionError
 
-    @cache(tmp, cache_exceptions = False, serializer = pickle)
+    @cache(tmp, cache_exceptions = False, serializer = json)
     def f(_):
         raise TestError('This error should not be cached.')
 
@@ -162,7 +162,7 @@ def test_cache_exceptions():
 def test_cache_exceptions_save_type():
     tmp = mkdtemp()
 
-    @cache(tmp, cache_exceptions = False, serializer = pickle)
+    @cache(tmp, cache_exceptions = False, serializer = json)
     def f(_):
         return 3
 
