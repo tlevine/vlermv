@@ -31,6 +31,10 @@ class TestVlermv(Base):
         assert os.path.join(self.directory, 'abc') == self.w.filename(('abc',))
         assert os.path.join(self.directory, 'abc') == self.w.filename(('/', 'abc',))
         assert os.path.join(self.directory, 'abc', 'def', 'ghi') == self.w.filename(('abc', 'def', 'ghi'))
+        with pytest.raises(TypeError):
+            self.w.filename('wrong-type')
+        with pytest.raises(TypeError):
+            self.w.filename(9)
 
     def test_getitem(self):
         with open(os.path.join(self.directory, 'profession'), 'wb') as fp:
