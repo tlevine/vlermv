@@ -9,14 +9,7 @@ Other transformers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. py:module:: vlermv.transformers
 
-In this section we discuss the transformers that are included in Vlermv.
-The default is the simple transformer.
-
-.. py:data:: simple
-
-   Key is used as the file name directory. It must be a string without slashes.
-
-Here are some more complex transformers.
+The following transformers are included in Vlermv.
 
 .. py:data:: magic
 
@@ -30,6 +23,10 @@ Here are some more complex transformers.
 
    Key must be a tuple; the right most element becomes a file name,
    and the preceding elements are directories.
+
+.. py:data:: simple
+
+   Key is used as the file name directory. It must be a string without slashes.
 
 .. py:data:: slash
 
