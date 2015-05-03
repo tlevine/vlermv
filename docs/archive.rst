@@ -1,14 +1,18 @@
 Using Vlermv as an archive rather than a cache
 ===============================================
 
-.. I should change the name of the function "cache"
-   Oooh maybe I just make vlermv.Vlermv() a decorator!
-
 I find that I often want to download a webpage every day and save the result
-every day. For example, I want to look for new [smoethings] every day on
-[website]. Once I download the homepage of this website, I get the URLs for
-each [something], and I can use :py:func:`~vlermv.cache`, but how do I save
-the homepage?
+every day. For example, I'm presently working on something that involves
+downloading an RSS feed that changes daily, and I'm using a function that
+goes like this. ::
+
+    import requests
+    def feed():
+        return requests.get('http://example.com/feed.rss')
+
+The RSS feed is always in the same place, but its contents change based on
+what new articles have been added. I'm going to do lots of stuff based on
+the RSS feed that I download, so I want to save it for future reference.
 
 That is what :py:func:`vlermv.transformers.archive` is for.
 

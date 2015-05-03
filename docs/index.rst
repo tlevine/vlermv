@@ -31,6 +31,7 @@ Vlermv has many other features that you may read about below.
    vlermv
    cache
    serializers
+   archive
    transformers
    acid
    recipes
