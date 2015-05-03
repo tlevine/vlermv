@@ -35,9 +35,10 @@ def test_from_path():
 testcases_attrs = product(['binary_mode', 'cache_exceptions'],
                           [None, True, False])
 @pytest.mark.parametrize('attr, attr_value', testcases_attrs)
-def test_attrs():
+def test_attrs(attr, attr_value):
     'binary_mode and cache_exceptions should be passed properly.'
-    t = object()
+    class t:
+        pass
     if attr_value != None:
         setattr(t, attr, attr_value)
     a = archive(transformer = t)
