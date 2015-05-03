@@ -1,3 +1,5 @@
+.. transformers_
+
 Key transformers
 ----------------------------
 Vlermv uses the rather basic :py:data:`~vlermv.transformers.simple`

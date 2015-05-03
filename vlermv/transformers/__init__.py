@@ -9,7 +9,7 @@ class archive:
         Wrap a transformer to add a date component to a path.
 
         :param transformer: Transformer to be wrapped
-        :type transformer: transformer
+        :type transformer: :ref:`transformer <transformers>`
         :param str date_format: This gets passed to
             :py:meth:`datetime.datetime.strftime`, and the result of this gets
             added to the file's path. Use :samp:`'%Y-%m-%d'`, for example,

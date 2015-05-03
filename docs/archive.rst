@@ -16,8 +16,7 @@ the RSS feed that I download, so I want to save it for future reference.
 
 That is what :py:class:`vlermv.transformers.archive` is for.
 
-.. py:class:`vlermv.transformers.archive`
-
+.. autoclass:: vlermv.transformers.archive
 
 How to think about it
 ----------------------------
