@@ -86,7 +86,7 @@ And you can mix these formats! ::
 
 Creating an archive transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. py:class:: vlermv.transformers.archive
+.. autoclass:: vlermv.transformers.archive
 
 Creating a transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
