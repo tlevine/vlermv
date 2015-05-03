@@ -6,7 +6,7 @@ class Base:
     dumped_obj = ''
 
     def tmp(self):
-        if getattr(self.serializer, 'vlermv_binary_mode', False):
+        if getattr(self.serializer, 'binary_mode', False):
             b = 'b'
         else:
             b = ''
@@ -32,7 +32,7 @@ class Base:
             (self.obj, 'This is not an exception.'),
         ]
         for obj in objs:
-            if getattr(self.serializer, 'vlermv_cache_exceptions', False):
+            if getattr(self.serializer, 'cache_exceptions', False):
                 with self.tmp() as fp:
                     self.serializer.dump(obj, fp)
                     fp.seek(0)

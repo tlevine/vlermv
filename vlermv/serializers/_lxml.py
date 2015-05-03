@@ -7,8 +7,8 @@ class _meta_xml:
     def load(fp):
         return self.module.fromstring(fp.read())
 
-    vlermv_cache_exceptions = False
-    vlermv_binary_mode = False
+    cache_exceptions = False
+    binary_mode = False
 
 try:
     import lxml

@@ -51,11 +51,11 @@ class Vlermv:
             can't cache exceptions
         '''
 
-        if cache_exceptions and not getattr(serializer, 'vlermv_cache_exceptions', True):
+        if cache_exceptions and not getattr(serializer, 'cache_exceptions', True):
             msg = 'Serializer %s cannot cache exceptions.'
             raise TypeError(msg % repr(serializer))
 
-        self.binary_mode = getattr(serializer, 'vlermv_binary_mode', False)
+        self.binary_mode = getattr(serializer, 'binary_mode', False)
 
         self.func = None
 

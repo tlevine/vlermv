@@ -8,12 +8,12 @@ class _identity:
     def load(fp):
         return fp.read()
 
-    vlermv_cache_exceptions = False
+    cache_exceptions = False
 
 class identity_str(_identity):
     'Dump and load raw strings.'
-    vlermv_binary_mode = False
+    binary_mode = False
 
 class identity_bytes(_identity):
     'Dump and load raw bytes.'
-    vlermv_binary_mode = True
+    binary_mode = True

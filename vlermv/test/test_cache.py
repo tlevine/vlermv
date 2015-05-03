@@ -139,7 +139,7 @@ def test_type():
 
 def test_cache_exceptions_type_checker():
     import json
-    json.vlermv_cache_exceptions = False
+    json.cache_exceptions = False
     tmp = mkdtemp()
 
     with pytest.raises(TypeError):

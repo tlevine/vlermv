@@ -21,7 +21,7 @@ A serializer is a Python object with the following methods.
 
 It optionally includes two boolean properties.
 
-.. py:attribute:: vlermv_binary_mode
+.. py:attribute:: binary_mode
 
    Should binary modes be used for opening file pointers?
    Default is :py:const:`False`.
@@ -35,7 +35,7 @@ It optionally includes two boolean properties.
        open(filename, 'r')
        open(filename, 'w')
 
-.. py:attribute:: vlermv_cache_exceptions
+.. py:attribute:: cache_exceptions
 
    Is caching of exceptions is supported? Default is :py:const:`True`.
    This is relevant when the serializer is used with
@@ -135,8 +135,8 @@ and so is :py:func:`simple_identity`. ::
         def load(fp):
             return fp.read()
 
-        vlermv_binary_mode = True
-        vlermv_cache_exceptions = False
+        binary_mode = True
+        cache_exceptions = False
 
 On the other hand, :py:mod:`pickle` does not function properly as a
 serializer. ::
@@ -146,7 +146,7 @@ serializer. ::
 This is because pickle requires that file pointers be opened in binary
 mode rather than string mode; the Vlermv's default
 :py:data:`~vlermv.serializers.pickle` serializer thus has to set
-:py:attr:`vlermv_binary_mode` to :py:const:`True`.
+:py:attr:`binary_mode` to :py:const:`True`.
 
 .. literalinclude:: ../vlermv/serializers/pickle.py
 
