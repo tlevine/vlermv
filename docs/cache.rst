@@ -130,4 +130,4 @@ any arguments; if you naively try something like this, you'll get an error.
 
 This happens because :py:func:`~vlermv.Vlermv` doesn't have anything to
 form a key from; all it has is an empty :py:class:`tuple`. When this happens,
-consider using :py:func:`vlermv.serializers.archive`.
+consider using :py:func:`vlermv.transformers.archive`.

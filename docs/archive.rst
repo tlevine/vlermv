@@ -14,9 +14,9 @@ The RSS feed is always in the same place, but its contents change based on
 what new articles have been added. I'm going to do lots of stuff based on
 the RSS feed that I download, so I want to save it for future reference.
 
-That is what :py:func:`vlermv.transformers.archive` is for.
+That is what :py:class:`vlermv.transformers.archive` is for.
 
-.. py:func:`vlermv.transformers.archive`
+.. py:class:`vlermv.transformers.archive`
 
 
 How to think about it
