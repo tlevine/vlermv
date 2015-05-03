@@ -24,6 +24,20 @@ documents quickly. I could do this. ::
 
 :py:obj:`index` could also be a :py:class:`~vlermv.Vlermv`, of course.
 
+.. _fs:
+
+Not reinventing the wheel
+-----------------------------------------------
+
+Vlermv is all about mapping Python objects to files in a normal filesystem.
+Thus, you'll wind up using general file manipulation tools for more things
+than you might expect.
+
+For starters, you can use :command:`rsync` for replication;
+shell (:command:`ls`, :command:`cat`, :command:`find`, &c.)
+for ad-hoc queries and backups; and
+:command:`chmod` and :command:`chown` for permissions management.
+
 .. _sharding:
 
 Sharding
@@ -94,14 +108,6 @@ per field.
 Considering that you have been using Mongo, it is likely that you can switch
 the Vlermv's default pickle serializer for something faster and with more
 constraints. Consider using :py:mod:`bson` or :py:mod:`json`.
-
-Vlermv is all about mapping Python objects to files in a normal filesystem.
-Thus, you'll wind up using general file manipulation tools for things that
-you otherwise would have used Mongo features for.
-You can use :command:`rsync` for replication;
-shell (:command:`ls`, :command:`cat`, :command:`find`, &c.)
-for ad-hoc queries and backups; and
-:command:`chmod` and :command:`chown` for permissions management.
 
 If you are using GridFS simply to store and retrieve file contents, you
 can put those contents directly into Vlermv. If you are accessing the file

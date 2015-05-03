@@ -28,6 +28,7 @@ Vlermv has many other features that you may read about below.
 .. toctree::
    :maxdepth: 3
 
+   solutions
    vlermv
    cache
    serializers

@@ -3,13 +3,14 @@ Should I use Vlermv?
 Before I tell you how to use Vlermv, let me help you decide whether
 it's worth using at all.
 
-
 When to use Vlermv
 ------------------------------------
 Here are some situations in which Vlermv might be helpful.
 
 You are manipulating lots of files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Vlermv maps ordinary files to Python objects. If you are manipulating
+lots of files in Python, Vlermv might make your code a lot more legible!
 
 You want a lightweight NoSQL database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -19,11 +20,16 @@ a good place if you want to reduce the complexity of your system, which
 might occur because have strong security requirements or because you
 just want to keep things simple.
 
-You might also consider LevelDB.
+You might also consider `LevelDB <http://leveldb.org/>`_
+(`Python bindings <https://pypi.python.org/pypi/leveldb>`_).
 
-Long-term...
+Reduced dependence on your database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If vlermv stops being supported, there are still files
+Because Vlermv maps everything onto ordinary files, you usually never
+need to "export" your data; they're already in a pretty legible format.
+Moreover, since Vlermv's native format is an ordinary filesystem,
+you can use :ref:`standard file manipulation tools <fs>`
+to do anything that you find Vlermv to be lacking.
 
 When not to use Vlermv
 --------------------------
