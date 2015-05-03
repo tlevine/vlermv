@@ -20,6 +20,7 @@ class Vlermv:
     def __init__(self, cachedir,
             serializer = pickle,
             key_transformer = simple,
+            appendable = True,
             mutable = True,
             tempdir = '.tmp',
             cache_exceptions = False):
@@ -37,8 +38,12 @@ class Vlermv:
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of cachedir to use for temporary files
 
-        This one is mostly relevant for initialization via :py:func:`vlermv.cache`.
+        These are mostly relevant for initialization via :py:func:`vlermv.cache`.
 
+        :param bool appendable: Whether new values can be added to the Vlermv
+            (Set this to False to ensure that the decorated function is never
+            run and that the all results are cached; this is useful for reviewing
+            old data in a read-only mode.)
         :param bool cache_exceptions: If the decorated function raises
             an exception, should the failure and exception be cached?
             The exception is raised either way.
@@ -56,6 +61,7 @@ class Vlermv:
 
         self.cachedir = os.path.expanduser(cachedir)
         self.serializer = serializer
+        self.appendable = appendable
         self.mutable = mutable
         self.transformer = key_transformer
         self.tempdir = os.path.join(self.cachedir, tempdir)
