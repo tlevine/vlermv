@@ -1,4 +1,4 @@
-import datetime
+from itertools import product
 
 import pytest
 
@@ -23,7 +23,28 @@ def test_position(position):
     else:
         raise AssertionError('My test is broken.')
 
-def test_to_path():
-    'to_path should be the same as normal.'
+def test_from_path():
+    'from_path should be the same as normal.'
+    class t:
+        @staticmethod
+        def from_path(_):
+            return 'abc'
+    a = archive(transformer = t)
+    assert a.from_path(('one', 'two', 'three', 'four')) == 'abc'
+
+testcases_attrs = product(['binary_mode', 'cache_exceptions'],
+                          [None, True, False])
+@pytest.mark.parametrize('attr, attr_value', testcases_attrs)
+def test_attrs():
+    'binary_mode and cache_exceptions should be passed properly.'
+    t = object()
+    if attr_value != None:
+        setattr(t, attr, attr_value)
+    a = archive(transformer = t)
+
+    if attr_value == None:
+        assert not hasattr(a, attr)
+    else:
+        assert getattr(a, attr) == attr_value
 
 #@pytest.mark.parameterize('position, transformer, key', testcases_position):
