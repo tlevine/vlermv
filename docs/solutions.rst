@@ -72,3 +72,24 @@ you might try implementing it in Vlermv.
 For example, you can combine several Vlermv instances to create a more powerful
 query language, to create indexes, and to cache the output of complex queries,
 to represent graph structures, and to join across datasets.
+
+Alternatives to Vlermv
+------------------------------------------
+Here are some things that you might consider instead of Vlermv.
+
+Lightweight databases and ORMs
+
+* :py:mod:`shelve`
+* `pickleDB <http://pythonhosted.org/pickleDB/>`_
+* `LevelDB <http://leveldb.org/>`_
+* `SQLite <http://sqlite.org/>`_
+* `Dataset <http://dataset.readthedocs.org/>`_
+
+Convenient file access
+
+* :py:mod:`pathlib`
+
+You can also do files the old fashioned way; see :py:mod:`os.path`,
+:py:func:`open`. :py:func:`os.makedirs` and :py:func:`shutil.rmtree`
+are pretty nice too. This is all a tiny bit easier in Python 3,
+largely because the encodings of a string is more obvious.
