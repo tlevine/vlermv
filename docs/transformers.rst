@@ -82,6 +82,10 @@ And you can mix these formats! ::
     # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
     vlermv[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
 
+Creating an archive transformer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. py:class:: vlermv.transformers.archive
+
 Creating a transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 A transformer converts keys to paths and paths to keys, where keys
