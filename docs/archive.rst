@@ -23,3 +23,16 @@ That is what the :py:func:`~vlermv.archive` [argument? decorator?] is for.
 .. py:data:`archive_daily`
 .. py:data:`archive_weekly`
 .. py:data:`archive_yearly`
+
+The archive decorator simply manipulates the path after the
+::::`transformer` has been applied.
+
+There are three components to the archive setting.
+
+Interval
+    millisecond, second, minute, hour, day, week, month
+append_random
+    Whether to append a random number after the date, just in case there
+    are multiple calls within the same millisecond
+position
+    left (at the beginning of the path), right (end), replace
