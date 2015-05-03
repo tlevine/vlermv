@@ -4,10 +4,11 @@ from . import tuple
 def archive(transformer = tuple,
             interval = 'day',
             position = 'left',
-            append_random = False,
+            append_random = False):
     '''
     Wrap a transformer to add a date component to a path.
     '''
+    """
 Interval
     millisecond, second, minute, hour, day, week, month, default is day
 append_random
@@ -18,3 +19,4 @@ position
     (should there also be a "replace" option? i think
 
 @cache(transformer = vlermv.transformers.archive(vlermv.transformers.tuple)
+    """
