@@ -31,48 +31,23 @@ We don't put it in the function signature because we don't have a good
 way of encoding the entire state of the world and thus can only run the
 function on the present state of the world.
 
-*the date at which a function is run* to functions
-like this.
-Moreover, the date is usually very meaningful for functions like this;
-When functions give different results on different runs, it is because the
-state of the world has changed between the different runs.
-
-
-
+But we know enough about the state of the world to give it a meaningful
+name in our records. Each moment in time corresponds to a unique state
+of the world (ignoring quantum effects and special relativity and other
+things that I don't understand), so we can record simply the date and
+time at which a function was run rather than recoring the entire state
+of the world. :py:func:`~vlermv.transformers.archive` appends the
+datetime at which a function was run to the path emitted by the
+:py:mod:`transformer <vlermv.transformers>` that it wraps.
 
 How it works
 ----------------------
-:py:class:`~vlermv.Vlermv` only save things if its keys aren't empty.
+:py:class:`~vlermv.Vlermv` cannot save an object whose path is empty;
+if it received an empty path, it would not know what the filename should be.
 :py:func:`~vlermv.cache` uses the decorated function's arguments as a
-key, so it is possible that the key will be an empty tuple.
+key, so the key will be an empty tuple if your function takes no arguments.
+With the default tuple transformer, this empty tuple turns into an empty
+path, and an error is raised.
+
 :py:func:`~vlermv.transformers.archive` changes the transformer to add
 the date to the path; this way, the path won't be empty.
-
-
-
-
-works when you can form a meaningful
-filename from the arguments to the function you are decorating. Sometimes
-you can't.
-
-
-.. py:data:`archive_minutely`
-.. py:data:`archive_hourly`
-.. py:data:`archive_daily`
-.. py:data:`archive_weekly`
-.. py:data:`archive_yearly`
-
-The archive decorator simply manipulates the path after the
-::::`transformer` has been applied.
-
-There are three components to the archive setting.
-
-Interval
-    millisecond, second, minute, hour, day, week, month, default is day
-append_random
-    Whether to append a random number after the date, just in case there
-    are multiple calls within the same millisecond, default is False
-position
-    left (at the beginning of the path), right (end), replace, default is left
-
-@cache(transformer = vlermv.transformers.archive(vlermv.transformers.tuple)
