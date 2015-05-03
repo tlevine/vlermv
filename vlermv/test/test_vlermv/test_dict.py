@@ -154,3 +154,11 @@ class TestVlermv(Base):
         expected = {(('a', 'b', 'c', 'd'), 9), (('z',),str)}
 
         assert observed == expected
+
+    def test_appendable(self):
+        self.w.appendable = True
+        self.w[('a',)] = 1
+        self.w.appendable = False
+        self.w[('a',)] = 2
+        with pytest.raises(PermissionError):
+            self.w[('b',)] = 1
