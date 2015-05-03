@@ -90,6 +90,6 @@ Convenient file access
 * :py:mod:`pathlib`
 
 You can also do files the old fashioned way; see :py:mod:`os.path`,
-:py:func:`open`. :py:func:`os.makedirs` and :py:func:`shutil.rmtree`
-are pretty nice too. This is all a tiny bit easier in Python 3,
-largely because the encodings of a string is more obvious.
+:py:func:`open`, :py:func:`os.makedirs`, and :py:func:`shutil.rmtree`.
+This is all a tiny bit easier in Python 3, largely because the
+encodings of a string is more obvious.
