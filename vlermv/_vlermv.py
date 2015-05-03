@@ -131,8 +131,11 @@ There's probably a problem with the serializer.''')
     def __setitem__(self, index, obj):
         fn = self.filename(index)
         os.makedirs(os.path.dirname(fn), exist_ok = True)
-        if (not self.mutable) and os.path.exists(fn):
+        exists = os.path.exists(fn)
+        if (not self.mutable) and exists:
             raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
+        elif (not self.appendable) and (not exists):
+            raise PermissionError('This warehouse not appendable, and %s does not exist.' % fn)
         else:
             tmp = mktemp(self.tempdir)
             with open(tmp, 'w' + self._b()) as fp:
