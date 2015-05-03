@@ -17,9 +17,11 @@ def test_position(position):
     if position == 'left':
         assert observed[0] == 'DATE'
         assert observed[1:] == key
-    elif position == 'left':
+    elif position == 'right':
         assert observed[-1] == 'DATE'
         assert observed[:-1] == key
+    else:
+        raise AssertionError('My test is broken.')
 
 def test_to_path():
     'to_path should be the same as normal.'
