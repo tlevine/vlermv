@@ -2,7 +2,7 @@ import datetime
 from . import tuple
 
 def archive(transformer = tuple,
-            precision = 'day',
+            date_format = '%Y-%m-%d',
             position = 'left',
             now = datetime.date.now):
     '''
@@ -10,9 +10,11 @@ def archive(transformer = tuple,
 
     :param transformer: Transformer to be wrapped
     :type transformer: transformer
-    :param str precision: How precise should the date component be?
-        Options are 'millisecond', 'second', 'minute', 'hour', 'day',
-        'week', and 'month'.
+    :param str date_format: This gets passed to
+        :py:meth:`datetime.datetime.strftime`, and the result of this gets
+        added to the file's path. Use :samp:`'%Y-%m-%d'`, for example,
+        if you want to get new data once per day, or :samp:`'%Y-%m-%d %H:00'`
+        if you want it every hour.
     :param str position: Should the date be added to the beginning
         of the path (:samp:`'left'`) or the end of the path
         (:samp:`'right'`). If (:samp:`'left'`), the new path will be
