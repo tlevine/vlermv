@@ -30,9 +30,11 @@ The archive decorator simply manipulates the path after the
 There are three components to the archive setting.
 
 Interval
-    millisecond, second, minute, hour, day, week, month
+    millisecond, second, minute, hour, day, week, month, default is day
 append_random
     Whether to append a random number after the date, just in case there
-    are multiple calls within the same millisecond
+    are multiple calls within the same millisecond, default is False
 position
-    left (at the beginning of the path), right (end), replace
+    left (at the beginning of the path), right (end), replace, default is left
+
+@cache(transformer = vlermv.transformers.archive(vlermv.transformers.tuple)
