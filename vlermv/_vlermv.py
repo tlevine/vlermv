@@ -37,7 +37,7 @@ class Vlermv:
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of cachedir to use for temporary files
 
-        This stuff one is mostly relevant for initialization via :py:func:`vlermv.cache`.
+        This one is mostly relevant for initialization via :py:func:`vlermv.cache`.
 
         :param bool cache_exceptions: If the decorated function raises
             an exception, should the failure and exception be cached?
