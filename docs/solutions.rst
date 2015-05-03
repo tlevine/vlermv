@@ -20,8 +20,8 @@ a good place if you want to reduce the complexity of your system, which
 might occur because have strong security requirements or because you
 just want to keep things simple.
 
-You might also consider `LevelDB <http://leveldb.org/>`_
-(`Python bindings <https://pypi.python.org/pypi/leveldb>`_).
+You might also consider `LevelDB <http://leveldb.org/>`_ and its
+`Python bindings <https://pypi.python.org/pypi/leveldb>`_.
 
 Reduced dependence on your database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
