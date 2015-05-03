@@ -117,3 +117,17 @@ can do fun things like changing the serialization function. ::
     @vlermv.cache('~/.http', serializer = vlermv.serializers.identity_str)
     def get(url):
         return requests.get(url).text
+
+Decorating a function that takes no arguments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I have discussed how you can use the :py:func:`~vlermv.cache` decorator
+when your function takes arguments. Sometimes your function doesn't take
+any arguments; if you naively try something like this, you'll get an error.
+
+    @vlermv.cache()
+    def take_picture():
+        return my_webcam.take_picture()
+
+This happens because :py:func:`~vlermv.Vlermv` doesn't have anything to
+form a key from; all it has is an empty :py:class:`tuple`. When this happens,
+consider using :py:func:`vlermv.serializers.archive`.

@@ -8,6 +8,6 @@ setup(name='vlermv',
       packages=['vlermv', 'vlermv.serializers', 'vlermv.transformers'],
       install_requires = [],
       tests_require = ['pytest>=2.6.4'],
-      version='1.0.1',
+      version='1.1.0',
       license='AGPL',
 )
