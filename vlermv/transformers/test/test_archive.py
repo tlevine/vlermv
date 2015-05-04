@@ -10,10 +10,10 @@ def test_position(position):
     key = (1, 2, 3)
     class t:
         @staticmethod
-        def from_path(_):
+        def to_path(_):
             return key
     a = archive(transformer = t, date_format = 'DATE', position = position)
-    observed = a.from_path(key)
+    observed = a.to_path(key)
     if position == 'left':
         assert observed[0] == 'DATE'
         assert observed[1:] == key
@@ -23,14 +23,14 @@ def test_position(position):
     else:
         raise AssertionError('My test is broken.')
 
-def test_to_path():
-    'to_path should be the same as normal.'
+def test_from_path():
+    'from_path should be the same as normal.'
     class t:
         @staticmethod
-        def to_path(_):
+        def from_path(_):
             return 'abc'
     a = archive(transformer = t)
-    assert a.to_path(('one', 'two', 'three', 'four')) == 'abc'
+    assert a.from_path(('one', 'two', 'three', 'four')) == 'abc'
 
 testcases_attrs = product(['binary_mode', 'cache_exceptions'],
                           [None, True, False])
