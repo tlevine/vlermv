@@ -30,7 +30,7 @@ def to_path(index):
 def parse(index):
     for theclass in [basestring, datetime.date, datetime.datetime, int, type(None)]:
         if isinstance(index, theclass):
-            yield parse_partial(index) # tuple
+            yield from parse_partial(index) # tuple
             break
     else:
         yield from itertools.chain(*map(parse, index)) # iterable
@@ -54,7 +54,8 @@ def parse_partial(item):
         func = lambda _: ('',)
     else:
         raise ValueError('item must be string, datetime.date, datetime.datetime or int')
-    return func(item)
+    return tuple(func(item))
+#   yield from func(item)
 
 def parse_partial_text(item):
     for a in parse_partial_url(item):
