@@ -113,6 +113,11 @@ There's probably a problem with the serializer.''')
         '''
         Get the filename corresponding to a key; that is, run the
         transformer on the key.
+
+        :raises TypeError: if the transformer returns something other than
+            a :py:class:`tuple`
+        :returns: the filename
+        :rtype: str
         '''
         subpath = self.transformer.to_path(index)
         if not isinstance(subpath, tuple):

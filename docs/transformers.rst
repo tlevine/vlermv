@@ -1,4 +1,4 @@
-.. transformers_
+.. _transformers:
 
 Key transformers
 ----------------------------
@@ -133,9 +133,18 @@ use the magic transformer. ::
 All paths are relative the vlermv root, and absolute directories are
 converted to relative paths.
 
-.. empty_paths_
+When tuple paths are created from file names in
+:py:func:`vlermv.Vlermv.keys` or  :py:func:`vlermv.Vlermv.items`,
+they contain none of the elements:
+:py:obj:`'/'`, :py:obj:`'.'`, or :py:obj:`'..'`.
+That is, they are normal and relative. For example,
+a path :file:`./a/b/c` becomes :py:obj:`('a', 'b', 'c')`.
 
-Also, some paths are not allowed. An attempt to use empty paths, paths
+.. _empty:
+
+Empty paths
+^^^^^^^^^^^^^^^
+Some paths are not allowed. An attempt to use empty paths, paths
 resolving to :file:`./`, and relative paths outside of the vlermv root
 will raise an error. Here are more complex examples.
 
@@ -150,13 +159,6 @@ Vlermv tuple path                      Ordinary string path
 :py:obj:`('', '', '')`                 (Not allowed)
 ``tuple()``                            (Not allowed)
 ===================================    =========================
-
-When tuple paths are created from file names in
-:py:func:`vlermv.Vlermv.keys` or  :py:func:`vlermv.Vlermv.items`,
-they contain none of the elements:
-:py:obj:`'/'`, :py:obj:`'.'`, or :py:obj:`'..'`.
-That is, they are normal and relative. For example,
-a path :file:`./a/b/c` becomes :py:obj:`('a', 'b', 'c')`.
 
 Transformer API
 ^^^^^^^^^^^^^^^^^^^^^^^

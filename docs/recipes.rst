@@ -1,3 +1,5 @@
+.. _recipes:
+
 Recipes
 =============================
 Vlermv provides the building blocks for some more complex database

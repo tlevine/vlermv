@@ -44,3 +44,4 @@ There are several parameters that you can change when initializing Vlermv,
 and we'll discuss those in later sections.
 
 .. autoclass:: vlermv.Vlermv
+    :members:
