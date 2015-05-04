@@ -4,7 +4,7 @@ from ._delimit import ( slash, backslash, )
 class archive:
     import datetime
     def __init__(self, transformer = tuple, date_format = '%Y-%m-%d',
-                 position = 'left', now = datetime.datetime.now):
+                 position = 'right', now = datetime.datetime.now):
         '''
         Wrap a transformer to add a date component to a path.
 
