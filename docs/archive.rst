@@ -27,7 +27,7 @@ Consider the following function. ::
 
 This function takes no arguments, but its value might change if you run
 it several times (especially if you open or close the door). This is
-because the function really does have an argument, *implicitly*: the state
+because the function really does implicitly have an argument: the state
 of the entire world at the moment that the function is run.
 
 We don't put it in the function signature because we don't have a good
@@ -45,7 +45,7 @@ datetime at which a function was run to the path emitted by the
 
 How it works
 ----------------------
-:py:class:`~vlermv.Vlermv` cannot save an object whose path is :ref:`empty`;
+:py:class:`~vlermv.Vlermv` cannot save an object whose path is :ref:`empty <empty>`;
 if it received an empty path, it would not know what the filename should be.
 :py:func:`~vlermv.cache` uses the decorated function's arguments as a
 key, so the key will be an empty tuple if your function takes no arguments.

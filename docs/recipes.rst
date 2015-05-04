@@ -100,7 +100,7 @@ Most likely, each Mongo collection should correspond to a Vlermv instance.
 Instead of Object IDs, you have Vlermv keys (filenames), and instead of
 documents you have Vlermv values (file contents).
 
-See the above discussion on :ref:`sharding` for ideas on implementing
+See the above discussion on :ref:`sharding <sharding>` for ideas on implementing
 sharding in Vlermv.
 
 If you need to make isolated updates on properties of your documents,

@@ -1,6 +1,7 @@
 History
 =====================
-I wrote `pickle warehouse <https://pypi.python.org/pypi/pickle-warehouse>`_
+I (`Thomas Levine <https://thomaslevine.com/>`_)
+wrote `pickle warehouse <https://pypi.python.org/pypi/pickle-warehouse>`_
 so I could easily store pickles in files with meaningful names.
 Then I extended it to support more than just pickles. Then I wrote
 `picklecache <https://pypi.python.org/pypi/picklecache>`_, mainly for caching
