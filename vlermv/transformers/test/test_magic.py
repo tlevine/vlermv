@@ -9,6 +9,7 @@ def test_to_path():
 
 def test_from_path():
     assert from_path(('a',)) == ('a',)
+    assert from_path(('a', 3,)) == ('a', '3',)
 
 parse = to_path
 
