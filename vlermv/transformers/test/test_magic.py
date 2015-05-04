@@ -6,10 +6,10 @@ from .. magic import parse_partial, safe_type, from_path, to_path
 
 def test_to_path():
     assert to_path(('a',)) == ('a',)
+    assert to_path(('a', 3,)) == ('a', '3',)
 
 def test_from_path():
     assert from_path(('a',)) == ('a',)
-    assert from_path(('a', 3,)) == ('a', '3',)
 
 parse = to_path
 
