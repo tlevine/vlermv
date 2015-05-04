@@ -33,8 +33,15 @@ class archive:
             if hasattr(transformer, attr):
                 setattr(self, attr, getattr(transformer, attr))
 
-    def to_path(self, key):
-        path = self.base_transformer.to_path(key)
+    def to_path(self, filename):
+        '''
+        Use the to_path from the base transformer;
+        dates get included when you call Vlermv.keys().
+        '''
+        return self.base_transformer.to_path(filename)
+
+    def from_path(self, key):
+        path = self.base_transformer.from_path(key)
         date = self.now().strftime(self.date_format)
         if self.position == 'left':
             return (date,) + path
@@ -42,10 +49,3 @@ class archive:
             return path + (date,)
         else:
             raise ValueError('"%s" is not a valid position.' % self.position)
-
-    def from_path(self, obj):
-        '''
-        Use the from_path from the base transformer;
-        dates get included when you call Vlermv.keys().
-        '''
-        return self.base_transformer.from_path(obj)
