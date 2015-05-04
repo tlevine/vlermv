@@ -115,7 +115,8 @@ There's probably a problem with the serializer.''')
         transformer on the key.
 
         :raises TypeError: if the transformer returns something other than
-            a :py:class:`tuple`
+            a :py:class:`tuple` of :py:class:`strings <str>`
+        :raises KeyError: if the transformer returns an empty path
         :returns: the filename
         :rtype: str
         '''
