@@ -12,7 +12,7 @@ from .transformers import simple
 
 class Vlermv:
     '''
-    Fancy database with a :py:class:`dict` :abbr:`API`.
+    Fancy database with a :py:class:`dict` API.
     '''
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
