@@ -84,10 +84,6 @@ And you can mix these formats! ::
     # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
     vlermv[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
 
-Creating an archive transformer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autoclass:: vlermv.transformers.archive
-
 Creating a transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 A transformer converts keys to paths and paths to keys, where keys
@@ -136,6 +132,8 @@ use the magic transformer. ::
 
 All paths are relative the vlermv root, and absolute directories are
 converted to relative paths.
+
+.. empty_paths_
 
 Also, some paths are not allowed. An attempt to use empty paths, paths
 resolving to :file:`./`, and relative paths outside of the vlermv root

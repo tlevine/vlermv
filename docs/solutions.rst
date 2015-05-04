@@ -52,18 +52,12 @@ You might still find that a dictionary interface to your data is
 convenient. Tell Tom if you want one, and he might write it
 (either inside vlermv or in a different package).
 
-When you could use Vlermv if you extended it
+Sometimes you could use Vlermv if you extended it
 ---------------------------------------------------
-Here are some things that would probably be easy to implement in Vlermv.
-See the :ref:`recipes` section for more on this.
 
-You require transactions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If you require transactions, you can implement them with your own lock
-files and temporary directories inside of the Vlermv directory.
+.. You require database features that aren't available in Vlermv
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You require database features that aren't available in Vlermv
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Vlermv contains many standard database features, and your feature
 requirements can sometimes be adjusted by changing your schema.
 If you thing Vlermv would be appropriate if it had just one more feature,
@@ -72,6 +66,11 @@ you might try implementing it in Vlermv.
 For example, you can combine several Vlermv instances to create a more powerful
 query language, to create indexes, and to cache the output of complex queries,
 to represent graph structures, and to join across datasets.
+
+If you require transactions, you can implement them with your own lock
+files and temporary directories inside of the Vlermv directory.
+
+See the :ref:`recipes` section for more on this.
 
 Alternatives to Vlermv
 ------------------------------------------

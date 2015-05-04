@@ -3,7 +3,8 @@ Vlermv
 .. py:module:: vlermv
 
 Vlermv provides a dictionary-like object that is associated with a particular
-directory on your computer. Here's an introduction in six lines of Python.
+directory on your computer. Here's an introduction in one line of shell and
+five lines of Python.
 
 Install from PyPI. ::
 
@@ -23,6 +24,7 @@ Alternatively, you can cache a function's results with :py:func:`vlermv.cache`. 
     def f(x):
         return x + 8
 
+Of course, this is just the tip of the iceberg;
 Vlermv has many other features that you may read about below.
 
 .. toctree::

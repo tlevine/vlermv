@@ -45,7 +45,7 @@ datetime at which a function was run to the path emitted by the
 
 How it works
 ----------------------
-:py:class:`~vlermv.Vlermv` cannot save an object whose path is empty;
+:py:class:`~vlermv.Vlermv` cannot save an object whose path is :ref:`empty`;
 if it received an empty path, it would not know what the filename should be.
 :py:func:`~vlermv.cache` uses the decorated function's arguments as a
 key, so the key will be an empty tuple if your function takes no arguments.
