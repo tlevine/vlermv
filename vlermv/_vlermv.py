@@ -127,7 +127,7 @@ There's probably a problem with the serializer.''')
         elif len(subpath) == 0:
             raise KeyError('You specified an empty key.')
         elif not all(isinstance(x, str) for x in subpath):
-            msg = 'Elements of subpath should all be str.'
+            msg = 'Elements of subpath should all be str; here is subpath:\n%s' % repr(subpath)
             raise TypeError(msg)
         return os.path.join(self.cachedir, *safe_path(subpath))
 
