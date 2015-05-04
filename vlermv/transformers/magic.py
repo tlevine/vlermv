@@ -25,14 +25,15 @@ def to_path(index):
     if not safe_type(index):
         warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
 
+    return tuple(filter(lambda x: x!= '', replace_special(parse(index))))
+
+def parse(index):
     for theclass in [basestring, datetime.date, datetime.datetime, int, type(None)]:
         if isinstance(index, theclass):
-            path = parse_partial(index)
+            yield parse_partial(index) # tuple
             break
     else:
-        path = itertools.chain(*map(parse_partial, index))
-
-    return tuple(filter(lambda x: x!= '', replace_special(path)))
+        yield from itertools.chain(*map(parse, index)) # iterable
 
 _special = {'.': '\\.', '..': '\\..', '.tmp': '\\.tmp'}
 def replace_special(path):
