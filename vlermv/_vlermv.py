@@ -17,7 +17,7 @@ class Vlermv:
 
     #: Should the cache directory be created when a Vlermv is initialized?
     #: This is is mostly relevant for testing.
-    mkdir = True
+    _mkdir = True
 
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
@@ -76,7 +76,7 @@ class Vlermv:
         self.tempdir = os.path.join(self.cachedir, tempdir)
         self.cache_exceptions = cache_exceptions
 
-        if Vlermv.mkdir:
+        if Vlermv._mkdir:
             os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):

@@ -174,8 +174,8 @@ def test_parent_directory():
 def test_mkdir(yes):
     # Set up
     d = tempfile.mktemp()
-    original = Vlermv.mkdir
-    Vlermv.mkdir = yes
+    original = Vlermv._mkdir
+    Vlermv._mkdir = yes
 
     assert not os.path.exists(d)
     v = Vlermv(d)
@@ -183,6 +183,6 @@ def test_mkdir(yes):
     assert os.path.isdir(d) == yes
 
     # tear down
-    Vlermv.mkdir = yes
+    Vlermv._mkdir = yes
     if os.path.exists(d):
         shutil.rmtree(d)
