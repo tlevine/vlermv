@@ -165,6 +165,7 @@ class TestVlermv(Base):
             self.w[('b',)] = 1
 
 def test_parent_directory():
+    Vlermv._mkdir = False
     assert Vlermv('.').cachedir == '.'
     assert Vlermv('a/b').cachedir == 'a/b'
     assert Vlermv('/tmp', parent_directory = './b').cachedir == '/tmp'
