@@ -115,3 +115,40 @@ If you are using GridFS simply to store and retrieve file contents, you
 can put those contents directly into Vlermv. If you are accessing the file
 metadata, consider writing a custom :py:mod:`serializer <vlermv.serializers>` or simply
 storing those files outside of Vlermv.
+
+Debugging
+-------------------
+If you want to look at the contents of a vlermv in the console, open Python
+shell and import the vlermv. Consider the following (abridged) exception
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   Traceback (most recent call last):
+     File "/home/tlevine/git/scott2/usace/public_notices/__init__.py", line 11, in public_notices
+       for link in parse.feed(download.feed(str(site))):
+     File "/home/tlevine/git/scott2/usace/public_notices/parse.py", line 10, in feed
+       rss = parse_xml_fp(StringIO(response.text))
+     File "/usr/lib/python3.4/xml/etree/ElementTree.py", line 1187, in parse
+       tree.parse(source, parser)
+     File "/usr/lib/python3.4/xml/etree/ElementTree.py", line 598, in parse
+       self._root = parser._parse_whole(source)
+   xml.etree.ElementTree.ParseError: syntax error: line 1, column 0
+
+I happen to know, because I wrote the program that generated the traceback,
+that :samp:`feed`,
+from :samp:`for link in parse.feed(download.{feed}(str(site)))`
+is a function cached with vlermv and that it is defined in the module
+:samp:`usace.public_notices.download` as :samp:`feed`.
+
+To inspect the vlermv, open another console, and type this. ::
+
+    from usace.public_notices.download import feed
+
+:samp:`feed` is a vlermv, so now I can look at the data however I like. ::
+
+    print(list(feed.keys()))
+
+This query is wound up uncovering the problem. ::
+
+    print(feed[('461',)])
