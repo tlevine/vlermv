@@ -30,7 +30,8 @@ def cache(*args, key_transformer = _tuple, **kwargs):
             _args = (func.__name__,)
         else:
             _args = args
-        v = Vlermv(*_args, key_transformer = key_transformer, **kwargs)
+        v = Vlermv(*_args, key_transformer = key_transformer,
+            parent_directory = kwargs.pop('parent_directory', ''), **kwargs)
         v.func = func
         return v
     return decorator
