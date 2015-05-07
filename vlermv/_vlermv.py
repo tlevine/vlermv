@@ -24,7 +24,8 @@ class Vlermv:
             mutable = True,
             tempdir = '.tmp',
             parent_directory = '',
-            cache_exceptions = False):
+            cache_exceptions = False,
+            make_dirs = True):
         '''
         :param str cachedir: Top-level directory of the vlermv
         :param serializer: A thing with dump and load functions for
@@ -53,6 +54,11 @@ class Vlermv:
             The exception is raised either way.
         :raises TypeError: If cache_exceptions is True but the serializer
             can't cache exceptions
+
+        And this one is mostly relevant for testing.
+
+        :param make_dirs bool: Should the cache directory be created during
+            initialization of the vlermv?
         '''
 
         if cache_exceptions and not getattr(serializer, 'cache_exceptions', True):
@@ -71,7 +77,8 @@ class Vlermv:
         self.tempdir = os.path.join(self.cachedir, tempdir)
         self.cache_exceptions = cache_exceptions
 
-        os.makedirs(self.tempdir, exist_ok = True)
+        if make_dirs:
+            os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):
         if not self.func:

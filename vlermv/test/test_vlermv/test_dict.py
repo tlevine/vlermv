@@ -168,3 +168,11 @@ def test_parent_directory():
     assert Vlermv('a/b').cachedir == 'a/b'
     assert Vlermv('/tmp', parent_directory = './b').cachedir == '/tmp'
     assert Vlermv('.tmp', parent_directory = './b').cachedir == './b/.tmp'
+
+testcases_make_dirs = [(True, True), (False, False)]
+@pytest.mark.parametrize('make_dirs, exists', testcases_make_dirs)
+def test_make_dirs(make_dirs, exists):
+    d = tempfile.mkdtemp()
+    v = Vlermv(d, make_dirs = make_dirs)
+    assert v.cachedir == d
+    assert os.path.isdir(d) == exists
