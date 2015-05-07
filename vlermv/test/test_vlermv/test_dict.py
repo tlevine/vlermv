@@ -162,3 +162,9 @@ class TestVlermv(Base):
         self.w[('a',)] = 2
         with pytest.raises(PermissionError):
             self.w[('b',)] = 1
+
+def test_parent_directory():
+    assert Vlermv('.').cachedir == '.'
+    assert Vlermv('a/b').cachedir == 'a/b'
+    assert Vlermv('/tmp', parent_directory = './b').cachedir == '/tmp'
+    assert Vlermv('.tmp', parent_directory = './b').cachedir == './b/.tmp'
