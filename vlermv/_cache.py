@@ -1,6 +1,6 @@
 from functools import partial
 
-from .transformers import tuple as _tuple
+from .transformers import tuple as _tuple, magic, archive
 from ._vlermv import Vlermv
 
 def cache(*args, key_transformer = _tuple, **kwargs):
@@ -34,3 +34,10 @@ def cache(*args, key_transformer = _tuple, **kwargs):
         v.func = func
         return v
     return decorator
+
+def archive(*args, key_transformer = magic, **kwargs):
+    '''
+    A thin wrapper with reasonable defaults archival caches based on
+    :py:func:`vlermv.cache` and :py:func:`vlermv.serializers.archive`
+    '''
+    return cache(*args, key_transformer = archive(magic), **kwargs)
