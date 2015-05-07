@@ -1,6 +1,7 @@
 import os
 import pickle
 import tempfile
+import shutil
 
 import pytest
 
@@ -169,11 +170,19 @@ def test_parent_directory():
     assert Vlermv('/tmp', parent_directory = './b').cachedir == '/tmp'
     assert Vlermv('.tmp', parent_directory = './b').cachedir == './b/.tmp'
 
-testcases_make_dirs = [(True, True), (False, False)]
-@pytest.mark.parametrize('make_dirs, exists', testcases_make_dirs)
-def test_make_dirs(make_dirs, exists):
+@pytest.mark.parametrize('yes', [True, False])
+def test_mkdir(yes):
+    # Set up
     d = tempfile.mktemp()
+    original = Vlermv.mkdir
+    Vlermv.mkdir = yes
+
     assert not os.path.exists(d)
-    v = Vlermv(d, make_dirs = make_dirs)
+    v = Vlermv(d)
     assert v.cachedir == d
-    assert os.path.isdir(d) == exists
+    assert os.path.isdir(d) == yes
+
+    # tear down
+    Vlermv.mkdir = yes
+    if os.path.exists(d):
+        shutil.rmtree(d)
