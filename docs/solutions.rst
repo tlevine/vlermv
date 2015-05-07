@@ -60,7 +60,7 @@ Sometimes you could use Vlermv if you extended it
 
 Vlermv contains many standard database features, and your feature
 requirements can sometimes be adjusted by changing your schema.
-If you thing Vlermv would be appropriate if it had just one more feature,
+If you think Vlermv would be appropriate if it had just one more feature,
 you might try implementing it in Vlermv.
 
 For example, you can combine several Vlermv instances to create a more powerful
