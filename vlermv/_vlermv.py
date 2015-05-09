@@ -8,7 +8,7 @@ from ._exceptions import (
     out_of_space,
 )
 from .serializers import pickle
-from .transformers import simple
+from .transformers import magic
 
 class Vlermv:
     '''
@@ -24,7 +24,7 @@ class Vlermv:
 
     def __init__(self, cachedir,
             serializer = pickle,
-            key_transformer = simple,
+            key_transformer = magic,
             appendable = True,
             mutable = True,
             tempdir = '.tmp',
@@ -45,7 +45,7 @@ class Vlermv:
         :param str tempdir: Subdirectory inside of cachedir to use for temporary files
         :param str parent_directory: This directory is use as the parent
             directory if you specify a relative path. It is useful if you
-            want to produce several vlermv under the same directory.
+            want to produce several vlermvs under the same directory.
 
         These are mostly relevant for initialization via :py:func:`vlermv.cache`.
 

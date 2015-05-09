@@ -3,7 +3,7 @@ from functools import partial
 from . import transformers as t
 from ._vlermv import Vlermv
 
-def cache(*args, key_transformer = t.tuple, **kwargs):
+def cache(*args, **kwargs):
     '''
     Cache a function with a :py:class:`~vlermv.Vlermv`. ::
 
@@ -30,15 +30,7 @@ def cache(*args, key_transformer = t.tuple, **kwargs):
             _args = (func.__name__,)
         else:
             _args = args
-        v = Vlermv(*_args, key_transformer = key_transformer,
-            parent_directory = kwargs.pop('parent_directory', ''), **kwargs)
+        v = Vlermv(*_args, **kwargs)
         v.func = func
         return v
     return decorator
-
-def archive(*args, key_transformer = t.magic, **kwargs):
-    '''
-    A thin wrapper with reasonable defaults archival caches based on
-    :py:func:`vlermv.cache` and :py:func:`vlermv.serializers.archive`
-    '''
-    return cache(*args, key_transformer = t.archive(t.magic), **kwargs)
