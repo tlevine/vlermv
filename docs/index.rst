@@ -33,8 +33,8 @@ Vlermv has many other features that you may read about below.
    solutions
    vlermv
    cache
-   serializers
    archive
+   serializers
    transformers
    acid
    recipes
