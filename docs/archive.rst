@@ -1,3 +1,5 @@
+.. _archive:
+
 Using Vlermv as an archive rather than a cache
 ===============================================
 
