@@ -2,48 +2,25 @@
 
 Key transformers
 ----------------------------
-Vlermv uses the rather basic :py:data:`~vlermv.transformers.simple`
-transformer by default; :py:class:`str` keys are mapped to file names
-inside of the
-vlermv directory, and writing to subdirectories is not allowed.
-
-Other transformers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. py:module:: vlermv.transformers
-
-The following transformers are included in Vlermv.
-
-.. py:data:: magic
-
-   Magically figure out a reasonable file name.
-
-.. py:data:: base64
-
-   File name is the base 64 encoding of the key.
-
-.. py:data:: tuple
-
-   Key must be a tuple; the right most element becomes a file name,
-   and the preceding elements are directories.
-
-.. py:data:: simple
-
-   Key is used as the file name directory. It must be a string without slashes.
-
-.. py:data:: slash
-
-   Like simple, except that slashes may be used to separate directories
-
-.. py:data:: backslash
-
-   Like simple, except that backslashes may be used to separate directories
+Vlermv uses :py:data:`~vlermv.transformers.magic` transformer by default.
+You can switch it for one of the other
+:py:mod:`included transformers <vlermv.transformers>`
+or for your :py:mod:`own transformer <vlermv.hypothetical_transformer>`.
 
 The magic transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-One of the coolest parts of Vlermv is the
-:py:data:`~vlermv.transformers.magic` transformer, as it interprets
-keys in a very fancy way, combining the features of the
+
+.. py:data:: vlermv.transformers.magic
+
+When I first wrote Vlermv, the magic transformer was even more important
+to me than the dictionary interface.
+The :py:data:`~vlermv.transformers.magic` transformer comes up with a
+meaningful filename for any given key, combining the features of the
 other transformers.
+
+One main principle of the magic transformer is that slashes should be
+handled only by splitting into directories; they should not be replaced
+by other characters, as that can be confusing.
 
 Aside from strings and string-like objects,
 you can use iterables of strings; these indices both refer
@@ -83,6 +60,58 @@ And you can mix these formats! ::
 
     # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
     vlermv[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
+
+Key collisions
+^^^^^^^^^^^^^^^^^^^
+Because the magic transformer accepts a wide range of formats, it is
+possible that two keys will collide. For example, the two keys below
+map to the same filename. ::
+
+    datetime.date(2015, 1, 2)
+    (2015, 1, 2)
+
+And you won't be able to save both of the two keys below. ::
+
+    'https://thomaslevine.com/'
+    'https://thomaslevine.com/index.html'
+
+The former creates a file :samp:`https/thomaslevine.com`, and the latter
+expects this file to be a directory so that it may create the file
+:samp:`https/thomaslevine.com/{index.html}`.
+
+If collisions become an issue for you, consider using a different directory
+structure. The magic transformer usually works pretty well, but it is intended
+only to be a good default.
+
+Other transformers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. py:module:: vlermv.transformers
+
+In addition to the :py:data:`~vlermv.transformers.magic` transformer,
+the following transformers are included in Vlermv.
+
+.. py:data:: base64
+
+   File name is the base 64 encoding of the key.
+
+.. py:data:: tuple
+
+   Key must be a tuple; the right most element becomes a file name,
+   and the preceding elements are directories.
+
+.. py:data:: simple
+
+   Key is used as the file name inside the vlermv directory.
+   It must be a :py:class:`str` without slashes.
+   Writing to subdirectories is not allowed.
+
+.. py:data:: slash
+
+   Like simple, except that slashes may be used to separate directories
+
+.. py:data:: backslash
+
+   Like simple, except that backslashes may be used to separate directories
 
 Creating a transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -175,7 +204,7 @@ A transformer is a Python object with the following methods.
 
     Convert a path to a key.
 
-For example, this is what the default :py:data:`~vlermv.transformers.simple`
+For example, this is what the :py:data:`~vlermv.transformers.simple`
 transformer looks like.
 
 .. literalinclude:: ../vlermv/transformers/simple.py
