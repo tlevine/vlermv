@@ -14,13 +14,12 @@ class TestDefaults(Base):
         assert 'pickle' in self.w.serializer.__name__
 
     def test_default_transformer(self):
-        'The default transformer should be very simple.'
+        'The default transformer should be magic.'
         assert self.w.transformer.to_path('abc') == ('abc',)
-        assert self.w.transformer.from_path(('abc',)) == 'abc'
+        assert self.w.transformer.from_path(('abc',)) == ('abc',)
 
-        with pytest.raises(ValueError):
-            self.w.transformer.to_path('abc/def')
-        assert self.w.transformer.from_path(('abcdef',)) == 'abcdef'
+        assert self.w.transformer.to_path('abc/def') == ('abc', 'def')
+        assert self.w.transformer.from_path(('abcdef',)) == ('abcdef',)
 
     def test_default_mutable(self):
         assert self.w.mutable
