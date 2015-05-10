@@ -14,9 +14,36 @@ The RSS feed is always in the same place, but its contents change based on
 what new articles have been added. I'm going to do lots of stuff based on
 the RSS feed that I download, so I want to save it for future reference.
 
-That is what :py:class:`vlermv.transformers.archive` is for.
+The above implementation is not acceptable because it will always use the
+same cache of the data. If we ran it for the first time three weeks ago,
+it will always use that result. The RSS feed changes, so this doesn't work.
 
-.. autoclass:: vlermv.transformers.archive
+How to
+----------
+Here's how I implement this archive. ::
+
+    import requests, vlermv
+
+    @vlermv.cache()
+    def feed(date):
+        '''
+        The date parameter is today's date. It is here only for affecting
+        the cache file's name; we don't use it in the feed function.
+        '''
+        return requests.get('http://example.com/feed.rss')
+
+Then I call it like this. ::
+
+    import datetime
+    response = feed(datetime.datetime.today())
+
+If I want to access today's data, I can do this. ::
+
+    feed[datetime.date.today()]
+
+And if I want to access historical data, I do this. ::
+
+    feed[datetime.date(2015,3,23)]
 
 How to think about it
 ----------------------------
@@ -39,18 +66,15 @@ name in our records. Each moment in time corresponds to a unique state
 of the world (ignoring quantum effects and special relativity and other
 things that I don't understand), so we can record simply the date and
 time at which a function was run rather than recoring the entire state
-of the world. :py:func:`~vlermv.transformers.archive` appends the
-datetime at which a function was run to the path emitted by the
-:py:mod:`transformer <vlermv.transformers>` that it wraps.
+of the world.
 
-How it works
-----------------------
-:py:class:`~vlermv.Vlermv` cannot save an object whose path is :ref:`empty <empty>`;
-if it received an empty path, it would not know what the filename should be.
-:py:func:`~vlermv.cache` uses the decorated function's arguments as a
-key, so the key will be an empty tuple if your function takes no arguments.
-With the default tuple transformer, this empty tuple turns into an empty
-path, and an error is raised.
+**Instead of passing the entire state of the world to the function, we pass
+the present date.**
 
-:py:func:`~vlermv.transformers.archive` changes the transformer to add
-the date to the path; this way, the path won't be empty.
+Also, we can round the present date. The world is always changing, but we
+have some idea as to how it changes. In the present example, let's say that
+we know that the RSS feeds tend to change once every few days and that we
+are okay with our data being at most a day out-of-date. By rounding to day
+(rather than hour or millisecond, for example), we allow our script to run
+twice in the same day and use the cached RSS feed on the second run. This
+can be very helpful for debugging.
