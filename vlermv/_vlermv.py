@@ -22,13 +22,12 @@ class Vlermv:
     def __repr__(self):
         return 'Vlermv(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir,
+    def __init__(self, *cachedir,
             serializer = pickle,
             key_transformer = magic,
             appendable = True,
             mutable = True,
             tempdir = '.tmp',
-            parent_directory = '',
             cache_exceptions = False):
         '''
         :param str cachedir: Top-level directory of the vlermv
@@ -43,9 +42,6 @@ class Vlermv:
         :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of cachedir to use for temporary files
-        :param str parent_directory: This directory is use as the parent
-            directory if you specify a relative path. It is useful if you
-            want to produce several vlermvs under the same directory.
 
         These are mostly relevant for initialization via :py:func:`vlermv.cache`.
 
@@ -68,7 +64,7 @@ class Vlermv:
 
         self.func = None
 
-        self.cachedir = os.path.expanduser(os.path.join(parent_directory, cachedir))
+        self.cachedir = os.path.expanduser(os.path.join(*cachedir))
         self.serializer = serializer
         self.appendable = appendable
         self.mutable = mutable
