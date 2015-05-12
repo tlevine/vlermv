@@ -152,3 +152,50 @@ To inspect the vlermv, open another console, and type this. ::
 This query is wound up uncovering the problem. ::
 
     print(feed[('461',)])
+
+Put several vlermvs under the same directory
+----------------------------------------------
+You might have several vlermv in a single project that you would like
+to store in the same directory, with different names for each one,
+like this. ::
+
+    @cache('~/.project/f')
+    def f(x):
+        # ...
+        return thing
+
+    @cache('~/.project/g')
+    def g(x):
+        # ...
+        return other_thing
+
+We are repeating ourselves. Here are two ways that we can do better.
+
+First, we can partially apply the directory with :py:func:`functools.partial`.
+
+::
+
+    from functools import partial
+    mycache = partial(cache, '~/.project')
+
+    @mycache('f')
+    def f(x):
+        # ...
+
+    @mycache('g')
+    def f(x):
+        # ...
+
+This is still a bit messy, however, because we are saying ``f`` and ``g``
+twice each. The second way is thus to write a function that takes a function
+name. ::
+
+    def mycache(func):
+        return cache('~/.project', func.__name__)(func)
+
+    @mycache
+    def f(x):
+        # ...
+
+I keep contemplating whether to put this tiny wrapper Vlermv, but it's so
+small that it seems easier to document than to name and explain how to use.
