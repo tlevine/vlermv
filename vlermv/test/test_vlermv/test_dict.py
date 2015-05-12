@@ -171,6 +171,11 @@ def test_cachedir():
     assert Vlermv('./b', '/tmp').cachedir == '/tmp'
     assert Vlermv('./b', '.tmp').cachedir == './b/.tmp'
 
+    # And partials should work fine.
+    from functools import partial
+    assert partial(Vlermv, 'a', 'b')('c').cachedir == 'a/b/c'
+
+
 @pytest.mark.parametrize('yes', [True, False])
 def test_mkdir(yes):
     # Set up
