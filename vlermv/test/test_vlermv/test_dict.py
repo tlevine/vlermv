@@ -164,12 +164,12 @@ class TestVlermv(Base):
         with pytest.raises(PermissionError):
             self.w[('b',)] = 1
 
-def test_parent_directory():
+def test_cachedir():
     Vlermv._mkdir = False
     assert Vlermv('.').cachedir == '.'
     assert Vlermv('a/b').cachedir == 'a/b'
-    assert Vlermv('/tmp', parent_directory = './b').cachedir == '/tmp'
-    assert Vlermv('.tmp', parent_directory = './b').cachedir == './b/.tmp'
+    assert Vlermv('./b', '/tmp').cachedir == '/tmp'
+    assert Vlermv('./b', '.tmp').cachedir == './b/.tmp'
 
 @pytest.mark.parametrize('yes', [True, False])
 def test_mkdir(yes):
