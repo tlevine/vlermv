@@ -199,3 +199,26 @@ name. ::
 
 I keep contemplating whether to put this tiny wrapper Vlermv, but it's so
 small that it seems easier to document than to name and explain how to use.
+
+Mocking a vlermv for testing
+------------------------------
+Because a vlermv looks like a dictionary, you can mock vlermvs with
+dictionaries. Consider the following query. ::
+
+    def mean_field(db, field, keys):
+        return sum(filter(None, db[key].get(field) for key in keys)) / len(keys)
+
+Ordinarily, we might use it like this. ::
+
+    db = Vlermv('db')
+    print(mean_field(db, 'shoe-size', ['Tom', 'Suzie', 'Carol']))
+
+It would be nice not to create so many files in our tests, so we can
+mock the database like this. ::
+
+    db = {'Tom': {'shoe-size': 43},
+          'Suzie': {'shoe-size': 39},
+          'Carol': {}}
+
+    def test_mean_field():
+        assert mean_field(db, 'shoe-size', db.keys()) == 41
