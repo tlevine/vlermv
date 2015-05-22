@@ -20,8 +20,8 @@ master_doc = 'index'
 
 project = 'vlermv'
 copyright = '2014, 2015, Thomas Levine'
-version = '1.3.0'
-release = '1.3.0' #rc1'
+version = '1.3.1'
+release = '1.3.1' #rc1'
 
 exclude_patterns = ['_build']
 
