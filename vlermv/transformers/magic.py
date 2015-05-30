@@ -21,7 +21,7 @@ except NameError:
 def cli():
     import sys
     if len(sys.argv) > 1:
-        sys.stdout.write(os.path.join(*from_path(sys.argv[1:])) + '\n')
+        sys.stdout.write(os.path.join(*to_path(sys.argv[1:])) + '\n')
     else:
         sys.stderr.write('You must pass at least one argument.\n')
         sys.exit(1)
