@@ -30,7 +30,7 @@ def test_parse_date():
 
 def test_parse_datetime():
     o = list(parse_partial(datetime.datetime(2014, 2, 5, 11, 18, 30)))
-    e = ['2014', '02', '05']
+    e = ['2014', '02', '05', '11', '18']
     assert o == e
 
 def test_parse_none():
