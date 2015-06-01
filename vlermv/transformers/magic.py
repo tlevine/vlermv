@@ -97,7 +97,12 @@ def parse_partial_url(item):
     return tuple(path)
 
 def parse_partial_date(item):
-    return ('%04d' % item.year, '%02d' % item.month, '%02d' % item.day)
+    date = ('%04d' % item.year, '%02d' % item.month, '%02d' % item.day)
+    if hasattr(item, 'minute'):
+        time = ('%02d' % item.hour, '%02d' % item.minute)
+    else:
+        time = tuple()
+    return date + time
 
 def safe_type(index):
     for bad in [set,dict]:
