@@ -31,7 +31,3 @@ Decorate the function with ``@vlermv.cache()`` to cache its results. ::
         return True
 
 Read the `full documentation <https://pythonhosted.org/vlermv/>`_ for more information.
-
-To do
-
-* Rename ``vlermv.cache`` to something more descriptive.
