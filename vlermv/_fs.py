@@ -2,7 +2,7 @@ import os
 from random import randint
 from string import ascii_letters
 
-from ._exceptions import DeleteError, PermissionError
+from ._exceptions import DeleteError, PermissionError, out_of_space
 from ._abstract import AbstractVlermv
 from ._util import split, _get_fn
 
@@ -33,8 +33,41 @@ class Vlermv(AbstractVlermv):
     #: This is is mostly relevant for testing.
     _mkdir = True
 
+    def __init__(self, *directory, tempdir = '.tmp', **kwargs):
+        '''
+        :param str directory: Top-level directory of the vlermv
+        :param serializer: A thing with dump and load functions for
+            serializing and deserializing Python objects,
+            like :py:mod:`json`, :py:mod:`yaml`, or
+            anything in :py:mod:`vlermv.serializers`
+        :type serializer: :py:mod:`serializer <vlermv.serializers>`
+        :param key_transformer: A thing with to_path and from_path functions
+            for transforming keys to file paths and back.
+            Several are available in :py:mod:`vlermv.transformers`.
+        :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
+        :param bool mutable: Whether values can be updated and deleted
+        :param str tempdir: Subdirectory inside of base_directory to use for temporary files
+
+        These are mostly relevant for initialization via :py:func:`vlermv.cache`.
+
+        :param bool appendable: Whether new values can be added to the Vlermv
+            (Set this to False to ensure that the decorated function is never
+            run and that the all results are cached; this is useful for reviewing
+            old data in a read-only mode.)
+        :param bool cache_exceptions: If the decorated function raises
+            an exception, should the failure and exception be cached?
+            The exception is raised either way.
+        :raises TypeError: If cache_exceptions is True but the serializer
+            can't cache exceptions
+        '''
+        super(Vlermv, self).__init__(**kwargs)
+        self.base_directory = os.path.expanduser(os.path.join(*directory))
+        self.tempdir = os.path.join(self.base_directory, tempdir)
+        if self._mkdir:
+            os.makedirs(self.tempdir, exist_ok = True)
+
     def __repr__(self):
-        return 'Vlermv(%s)' % repr(self.cachedir)
+        return 'Vlermv(%s)' % repr(self.base_directory)
 
     def __setitem__(self, index, obj):
         fn = self.filename(index)
@@ -69,7 +102,7 @@ class Vlermv(AbstractVlermv):
         except DeleteError as e:
             raise KeyError(*e.args)
         else:
-            for fn in _reversed_directories(self.cachedir, os.path.dirname(fn)):
+            for fn in _reversed_directories(self.base_directory, os.path.dirname(fn)):
                 if os.listdir(fn) == []:
                     os.rmdir(fn)
                 else:
@@ -77,16 +110,16 @@ class Vlermv(AbstractVlermv):
 
     def __len__(self):
         length = 0
-        for dirpath, _, filenames in os.walk(self.cachedir):
+        for dirpath, _, filenames in os.walk(self.base_directory):
             for filename in filenames:
                 length += 1
         return length
 
     def keys(self):
-        for dirpath, _, filenames in os.walk(self.cachedir):
-            if dirpath != os.path.join(self.cachedir, self.tempdir):
+        for dirpath, _, filenames in os.walk(self.base_directory):
+            if dirpath != os.path.join(self.base_directory, self.tempdir):
                 for filename in filenames:
-                    path = split(os.path.relpath(os.path.join(dirpath, filename), self.cachedir))
+                    path = split(os.path.relpath(os.path.join(dirpath, filename), self.base_directory))
                     yield self.transformer.from_path(path)
 
     def items(self):

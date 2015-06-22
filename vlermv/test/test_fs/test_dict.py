@@ -25,8 +25,8 @@ class TestVlermv(Base):
             observed = pickle.load(fp)
         assert observed == 'pink'
 
-    def test_cachedir(self):
-        assert self.w.cachedir == self.directory
+    def test_base_directory(self):
+        assert self.w.base_directory == self.directory
 
     def test_filename(self):
         assert os.path.join(self.directory, 'abc') == self.w.filename(('abc',))
@@ -164,16 +164,16 @@ class TestVlermv(Base):
         with pytest.raises(PermissionError):
             self.w[('b',)] = 1
 
-def test_cachedir():
+def test_base_directory():
     Vlermv._mkdir = False
-    assert Vlermv('.').cachedir == '.'
-    assert Vlermv('a/b').cachedir == 'a/b'
-    assert Vlermv('./b', '/tmp').cachedir == '/tmp'
-    assert Vlermv('./b', '.tmp').cachedir == './b/.tmp'
+    assert Vlermv('.').base_directory == '.'
+    assert Vlermv('a/b').base_directory == 'a/b'
+    assert Vlermv('./b', '/tmp').base_directory == '/tmp'
+    assert Vlermv('./b', '.tmp').base_directory == './b/.tmp'
 
     # And partials should work fine.
     from functools import partial
-    assert partial(Vlermv, 'a', 'b')('c').cachedir == 'a/b/c'
+    assert partial(Vlermv, 'a', 'b')('c').base_directory == 'a/b/c'
 
 
 @pytest.mark.parametrize('yes', [True, False])
@@ -185,7 +185,7 @@ def test_mkdir(yes):
 
     assert not os.path.exists(d)
     v = Vlermv(d)
-    assert v.cachedir == d
+    assert v.base_directory == d
     assert os.path.isdir(d) == yes
 
     # tear down

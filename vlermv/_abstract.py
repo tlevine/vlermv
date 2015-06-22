@@ -10,7 +10,7 @@ class AbstractVlermv:
     A :py:class:`dict` API to various things
     '''
 
-    def __init__(self, *cachedir,
+    def __init__(self,
             serializer = pickle,
             key_transformer = magic,
             appendable = True,
@@ -18,7 +18,7 @@ class AbstractVlermv:
             tempdir = '.tmp',
             cache_exceptions = False):
         '''
-        :param str cachedir: Top-level directory of the vlermv
+        :param str base_directory: Top-level directory of the vlermv
         :param serializer: A thing with dump and load functions for
             serializing and deserializing Python objects,
             like :py:mod:`json`, :py:mod:`yaml`, or
@@ -29,7 +29,7 @@ class AbstractVlermv:
             Several are available in :py:mod:`vlermv.transformers`.
         :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
         :param bool mutable: Whether values can be updated and deleted
-        :param str tempdir: Subdirectory inside of cachedir to use for temporary files
+        :param str tempdir: Subdirectory inside of base_directory to use for temporary files
 
         These are mostly relevant for initialization via :py:func:`vlermv.cache`.
 
@@ -52,16 +52,11 @@ class AbstractVlermv:
 
         self.func = None
 
-        self.cachedir = os.path.expanduser(os.path.join(*cachedir))
         self.serializer = serializer
         self.appendable = appendable
         self.mutable = mutable
         self.transformer = key_transformer
-        self.tempdir = os.path.join(self.cachedir, tempdir)
         self.cache_exceptions = cache_exceptions
-
-        if self._mkdir:
-            os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):
         if not self.func:
@@ -123,7 +118,7 @@ There's probably a problem with the serializer.''')
         elif not all(isinstance(x, str) for x in subpath):
             msg = 'Elements of subpath should all be str; here is subpath:\n%s' % repr(subpath)
             raise TypeError(msg)
-        return os.path.join(self.cachedir, *safe_path(subpath))
+        return os.path.join(self.base_directory, *safe_path(subpath))
 
     def __iter__(self):
         return (k for k in self.keys())
