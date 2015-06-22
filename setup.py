@@ -12,6 +12,6 @@ setup(name='vlermv',
           'thready>=1.4.0',
       ],
       version='1.3.3',
-      license='AGPL',
+      license='LGPL',
       entry_points = {'console_scripts': ['dadaname = vlermv.transformers.magic:cli']},
 )
