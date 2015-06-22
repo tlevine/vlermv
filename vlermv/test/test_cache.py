@@ -14,7 +14,7 @@ def test_new_success():
     warehouse = Vlermv(tmp, key_transformer = _tuple)
     url = 'localhost'
 
-    @Vlermv.cache(tmp, cache_exceptions = True)
+    @Vlermv.memoize(tmp, cache_exceptions = True)
     def get(_):
         return 88
 
@@ -28,7 +28,7 @@ def test_old_success():
     url = 'localhost'
     warehouse[(url,)] = (None, 88)
 
-    @Vlermv.cache(tmp, cache_exceptions = True)
+    @Vlermv.memoize(tmp, cache_exceptions = True)
     def get(_):
         raise AssertionError('This should not run.')
 
@@ -41,7 +41,7 @@ def test_new_error():
     url = 'localhost'
     error = ValueError('This is a test.')
 
-    @Vlermv.cache(tmp, cache_exceptions = True)
+    @Vlermv.memoize(tmp, cache_exceptions = True)
     def get(_):
         raise error
 
@@ -61,7 +61,7 @@ def test_old_error():
     error = ValueError('This is a test.')
     warehouse[(url,)] = (error, None)
 
-    @Vlermv.cache(tmp, cache_exceptions = True)
+    @Vlermv.memoize(tmp, cache_exceptions = True)
     def get(_):
         raise AssertionError('This should not run.')
 
@@ -79,7 +79,7 @@ def test_expanduser():
     except:
         pass
 
-    @Vlermv.cache('~/.picklecache-test')
+    @Vlermv.memoize('~/.picklecache-test')
     def a(_):
         return 3
     a('b')
@@ -96,7 +96,7 @@ def test_function_name():
     except:
         pass
 
-    @Vlermv.cache()
+    @Vlermv.memoize()
     def a_function(_):
         return 3
     assert os.path.isdir('a_function')
@@ -108,7 +108,7 @@ def test_function_name():
 
 def test_keys():
     tmp = mkdtemp()
-    @Vlermv.cache(tmp)
+    @Vlermv.memoize(tmp)
     def f(x):
         return x
 
@@ -118,7 +118,7 @@ def test_keys():
 
 def test_delete():
     tmp = mkdtemp()
-    @Vlermv.cache(tmp)
+    @Vlermv.memoize(tmp)
     def f(x):
         return x
 
@@ -130,7 +130,7 @@ def test_delete():
 
 def test_type():
     tmp = mkdtemp()
-    @Vlermv.cache(tmp)
+    @Vlermv.memoize(tmp)
     def f(x):
         pass
 
@@ -142,7 +142,7 @@ def test_cache_exceptions_type_checker():
     tmp = mkdtemp()
 
     with pytest.raises(TypeError):
-        @Vlermv.cache(tmp, cache_exceptions = True, serializer = json)
+        @Vlermv.memoize(tmp, cache_exceptions = True, serializer = json)
         def f(x):
             return x
             
@@ -150,7 +150,7 @@ def test_cache_exceptions():
     tmp = mkdtemp()
     TestError = ZeroDivisionError
 
-    @Vlermv.cache(tmp, cache_exceptions = False, serializer = json)
+    @Vlermv.memoize(tmp, cache_exceptions = False, serializer = json)
     def f(_):
         raise TestError('This error should not be cached.')
 
@@ -161,7 +161,7 @@ def test_cache_exceptions():
 def test_cache_exceptions_save_type():
     tmp = mkdtemp()
 
-    @Vlermv.cache(tmp, cache_exceptions = False, serializer = json)
+    @Vlermv.memoize(tmp, cache_exceptions = False, serializer = json)
     def f(_):
         return 3
 

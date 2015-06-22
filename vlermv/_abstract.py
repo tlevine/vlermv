@@ -11,9 +11,9 @@ class AbstractVlermv:
     '''
 
     @classmethod
-    def cache(Class, *args, **kwargs):
+    def memoize(Class, *args, **kwargs):
         '''
-        Cache a function inside this vlermv. ::
+        Memoize/record a function inside this vlermv. ::
 
             @Vlermv.cache('~/.http')
             def get(url):
