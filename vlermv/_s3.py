@@ -21,10 +21,10 @@ class S3Vlermv(AbstractVlermv):
     def __setitem__(self, index, obj):
         keyname = self.filename(index)
         key = self.bucket.new_key(keyname)
-        with tempfile.TemporaryFile('w+' + self._b()) as fp:
-            self.serializer.dump(obj, fp)
-            fp.seek(0)
-            key.set_contents_from_file(fp, replace = True)
+        with tempfile.NamedTemporaryFile('w+' + self._b()) as tmp:
+            self.serializer.dump(obj, tmp.file)
+            tmp.file.close()
+            key.set_contents_from_filename(tmp.name, replace = True)
 
     def __contains__(self, keyname):
         return self.bucket.get_key(keyname) != None
@@ -32,10 +32,10 @@ class S3Vlermv(AbstractVlermv):
     def __getitem__(self, keyname):
         key = self.bucket.get_key(keyname)
         if key:
-            with tempfile.TemporaryFile('w+b') as fp:
-                key.get_contents_as_file(fp)
-                fp.seek(0)
-                value = self.serializer.load(fp)
+            with tempfile.NamedTemporaryFile('w+' + self._b()) as tmp:
+                key.get_contents_to_filename(tmp.name)
+                tmp.file.seek(0)
+                value = self.serializer.load(tmp.file)
             return value
         else:
             raise KeyError(keyname)
