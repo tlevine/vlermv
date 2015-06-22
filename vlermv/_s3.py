@@ -1,5 +1,4 @@
 import tempfile
-from time import sleep
 
 import boto
 
@@ -40,8 +39,8 @@ class S3Vlermv(AbstractVlermv):
         else:
             raise KeyError(keyname)
 
-    def keys(self):
-        for k in self.bucket.list():
+    def keys(self, **kwargs):
+        for k in self.bucket.list(**kwargs):
             yield self.transformer.from_path(split(k.name))
 
     def __delitem__(self, index):
