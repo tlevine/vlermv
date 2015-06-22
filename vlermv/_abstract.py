@@ -148,3 +148,7 @@ There's probably a problem with the serializer.''')
             return self[index]
         else:
             return default
+
+    def items(self):
+        for key in self.keys():
+            yield key, self[key]

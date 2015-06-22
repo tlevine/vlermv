@@ -121,7 +121,3 @@ class Vlermv(AbstractVlermv):
                 for filename in filenames:
                     path = split(os.path.relpath(os.path.join(dirpath, filename), self.base_directory))
                     yield self.transformer.from_path(path)
-
-    def items(self):
-        for key in self.keys():
-            yield key, self[key]
