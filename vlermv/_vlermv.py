@@ -10,17 +10,10 @@ from ._exceptions import (
 from .serializers import pickle
 from .transformers import magic
 
-class Vlermv:
+class AbstractVlermv:
     '''
-    Fancy database with a :py:class:`dict` API.
+    A :py:class:`dict` API to various things
     '''
-
-    #: Should the cache directory be created when a Vlermv is initialized?
-    #: This is is mostly relevant for testing.
-    _mkdir = True
-
-    def __repr__(self):
-        return 'Vlermv(%s)' % repr(self.cachedir)
 
     def __init__(self, *cachedir,
             serializer = pickle,
@@ -140,6 +133,45 @@ There's probably a problem with the serializer.''')
     def __iter__(self):
         return (k for k in self.keys())
 
+    def _b(self):
+        return 'b' if self.binary_mode else ''
+
+    def __delitem__(self, index):
+        if not self.mutable:
+            raise PermissionError('This warehouse is immutable, so you can\'t delete things.')
+        self._delete(self.filename(index))
+
+    def __contains__(self, index):
+        fn = self.filename(index)
+        return os.path.isfile(fn)
+
+    def values(self):
+        for key, value in self.items():
+            yield value
+
+    def update(self, d):
+        generator = d.items() if hasattr(d, 'items') else d
+        for k, v in generator:
+            self[k] = v
+
+    def get(self, index, default = None):
+        if index in self:
+            return self[index]
+        else:
+            return default
+
+class Vlermv(AbstractVlermv):
+    '''
+    A :py:class:`dict` API to a filesystem
+    '''
+
+    #: Should the cache directory be created when a Vlermv is initialized?
+    #: This is is mostly relevant for testing.
+    _mkdir = True
+
+    def __repr__(self):
+        return 'Vlermv(%s)' % repr(self.cachedir)
+
     def __setitem__(self, index, obj):
         fn = self.filename(index)
         os.makedirs(os.path.dirname(fn), exist_ok = True)
@@ -165,14 +197,7 @@ There's probably a problem with the serializer.''')
     def __getitem__(self, index):
         return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
 
-    def _b(self):
-        return 'b' if self.binary_mode else ''
-
-    def __delitem__(self, index):
-        if not self.mutable:
-            raise PermissionError('This warehouse is immutable, so you can\'t delete things.')
-
-        fn = self.filename(index)
+    def _delete(self, fn):
         try:
             os.remove(fn)
         except DeleteError as e:
@@ -184,8 +209,7 @@ There's probably a problem with the serializer.''')
                 else:
                     break
 
-    def __contains__(self, index):
-        fn = self.filename(index)
+    def _contains(self, fn):
         return os.path.isfile(fn)
 
     def __len__(self):
@@ -202,21 +226,6 @@ There's probably a problem with the serializer.''')
                     path = split(os.path.relpath(os.path.join(dirpath, filename), self.cachedir))
                     yield self.transformer.from_path(path)
 
-    def values(self):
-        for key, value in self.items():
-            yield value
-
     def items(self):
         for key in self.keys():
             yield key, self[key]
-
-    def update(self, d):
-        generator = d.items() if hasattr(d, 'items') else d
-        for k, v in generator:
-            self[k] = v
-
-    def get(self, index, default = None):
-        if index in self:
-            return self[index]
-        else:
-            return default
