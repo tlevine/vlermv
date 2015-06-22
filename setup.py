@@ -9,6 +9,6 @@ setup(name='vlermv',
       install_requires = [],
       tests_require = ['pytest>=2.6.4'],
       version='1.3.2',
-      license='AGPL',
+      license='LGPL',
       entry_points = {'console_scripts': ['dadaname = vlermv.transformers.magic:cli']},
 )
