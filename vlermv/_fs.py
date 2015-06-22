@@ -61,7 +61,9 @@ class Vlermv(AbstractVlermv):
     def __getitem__(self, index):
         return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
 
-    def _delete(self, fn):
+    def __delitem__(self, index):
+        super(Vlermv, self).__delitem__(index)
+        fn = self.filename(index)
         try:
             os.remove(fn)
         except DeleteError as e:
@@ -72,9 +74,6 @@ class Vlermv(AbstractVlermv):
                     os.rmdir(fn)
                 else:
                     break
-
-    def _contains(self, fn):
-        return os.path.isfile(fn)
 
     def __len__(self):
         length = 0
