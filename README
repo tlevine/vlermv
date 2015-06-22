@@ -2,6 +2,9 @@ Vlermv
 ==================
 Vlermv makes it easy to save Python
 objects to files with meaningful identifiers.
+
+Interface
+---------------
 You should concern yourself primarily with these two elements.
 
 ``vlermv.Vlermv``
@@ -9,6 +12,8 @@ You should concern yourself primarily with these two elements.
 ``vlermv.cache``
     Decorator that helps you use ``vlermv.Vlermv`` for caching the output of a function.
 
+Basic usage
+---------------
 Install from PyPI. ::
 
     pip install vlermv
@@ -21,6 +26,8 @@ Then call it like this. ::
 Now you can mostly pretend that ``like_a_dictionary`` is a dictionary,
 except that it will persist across Python sessions.
 
+Cache decorator
+---------------
 Decorate the function with ``@vlermv.cache()`` to cache its results. ::
 
     @vlermv.cache()
@@ -30,4 +37,6 @@ Decorate the function with ``@vlermv.cache()`` to cache its results. ::
                 return False
         return True
 
+Documentation
+---------------
 Read the `full documentation <https://pythonhosted.org/vlermv/>`_ for more information.
