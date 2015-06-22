@@ -1,7 +1,7 @@
 from functools import partial
 
 from . import transformers as t
-from ._vlermv import Vlermv
+from ._fs import Vlermv
 
 def cache(*args, **kwargs):
     '''

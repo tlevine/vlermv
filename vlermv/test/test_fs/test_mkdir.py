@@ -2,7 +2,7 @@ import os, pickle
 from shutil import rmtree
 
 from .base import identity_transformer
-from ..._vlermv import Vlermv
+from ..._fs import Vlermv
 
 def test_mkdir():
     d = '/tmp/not a directory'

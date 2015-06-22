@@ -6,7 +6,7 @@ import shutil
 import pytest
 
 from .base import simple_vlermv, Base
-from ..._vlermv import Vlermv
+from ..._fs import Vlermv
 from ... import _exceptions as exceptions
 
 class TestVlermv(Base):

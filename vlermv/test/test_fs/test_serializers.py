@@ -3,7 +3,7 @@ from tempfile import mkdtemp
 import pytest
 
 from .base import identity_transformer
-from ..._vlermv import Vlermv
+from ..._fs import Vlermv
 
 class _mode_checker:
     def dump(self, obj, fp):

@@ -1,14 +1,9 @@
 import os
 
-from ._util import split, _get_fn, safe_path
-from ._fs import mktemp, _random_file_name, _reversed_directories
-from ._exceptions import (
-    OpenError, PermissionError,
-    DeleteError, FileExistsError,
-    out_of_space,
-)
+from ._exceptions import PermissionError
 from .serializers import pickle
 from .transformers import magic
+from ._util import safe_path
 
 class AbstractVlermv:
     '''
@@ -65,7 +60,7 @@ class AbstractVlermv:
         self.tempdir = os.path.join(self.cachedir, tempdir)
         self.cache_exceptions = cache_exceptions
 
-        if Vlermv._mkdir:
+        if self._mkdir:
             os.makedirs(self.tempdir, exist_ok = True)
 
     def __call__(self, *args, **kwargs):
@@ -159,73 +154,3 @@ There's probably a problem with the serializer.''')
             return self[index]
         else:
             return default
-
-class Vlermv(AbstractVlermv):
-    '''
-    A :py:class:`dict` API to a filesystem
-    '''
-
-    #: Should the cache directory be created when a Vlermv is initialized?
-    #: This is is mostly relevant for testing.
-    _mkdir = True
-
-    def __repr__(self):
-        return 'Vlermv(%s)' % repr(self.cachedir)
-
-    def __setitem__(self, index, obj):
-        fn = self.filename(index)
-        os.makedirs(os.path.dirname(fn), exist_ok = True)
-        exists = os.path.exists(fn)
-        if (not self.mutable) and exists:
-            raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
-        elif (not self.appendable) and (not exists):
-            raise PermissionError('This warehouse not appendable, and %s does not exist.' % fn)
-        else:
-            tmp = mktemp(self.tempdir)
-            with open(tmp, 'w' + self._b()) as fp:
-                try:
-                    self.serializer.dump(obj, fp)
-                except Exception as e:
-                    if out_of_space(e):
-                        fp.close()
-                        os.remove(tmp)
-                        raise BufferError('Out of space')
-                    else:
-                        raise
-            os.rename(tmp, fn)
-
-    def __getitem__(self, index):
-        return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
-
-    def _delete(self, fn):
-        try:
-            os.remove(fn)
-        except DeleteError as e:
-            raise KeyError(*e.args)
-        else:
-            for fn in _reversed_directories(self.cachedir, os.path.dirname(fn)):
-                if os.listdir(fn) == []:
-                    os.rmdir(fn)
-                else:
-                    break
-
-    def _contains(self, fn):
-        return os.path.isfile(fn)
-
-    def __len__(self):
-        length = 0
-        for dirpath, _, filenames in os.walk(self.cachedir):
-            for filename in filenames:
-                length += 1
-        return length
-
-    def keys(self):
-        for dirpath, _, filenames in os.walk(self.cachedir):
-            if dirpath != os.path.join(self.cachedir, self.tempdir):
-                for filename in filenames:
-                    path = split(os.path.relpath(os.path.join(dirpath, filename), self.cachedir))
-                    yield self.transformer.from_path(path)
-
-    def items(self):
-        for key in self.keys():
-            yield key, self[key]
