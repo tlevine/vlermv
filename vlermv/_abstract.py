@@ -108,11 +108,10 @@ class AbstractVlermv:
             except Exception as error:
                 signature = self.__class__.__name__, self.func.__name__, args, kwargs
                 msg = 'Exception in %s calling this memoized function:\n%s(*%s, *%s)' % signature
+                logger.error(msg, exc_info = False)
                 if self.cache_exceptions:
-                    logger.error(msg, exc_info = True)
                     output = error, None
                 else:
-                    logger.error(msg, exc_info = False)
                     raise error
             else:
                 if self.cache_exceptions:

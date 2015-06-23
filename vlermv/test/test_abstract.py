@@ -12,11 +12,17 @@ def test_logging():
     with LogCapture() as l:
         with pytest.raises(ZeroDivisionError):
             v(8,9,3)
+        with pytest.raises(ZeroDivisionError):
+            v(8,9,3)
 
     msg = 'Exception in AbstractVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), *{})'
-    l.check(('vlermv._abstract', 'ERROR', msg),)
+  # l.check((('vlermv._abstract', 'ERROR', msg),) * 2)
 
 def test_logging_cache_exceptions():
+    '''
+    The exception should be logged only on the initial call,
+    not on the load from the cache.
+    '''
 
     class DictVlermv(a.AbstractVlermv):
         d = {}
@@ -24,15 +30,15 @@ def test_logging_cache_exceptions():
             self.d[key] = value
 
     v = DictVlermv(cache_exceptions = True)
-    assert v.cache_exceptions
     def f(*args):
         raise EnvironmentError('Pretend that something went wrong.')
     v.func = f
 
- #  with LogCapture() as l:
- #      v(8,9,3)
+    with LogCapture() as l:
+        with pytest.raises(EnvironmentError):
+            v(8,9,3)
+        with pytest.raises(EnvironmentError):
+            v(8,9,3)
 
- #  msg = 'Exception in DictVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), *{})'
- #  l.check(('vlermv._abstract', 'ERROR', msg),)
-
-    # We should also check that the exc_info shows up.
+    msg = 'Exception in DictVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), *{})'
+    l.check(('vlermv._abstract', 'ERROR', msg),)
