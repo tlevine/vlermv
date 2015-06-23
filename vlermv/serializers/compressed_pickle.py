@@ -1,5 +1,6 @@
 import zlib, pickle
 
+binary_mode = True
 def load(fp):
     return pickle.loads(zlib.decompress(fp.read()))
 
