@@ -14,7 +14,7 @@ class S3Vlermv(AbstractVlermv):
         self.bucket = connect_s3().create_bucket(bucketname)
 
     def __repr__(self):
-        return 'S3Vlermv(%s)' % repr(self.base_directory)
+        return 'S3Vlermv(%s)' % repr(self.bucket.name)
 
     def __setitem__(self, index, obj):
         keyname = self.filename(index)

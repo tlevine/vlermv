@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from .._s3 import S3Vlermv
+from .._s3 import S3Vlermv, split
 
 class FakeS3:
     def __init__(self, **kwargs):
@@ -56,3 +56,7 @@ def test_write():
     assert fakes3.db == {}
     d['OP00032101'] = CONTRACT
     assert fakes3.db == {'OP00032101': PAYLOAD}
+
+def test_split():
+    assert split('a/bb/cc') == ('a', 'bb', 'cc')
+    assert split('one') == ('one',)
