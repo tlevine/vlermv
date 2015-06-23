@@ -16,7 +16,7 @@ def test_logging():
             v(8,9,3)
 
     msg = 'Exception in AbstractVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), *{})'
-  # l.check((('vlermv._abstract', 'ERROR', msg),) * 2)
+    l.check(*((('vlermv._abstract', 'ERROR', msg),) * 2))
 
 def test_logging_cache_exceptions():
     '''
