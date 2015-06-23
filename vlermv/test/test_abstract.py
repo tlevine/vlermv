@@ -26,24 +26,20 @@ def test_logging_cache_exceptions():
 
     class DictVlermv(a.AbstractVlermv):
         d = {}
+        def __contains__(self, key):
+            return key in self.d
+        def __getitem__(self, key):
+            return self.d[key]
         def __setitem__(self, key, value):
             self.d[key] = value
 
     v = DictVlermv(cache_exceptions = True)
+    v[(348203481034,)] = (EnvironmentError('Pretend that something went wrong.'), None)
     def f(*args):
-        raise EnvironmentError('Pretend that something went wrong.')
+        raise AssertionError('This should not run.')
     v.func = f
 
-    msg = 'Exception in DictVlermv calling this memoized function:\nf(*(8, 9, 3), *{})'
-
     with LogCapture() as l:
         with pytest.raises(EnvironmentError):
-            v(8,9,3)
-        l.check(('vlermv._abstract', 'ERROR', msg),)
-    assert (8,9,3) in v.d
-    assert v.d[(8,9,3)][1] == None
-
-    with LogCapture() as l:
-        with pytest.raises(EnvironmentError):
-            v(8,9,3)
-        l.check(tuple())
+            v(348203481034)
+        l.check()
