@@ -43,3 +43,7 @@ def test_logging_cache_exceptions():
         with pytest.raises(EnvironmentError):
             v(348203481034)
         l.check()
+
+def test_set_transformer():
+    v = a.AbstractVlermv(key_transformer = 3)
+    assert a.key_transformer == 3

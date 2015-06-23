@@ -26,8 +26,8 @@ class AbstractVlermv:
         The args and kwargs get passed to the Vlermv with some slight changes.
         Here are the changes.
 
-        First, the default ``key_transformer`` is the tuple transformer
-        rather than the simple transformer.
+        First, the default ``key_transformer`` is the tuple key_transformer
+        rather than the simple key_transformer.
 
         Second, it is valid for cache to be called without arguments.
         Vlermv would ordinarily fail if no arguments were passed to it.
@@ -48,7 +48,7 @@ class AbstractVlermv:
         return decorator
 
     serializer = pickle
-    transformer = magic
+    key_transformer = magic
     appendable = True
     mutable = True
     tempdir = '.tmp'
@@ -65,8 +65,8 @@ class AbstractVlermv:
         :type serializer: :py:mod:`serializer <vlermv.serializers>`
         :param key_transformer: A thing with to_path and from_path functions
             for transforming keys to file paths and back.
-            Several are available in :py:mod:`vlermv.transformers`.
-        :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
+            Several are available in :py:mod:`vlermvtransformers`.
+        :type key_transformer: :py:mod:`key_transformer <vlermvtransformers>`
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of base_directory to use for temporary files
 
@@ -84,8 +84,7 @@ class AbstractVlermv:
         '''
         for key in ['serializer', 'appendable', 'mutable', 'base_directory',
                     'key_transformer', 'cache_exceptions']:
-            if key in kwargs:
-                setattr(self, key, kwargs[key])
+            setattr(self, key, kwargs.get(key, getattr(self.__class__, key)))
 
         if self.cache_exceptions and not getattr(self.serializer, 'cache_exceptions', True):
             msg = 'Serializer %s cannot cache exceptions.'
@@ -140,15 +139,15 @@ There's probably a problem with the serializer.''')
     def filename(self, index):
         '''
         Get the filename corresponding to a key; that is, run the
-        transformer on the key.
+        key_transformer on the key.
 
-        :raises TypeError: if the transformer returns something other than
+        :raises TypeError: if the key_transformer returns something other than
             a :py:class:`tuple` of :py:class:`strings <str>`
-        :raises KeyError: if the transformer returns an empty path
+        :raises KeyError: if the key_transformer returns an empty path
         :returns: the filename
         :rtype: str
         '''
-        subpath = self.transformer.to_path(index)
+        subpath = self.key_transformer.to_path(index)
         if not isinstance(subpath, tuple):
             msg = 'subpath is a %s, but it should be a tuple.'
             raise TypeError(msg % type(subpath).__name__)

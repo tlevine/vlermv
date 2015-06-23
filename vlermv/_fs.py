@@ -43,8 +43,8 @@ class Vlermv(AbstractVlermv):
         :type serializer: :py:mod:`serializer <vlermv.serializers>`
         :param key_transformer: A thing with to_path and from_path functions
             for transforming keys to file paths and back.
-            Several are available in :py:mod:`vlermv.transformers`.
-        :type key_transformer: :py:mod:`transformer <vlermv.transformers>`
+            Several are available in :py:mod:`vlermvtransformers`.
+        :type key_transformer: :py:mod:`key_transformer <vlermvtransformers>`
         :param bool mutable: Whether values can be updated and deleted
         :param str tempdir: Subdirectory inside of base_directory to use for temporary files
 
@@ -120,4 +120,4 @@ class Vlermv(AbstractVlermv):
             if dirpath != os.path.join(self.base_directory, self.tempdir):
                 for filename in filenames:
                     path = split(os.path.relpath(os.path.join(dirpath, filename), self.base_directory))
-                    yield self.transformer.from_path(path)
+                    yield self.key_transformer.from_path(path)

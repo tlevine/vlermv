@@ -17,6 +17,6 @@ class identity_transformer:
     def from_path(path):
         return path
 
-def simple_vlermv(cachedir):
-    return Vlermv(cachedir, key_transformer = identity_transformer,
-        serializer = pickle)
+class simple_vlermv(Vlermv):
+    transformer = identity_transformer
+    serializer = pickle

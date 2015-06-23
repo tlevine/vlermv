@@ -40,7 +40,7 @@ class S3Vlermv(AbstractVlermv):
 
     def keys(self, **kwargs):
         for k in self.bucket.list(**kwargs):
-            yield self.transformer.from_path(split(k.name))
+            yield self.key_transformer.from_path(split(k.name))
 
     def __delitem__(self, index):
         super(S3Vlermv, self).__delitem__(index)
