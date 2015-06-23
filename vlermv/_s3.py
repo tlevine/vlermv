@@ -5,7 +5,7 @@ import boto
 from ._abstract import AbstractVlermv
 
 def split(x):
-    return x.split('/')
+    return tuple(x.split('/'))
 
 class S3Vlermv(AbstractVlermv):
 
