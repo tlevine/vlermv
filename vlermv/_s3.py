@@ -9,7 +9,6 @@ def split(x):
 
 class S3Vlermv(AbstractVlermv):
 
-    base_directory = ''
     def __init__(self, bucketname, *args, connect_s3 = boto.connect_s3, **kwargs):
         super(S3Vlermv, self).__init__(**kwargs)
         self.bucket = connect_s3().create_bucket(bucketname)

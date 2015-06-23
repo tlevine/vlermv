@@ -5,6 +5,10 @@ from .serializers import pickle
 from .transformers import magic
 from ._util import safe_path
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class AbstractVlermv:
     '''
     A :py:class:`dict` API to various things
@@ -90,6 +94,7 @@ class AbstractVlermv:
         self.mutable = mutable
         self.transformer = key_transformer
         self.cache_exceptions = cache_exceptions
+        self.base_directory = ''
 
     def __call__(self, *args, **kwargs):
         if not self.func:
@@ -101,9 +106,13 @@ class AbstractVlermv:
             try:
                 result = self.func(*args, **kwargs)
             except Exception as error:
+                signature = self.__class__.__name__, self.func.__name__, args, kwargs
+                msg = 'Exception in %s calling this memoized function:\n%s(*%s, *%s)' % signature
                 if self.cache_exceptions:
+                    logger.error(msg, exc_info = True)
                     output = error, None
                 else:
+                    logger.error(msg, exc_info = False)
                     raise error
             else:
                 if self.cache_exceptions:
