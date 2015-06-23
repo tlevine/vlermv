@@ -18,5 +18,5 @@ class identity_transformer:
         return path
 
 class simple_vlermv(Vlermv):
-    transformer = identity_transformer
+    key_transformer = identity_transformer
     serializer = pickle

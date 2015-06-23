@@ -46,4 +46,4 @@ def test_logging_cache_exceptions():
 
 def test_set_transformer():
     v = a.AbstractVlermv(key_transformer = 3)
-    assert a.key_transformer == 3
+    assert v.key_transformer == 3
