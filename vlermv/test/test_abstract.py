@@ -34,11 +34,16 @@ def test_logging_cache_exceptions():
         raise EnvironmentError('Pretend that something went wrong.')
     v.func = f
 
+    msg = 'Exception in DictVlermv calling this memoized function:\nf(*(8, 9, 3), *{})'
+
     with LogCapture() as l:
         with pytest.raises(EnvironmentError):
             v(8,9,3)
+        l.check(('vlermv._abstract', 'ERROR', msg),)
+    assert (8,9,3) in v.d
+    assert v.d[(8,9,3)][1] == None
+
+    with LogCapture() as l:
         with pytest.raises(EnvironmentError):
             v(8,9,3)
-
-    msg = 'Exception in DictVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), *{})'
-    l.check(('vlermv._abstract', 'ERROR', msg),)
+        l.check(tuple())
