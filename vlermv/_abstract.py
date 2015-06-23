@@ -47,14 +47,13 @@ class AbstractVlermv:
             return v
         return decorator
 
-    defaults = {
-        'serializer': pickle,
-        'key_transformer': magic,
-        'appendable': True,
-        'mutable': True,
-        'tempdir': '.tmp',
-        'cache_exceptions': False,
-    }
+    serializer = pickle
+    transformer = magic
+    appendable = True
+    mutable = True
+    tempdir = '.tmp'
+    cache_exceptions = False
+    base_directory = ''
 
     def __init__(self, **kwargs):
         '''
@@ -83,23 +82,17 @@ class AbstractVlermv:
         :raises TypeError: If cache_exceptions is True but the serializer
             can't cache exceptions
         '''
-        a = dict(self.defaults)
-        a.update(kwargs)
+        for key in ['serializer', 'appendable', 'mutable', 'base_directory',
+                    'key_transformer', 'cache_exceptions']:
+            if key in kwargs:
+                setattr(self, key, kwargs[key])
 
-        if a['cache_exceptions'] and not getattr(a['serializer'], 'cache_exceptions', True):
+        if self.cache_exceptions and not getattr(self.serializer, 'cache_exceptions', True):
             msg = 'Serializer %s cannot cache exceptions.'
-            raise TypeError(msg % repr(a['serializer']))
+            raise TypeError(msg % repr(self.serializer))
 
-        self.binary_mode = getattr(a['serializer'], 'binary_mode', False)
-
+        self.binary_mode = getattr(self.serializer, 'binary_mode', False)
         self.func = None
-
-        self.serializer = a['serializer']
-        self.appendable = a['appendable']
-        self.mutable = a['mutable']
-        self.transformer = a['key_transformer']
-        self.cache_exceptions = a['cache_exceptions']
-        self.base_directory = ''
 
     def __call__(self, *args, **kwargs):
         if not self.func:
