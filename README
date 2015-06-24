@@ -43,6 +43,11 @@ Read the `full documentation <https://pythonhosted.org/vlermv/>`_ for more infor
 
 License
 ---------------
+Copyright 2014, 2015 Vlermv contributors. Here are the contributors.
+
+* Thomas Levine
+* Aaron Schumacher
+
 Vlermv is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as
 published by the Free Software Foundation, either version 3 of
