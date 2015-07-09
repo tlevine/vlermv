@@ -6,3 +6,13 @@ To do
 * Add a discussion at the beginning about shell file access, my distrust
     of my ability to write software that keeps working, and the merits
     of simplicity.
+
+
+Make an exception like this.
+
+    class InvalidName(ValueError):
+        pass
+
+Raise that error if a key cannot be determined. Maybe add a function like
+`AbstractVlermv.validate` that goes through all of the `keys` and reports which
+ones are bad.
