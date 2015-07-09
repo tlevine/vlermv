@@ -15,7 +15,7 @@ class DatePrefixTransformer:
 
     def to_path(self, index):
         date, *rest = index
-        return (date.strptime(date, self.date_format),) + tuple(rest)
+        return (date.strftime(self.date_format),) + tuple(rest)
 
 class DatePrefixVlermv(vlermv.S3Vlermv):
     serializer = vlermv.serializers.compressed_pickle
