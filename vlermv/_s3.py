@@ -24,10 +24,12 @@ class S3Vlermv(AbstractVlermv):
             tmp.file.close()
             key.set_contents_from_filename(tmp.name, replace = True)
 
-    def __contains__(self, keyname):
+    def __contains__(self, index):
+        keyname = self.filename(index)
         return self.bucket.get_key(keyname) != None
 
-    def __getitem__(self, keyname):
+    def __getitem__(self, index):
+        keyname = self.filename(index)
         key = self.bucket.get_key(keyname)
         if key:
             with tempfile.NamedTemporaryFile('w+' + self._b()) as tmp:
