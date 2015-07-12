@@ -1,43 +1,19 @@
 import tempfile
 
-from boto import connect_s3
-
 from ._abstract import AbstractVlermv
+from ._safe_buckets import SafeBuckets
 
 def split(x):
     return tuple(x.split('/'))
 
-class immutabledict:
-    def __init__(self):
-        self.log = []
-        self.state = {}
-
-    def _play_log(self):
-
-
-    def __setitem__(self, k, v):
-        if k in self:
-            raise KeyError('%s[%s] already exists; you may not delete it.' % self, k)
-        else:
-            super(immutabledict, self)[k] = v
-
-    def __getitem__(self, k):
-        return self.state[k]
-
-    def __contains__(self, k):
-        return k in self.state
-
 class S3Vlermv(AbstractVlermv):
-    buckets = {}
+    buckets = SafeBuckets()
 
-    def __init__(self, bucketname, *args, buckets = None, **kwargs):
+    def __init__(self, bucketname, *args, bucket = None, **kwargs):
         super(S3Vlermv, self).__init__(**kwargs)
-        if buckets:
-            self.bucket = buckets[bucketname]
+        if bucket:
+            self.bucket = bucket
         else:
-            # For parallel
-            if bucketname not in self.buckets:
-                self.buckets[bucketname] = connect_s3().create_bucket(bucketname)
             self.bucket = self.buckets[bucketname]
 
     def __repr__(self):
