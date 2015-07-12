@@ -1,0 +1,11 @@
+S3 Backend
+==============
+
+Thread-safe bucket creation
+
+Neat trick ::
+
+    @vlermv.Vlermv('~/.hundred')
+    @vlermv.S3Vlermv('tom-hundred')
+    def hundred(x):
+        return x * 100
