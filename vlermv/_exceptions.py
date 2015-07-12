@@ -20,12 +20,5 @@ except NameError:
 else:
     DeleteError = FileNotFoundError
 
-try:
-    FileExistsError
-except NameError:
-    FileExistsError = OSError
-else:
-    FileExistsError = FileExistsError
-
 def out_of_space(exception):
     return isinstance(exception, IOError) and exception.args == (28, 'No space left on device')

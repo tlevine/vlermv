@@ -19,10 +19,6 @@ def test_delete_error():
     with pytest.raises(exceptions.DeleteError):
         os.remove('/not-a-file')
 
-def test_file_exists_error():
-    with pytest.raises(exceptions.FileExistsError):
-        os.mkdir('/')
-
 @pytest.mark.skipif(True, reason = 'Running out of space in a test is annoying.')
 def test_out_of_space():
     raise NotImplementedError
