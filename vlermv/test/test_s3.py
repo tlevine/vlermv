@@ -11,10 +11,11 @@ class FakeBucket:
         return FakeKey(self.db, key)
     def get_key(self, key):
         if key in self.db:
-            return FakeKey(self.s3, key)
+            return FakeKey(self.db, key)
 
 class FakeKey:
     def __init__(self, db, key):
+        self.db = db
         self.key = key
     def get_contents_as_string(self):
         return self.db[self.key]
