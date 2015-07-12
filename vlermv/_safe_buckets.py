@@ -16,7 +16,8 @@ class SafeBuckets:
         self.log = queue.Queue()
         self.state = {}
         creator = threading.Thread(target = create_buckets,
-           args = (create_bucket, self.log, self.state), daemon = False) # True)
+           args = (create_bucket, self.log, self.state), daemon = True)
+        creator.start()
 
     def __getitem__(self, k):
         self.log.put(k)
