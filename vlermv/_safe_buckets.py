@@ -23,3 +23,4 @@ class SafeBuckets:
         self.log.put(k)
         while k not in self.state:
             sleep(0)
+        return self.state[k]
