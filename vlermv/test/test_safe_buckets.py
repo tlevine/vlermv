@@ -18,7 +18,6 @@ def test_create_bucket():
     assert create_bucket('two') == ('two', 2)
 
 def test_get_new():
-    pass
-   #sb = SafeBuckets(create_bucket = create_bucket)
-   #assert sb['abc'] == ('abc', 1)
-   #assert sb['abc'] == ('abc', 1)
+    sb = SafeBuckets(create_bucket = create_bucket)
+    assert sb['abc'] == ('abc', 1)
+    assert sb['abc'] == ('abc', 1)
