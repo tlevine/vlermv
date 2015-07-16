@@ -10,6 +10,7 @@ setup(name='vlermv',
       tests_require = [
           'pytest>=2.6.4', 'testfixtures>=4.1.2',
           'thready>=1.4.0',
+          'boto',
       ],
       version='1.3.4',
       license='LGPL',
