@@ -5,8 +5,12 @@ import pytest
 from .._s3 import S3Vlermv, split
 
 class FakeBucket:
-    def __init__(self, **db):
+    def __init__(self, name, **db):
         self.db = db
+        self.name = name
+    def list(self):
+        for key in self.db:
+            yield self.new_key(key)
     def new_key(self, key):
         return FakeKey(self.db, key)
     def get_key(self, key):
@@ -41,11 +45,11 @@ PAYLOAD = json.dumps(CONTRACT).encode('utf-8')
 
 def test_read():
     d = S3Vlermv('contracts', serializer = json,
-                 bucket = FakeBucket(OP00032101 = PAYLOAD))
+                 bucket = FakeBucket('aoeu', OP00032101 = PAYLOAD))
     assert d['OP00032101'] == CONTRACT
 
 def test_write():
-    fakebucket = FakeBucket()
+    fakebucket = FakeBucket('aoeu')
     d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
     assert fakebucket.db == {}
     d['OP00032101'] = CONTRACT
@@ -56,8 +60,14 @@ def test_split():
     assert split('one') == ('one',)
 
 def test_delete():
-    fakebucket = FakeBucket()
+    fakebucket = FakeBucket('aoeu')
     d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
     d['OP00032101'] = CONTRACT
     del(d['OP00032101'])
     assert len(fakebucket.db) == 0
+
+def test_truthy():
+    name = 'sotehusatoehus'
+    fakebucket = FakeBucket(name)
+    v = S3Vlermv(name, bucket = fakebucket)
+    assert v
