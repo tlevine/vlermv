@@ -47,3 +47,14 @@ def test_logging_cache_exceptions():
 def test_set_transformer():
     v = a.AbstractVlermv(key_transformer = 3)
     assert v.key_transformer == 3
+
+def test_truthy_call():
+    v = a.AbstractVlermv()
+
+    v.func = {}
+    with pytest.raises(AttributeError):
+        v(8) == 11
+
+    v.func = None
+    with pytest.raises(NotImplementedError):
+        v(8) == 11

@@ -65,9 +65,3 @@ def test_delete():
     d['OP00032101'] = CONTRACT
     del(d['OP00032101'])
     assert len(fakebucket.db) == 0
-
-def test_truthy():
-    name = 'sotehusatoehus'
-    fakebucket = FakeBucket(name)
-    v = S3Vlermv(name, bucket = fakebucket)
-    assert v
