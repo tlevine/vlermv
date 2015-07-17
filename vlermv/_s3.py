@@ -49,7 +49,8 @@ class S3Vlermv(AbstractVlermv):
 
     def __delitem__(self, index):
         super(S3Vlermv, self).__delitem__(index)
-        raise NotImplementedError
+        keyname = self.filename(index)
+        self.bucket.delete_key(keyname)
 
     def __len__(self):
         return sum(1 for _ in self.keys())

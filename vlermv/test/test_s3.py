@@ -12,6 +12,8 @@ class FakeBucket:
     def get_key(self, key):
         if key in self.db:
             return FakeKey(self.db, key)
+    def delete_key(self, key):
+        del(self.db[key])
 
 class FakeKey:
     def __init__(self, db, key):
@@ -52,3 +54,10 @@ def test_write():
 def test_split():
     assert split('a/bb/cc') == ('a', 'bb', 'cc')
     assert split('one') == ('one',)
+
+def test_delete():
+    fakebucket = FakeBucket()
+    d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
+    d['OP00032101'] = CONTRACT
+    del(d['OP00032101'])
+    assert len(fakebucket.db) == 0
