@@ -166,7 +166,7 @@ There's probably a problem with the serializer.''')
 
     def __delitem__(self, index):
         if not self.mutable:
-            raise PermissionError('This warehouse is immutable, so you can\'t delete things.')
+            raise PermissionError('This vlermv is immutable, so you can\'t delete things.')
 
     def __contains__(self, index):
         fn = self.filename(index)
