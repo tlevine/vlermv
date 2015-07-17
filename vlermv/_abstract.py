@@ -94,7 +94,7 @@ class AbstractVlermv:
         self.func = None
 
     def __call__(self, *args, **kwargs):
-        if not self.func:
+        if self.func == None:
             msg = 'Set %s.func to something if you want to call %s.'
             raise NotImplementedError(msg % (self, self))
         if args in self:
