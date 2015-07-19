@@ -1,12 +1,10 @@
 To do
 
-* Rename `vlermv.cache` to `vlermv.memoize`.
 * Remove flippant comments.
 * Change "database" language to "dictionary-file mapper".
 * Add a discussion at the beginning about shell file access, my distrust
     of my ability to write software that keeps working, and the merits
     of simplicity.
-
 
 Make an exception like this.
 
@@ -16,3 +14,10 @@ Make an exception like this.
 Raise that error if a key cannot be determined. Maybe add a function like
 `AbstractVlermv.validate` that goes through all of the `keys` and reports which
 ones are bad.
+
+Serializers
+
+* I should be able to set an "extension" property of the serializer.
+    If this is set, the extension will be appended to filenames.
+* I should be able to pass an iterable of serializers, rather than just
+    a single serializer. If I do this, the serializers will be composed.
