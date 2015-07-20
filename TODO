@@ -1,7 +1,7 @@
 To do
 
 * Remove flippant comments.
-* Change "database" language to "dictionary-file mapper".
+* Change "database" language to "file-dictionary-function mapper".
 * Add a discussion at the beginning about shell file access, my distrust
     of my ability to write software that keeps working, and the merits
     of simplicity.
