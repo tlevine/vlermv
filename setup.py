@@ -7,8 +7,8 @@ setup(name='vlermv',
       url='https://thomaslevine.com/!/vlermv/',
       packages=['vlermv', 'vlermv.serializers', 'vlermv.transformers'],
       install_requires = [
-          'thready>=1.4.0',
-          'boto',
+          'thready>=0.1.4',
+          'boto>=2.38.0',
       ],
       tests_require = [
           'pytest>=2.6.4', 'testfixtures>=4.1.2',
