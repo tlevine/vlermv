@@ -58,3 +58,12 @@ def test_truthy_call():
     v.func = None
     with pytest.raises(NotImplementedError):
         v(8) == 11
+
+def test_iter():
+    'Iter should get keys.'
+    class DictVlermv(a.AbstractVlermv):
+        d = {8:9}
+        def keys(self):
+            return self.d.keys()
+    v = DictVlermv()
+    assert next(iter(v)) == 8
