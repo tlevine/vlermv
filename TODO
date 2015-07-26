@@ -1,4 +1,7 @@
 To do
+=======
+
+Documentation
 
 * Remove flippant comments.
 * Change "database" language to "file-dictionary-function mapper".
@@ -21,3 +24,11 @@ Serializers
     If this is set, the extension will be appended to filenames.
 * I should be able to pass an iterable of serializers, rather than just
     a single serializer. If I do this, the serializers will be composed.
+
+Transformers: Set a regular expression or PyParsing parser or something.
+
+* When loading resources with ``keys()``, emit only resources whose
+    filenames match the expression.
+* For complicated filenames, you can reference this expression in the
+    ``from_path`` and ``to_path`` functions.
+* When saving resources, raise an error if the expression is not met.
