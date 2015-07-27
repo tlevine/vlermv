@@ -1,3 +1,5 @@
+import pickle
+
 import pytest
 from testfixtures import LogCapture
 
@@ -69,18 +71,16 @@ def test_iter():
     assert next(iter(v)) == 8
 
 def test_extension():
-    class ChickenTransformer:
-        def from_path(*args):
-            return 'chicken'
-        def to_path(self, filename):
-            return (filename,)
-        extension = '.csv'
+    class ChickenSerializer:
+        dump = pickle.dump
+        loan = pickle.load
+        extension = '.chicken'
 
     class DictVlermv(a.AbstractVlermv):
         d = {}
-        serializer = ChickenTransformer
+        serializer = ChickenSerializer
 
     v = DictVlermv()
-    assert v.filename('raochusaochesu') == 'chicken.csv'
-    assert v.from_filename('abc.csv') == ('abc',)
+    assert v.filename((9203, 902)) == 'chicken.chicken'
+    assert v.from_filename('abc.chicken') == ('abc',)
     assert v.from_filename('abc.xls') == None
