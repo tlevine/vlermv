@@ -45,13 +45,9 @@ class S3Vlermv(AbstractVlermv):
 
     def keys(self, **kwargs):
         for k in self.bucket.list(**kwargs):
-            if not self.serializer.extension:
-                key = k.name
-            elif k.name.endswith(self.serializer.extension):
-                key = re.sub(self.serializer.extension + '$', '', k.name)
-            else:
-                continue
-            yield self.key_transformer.from_path(split(key.rstrip('/')))
+            key = self._remove_extension(k.name)
+            if key != None:
+                yield self.key_transformer.from_path(split(key.rstrip('/')))
 
     def __delitem__(self, index):
         super(S3Vlermv, self).__delitem__(index)

@@ -190,3 +190,36 @@ There's probably a problem with the serializer.''')
     def items(self):
         for key in self.keys():
             yield key, self[key]
+
+    def _remove_extension(self, filename):
+        if not self.serializer.extension:
+            new_filename = filename
+        elif k.name.endswith(self.serializer.extension):
+            new_filename = re.sub(self.serializer.extension + '$', '', filename)
+        else:
+            return None
+        return new_filename
+
+    def _add_extension(self, filename):
+        if self.serializer.extension:
+            return filename + self.serializer.extension
+        else:
+            return filename
+
+    def __setitem__(self, index, obj):
+        raise NotImplementedError
+
+    def __contains__(self, index):
+        raise NotImplementedError
+
+    def __getitem__(self, index):
+        raise NotImplementedError
+
+    def keys(self, **kwargs):
+        raise NotImplementedError
+
+    def __delitem__(self, index):
+        raise NotImplementedError
+
+    def __len__(self):
+        raise NotImplementedError
