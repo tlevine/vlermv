@@ -114,7 +114,10 @@ class Vlermv(AbstractVlermv):
             os.rename(tmp, fn)
 
     def __getitem__(self, index):
-        return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
+        try:
+            return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
+        except OpenError:
+            raise KeyError(index)
 
     def __delitem__(self, index):
         super(Vlermv, self).__delitem__(index)
