@@ -77,10 +77,10 @@ def test_extension():
         extension = '.csv'
 
     class DictVlermv(a.AbstractVlermv):
-        d = {8:9}
+        d = {}
         serializer = ChickenTransformer
 
     v = DictVlermv()
-    assert v.filename(9823) == 'chicken.csv'
+    assert v.filename('raochusaochesu') == 'chicken.csv'
     assert v.from_filename('abc.csv') == ('abc',)
     assert v.from_filename('abc.xls') == None
