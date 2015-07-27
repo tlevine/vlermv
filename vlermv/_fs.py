@@ -4,7 +4,29 @@ from string import ascii_letters
 
 from ._exceptions import DeleteError, PermissionError, out_of_space
 from ._abstract import AbstractVlermv
-from ._util import split, _get_fn
+from ._exceptions import OpenError
+
+def _get_fn(fn, mode, load):
+    '''
+    Load a contents, checking that the file was not modified during the read.
+    '''
+    try:
+        mtime_before = os.path.getmtime(fn)
+    except OSError:
+        mtime_before = None
+
+    try:
+        with open(fn, mode) as fp:
+            item = load(fp)
+    except OpenError as e:
+        raise KeyError(*e.args)
+    else:
+        mtime_after = os.path.getmtime(fn)
+        if mtime_before in {None, mtime_after}:
+            return item
+        else:
+            raise EnvironmentError('File was edited during read: %s' % fn)
+
 
 def _random_file_name():
     n = len(ascii_letters) - 1

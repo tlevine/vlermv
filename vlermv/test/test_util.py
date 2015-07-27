@@ -1,8 +1,6 @@
-import tempfile, time
-
 import pytest
 
-from .._util import split, _get_fn, method_or_name, safe_path
+from .._util import split, method_or_name, safe_path
 
 def test_split_empty():
     '''
@@ -20,25 +18,6 @@ testcases_split = [
 @pytest.mark.parametrize('path,expected', testcases_split)
 def test_split(path, expected):
     assert split(path) == expected
-
-def test_get_fn_success():
-    with tempfile.NamedTemporaryFile('w') as tmp:
-        tmp.file.write('abc')
-        tmp.file.close()
-        assert 'abc' == _get_fn(tmp.name, 'r', lambda fp: fp.read())
-
-def test_get_fn_fail():
-    def f(fp):
-        time.sleep(2) # so mtime changes
-        with open(fp.name, 'w') as fp2:
-            fp2.write('other-process')
-        return fp.read()
-
-    with tempfile.NamedTemporaryFile('w') as tmp:
-        tmp.file.write('this-process')
-        tmp.file.close()
-        with pytest.raises(EnvironmentError):
-            _get_fn(tmp.name, 'r', f)
 
 def test_method_or_name_not_str():
     class namespace:
