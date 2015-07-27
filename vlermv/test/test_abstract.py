@@ -72,8 +72,6 @@ def test_iter():
 
 def test_extension():
     class ChickenSerializer:
-        dump = pickle.dump
-        loan = pickle.load
         extension = '.chicken'
 
     class DictVlermv(a.AbstractVlermv):
@@ -81,6 +79,6 @@ def test_extension():
         serializer = ChickenSerializer
 
     v = DictVlermv()
-    assert v.filename((9203, 902)) == 'chicken.chicken'
+    assert v.filename('def') == 'def.chicken'
     assert v.from_filename('abc.chicken') == ('abc',)
     assert v.from_filename('abc.xls') == None
