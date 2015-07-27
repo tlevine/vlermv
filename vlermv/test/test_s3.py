@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from .._s3 import S3Vlermv, split
+from .._s3 import S3Vlermv
 
 class FakeBucket:
     def __init__(self, name, **db):
@@ -54,10 +54,6 @@ def test_write():
     assert fakebucket.db == {}
     d['OP00032101'] = CONTRACT
     assert fakebucket.db == {'OP00032101': PAYLOAD}
-
-def test_split():
-    assert split('a/bb/cc') == ('a', 'bb', 'cc')
-    assert split('one') == ('one',)
 
 def test_delete():
     fakebucket = FakeBucket('aoeu')
