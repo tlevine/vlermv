@@ -18,8 +18,8 @@ def _get_fn(fn, mode, load):
     try:
         with open(fn, mode) as fp:
             item = load(fp)
-    except OpenError as e:
-        raise KeyError(*e.args)
+    except OpenError:
+        raise
     else:
         mtime_after = os.path.getmtime(fn)
         if mtime_before in {None, mtime_after}:

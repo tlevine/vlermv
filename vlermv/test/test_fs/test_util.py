@@ -43,4 +43,3 @@ def test_get_fn_fail():
         tmp.file.close()
         with pytest.raises(EnvironmentError):
             fs._get_fn(tmp.name, 'r', f)
-

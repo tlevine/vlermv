@@ -45,6 +45,9 @@ class TestVlermv(Base):
         with pytest.raises(KeyError):
             self.w[('not a file',)]
 
+        with pytest.raises(KeyError):
+            self.w[('not', 'even', 'a', 'directory')]
+
     def test_get(self):
         with open(os.path.join(self.directory, 'profession'), 'wb') as fp:
             observed = pickle.dump('dada artist', fp)
