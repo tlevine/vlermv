@@ -156,7 +156,15 @@ There's probably a problem with the serializer.''')
         elif not all(isinstance(x, str) for x in subpath):
             msg = 'Elements of subpath should all be str; here is subpath:\n%s' % repr(subpath)
             raise TypeError(msg)
-        return os.path.join(self.base_directory, *safe_path(subpath))
+        return os.path.join(self.base_directory, *safe_path(subpath)) + self._extension()
+
+    def from_filename(self, filename):
+        '''
+        Convert filename into key.
+        '''
+        if filename.endswith(self._extension()):
+            strpath = re.sub(self._extension() + '$', '', filename)
+            return self.key_transformer.from_path(tuple(strpath.split('/')))
 
     def __iter__(self):
         return (k for k in self.keys())
@@ -191,20 +199,8 @@ There's probably a problem with the serializer.''')
         for key in self.keys():
             yield key, self[key]
 
-    def _remove_extension(self, filename):
-        if not self.serializer.extension:
-            new_filename = filename
-        elif k.name.endswith(self.serializer.extension):
-            new_filename = re.sub(self.serializer.extension + '$', '', filename)
-        else:
-            return None
-        return new_filename
-
-    def _add_extension(self, filename):
-        if self.serializer.extension:
-            return filename + self.serializer.extension
-        else:
-            return filename
+    def _extension(self):
+        return getattr(self.serializer, 'extension', '')
 
     def __setitem__(self, index, obj):
         raise NotImplementedError

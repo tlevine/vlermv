@@ -119,6 +119,6 @@ class Vlermv(AbstractVlermv):
         for dirpath, _, filenames in os.walk(self.base_directory):
             if dirpath != os.path.join(self.base_directory, self.tempdir):
                 for filename in filenames:
-                    strpath = self._remove_extension(os.path.relpath(os.path.join(dirpath, filename), self.base_directory))
-                    if strpath != None:
-                        yield self.key_transformer.from_path(split(strpath))
+                    path = self.from_filename(os.path.relpath(os.path.join(dirpath, filename), self.base_directory))
+                    if path != None:
+                        yield path

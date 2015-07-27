@@ -3,9 +3,6 @@ import tempfile
 from ._abstract import AbstractVlermv
 from ._safe_buckets import SafeBuckets
 
-def split(x):
-    return tuple(x.split('/'))
-
 class S3Vlermv(AbstractVlermv):
     buckets = SafeBuckets()
 
@@ -45,9 +42,9 @@ class S3Vlermv(AbstractVlermv):
 
     def keys(self, **kwargs):
         for k in self.bucket.list(**kwargs):
-            key = self._remove_extension(k.name)
-            if key != None:
-                yield self.key_transformer.from_path(split(key.rstrip('/')))
+            index = self.from_filename(k.name) # .rstrip('/')
+            if index != None:
+                yield index
 
     def __delitem__(self, index):
         super(S3Vlermv, self).__delitem__(index)
