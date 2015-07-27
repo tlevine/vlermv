@@ -1,4 +1,4 @@
-import os
+import os, re
 
 from ._exceptions import PermissionError
 from .serializers import pickle
@@ -205,16 +205,10 @@ There's probably a problem with the serializer.''')
     def __setitem__(self, index, obj):
         raise NotImplementedError
 
-    def __contains__(self, index):
-        raise NotImplementedError
-
     def __getitem__(self, index):
         raise NotImplementedError
 
     def keys(self, **kwargs):
-        raise NotImplementedError
-
-    def __delitem__(self, index):
         raise NotImplementedError
 
     def __len__(self):
