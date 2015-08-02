@@ -208,3 +208,18 @@ For example, this is what the :py:data:`~vlermv.transformers.simple`
 transformer looks like.
 
 .. literalinclude:: ../vlermv/transformers/simple.py
+
+Tip: Keep your transformers simple
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How much logic should you put inside a transformer, and how much logic should
+go in the outside code? I suggest that you make your transformers as simple as
+convenient.
+
+Compared to an ordinary function, a transformer can be harder to debug and more
+confusing. Because of this, complex transformers like
+:py:data:`~vlermv.transformers.simple` are pretty much only worth using when
+they do exactly what you want.
+
+If you have to do especially complex key transformations, such as splitting
+up a filename into several parts to parse data from it, you should use the
+identity transformer and do the manipulations outside the transformer.
