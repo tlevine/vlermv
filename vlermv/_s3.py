@@ -20,9 +20,6 @@ class S3Vlermv(AbstractVlermv):
     def __repr__(self):
         return 'S3Vlermv(%s/%s)' % (self.bucket.name, self.base_directory)
 
-    def filename(self, index):
-        return self.base_directory + super(S3Vlermv, self).filename(index)
-
     def from_filename(self, filename):
         i = len(self.base_directory)
         if filename[:i] == self.base_directory:

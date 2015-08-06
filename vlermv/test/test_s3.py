@@ -67,5 +67,8 @@ def test_prefix():
     db = {'contracts/OP00032101': PAYLOAD}
     d = S3Vlermv('procurement-documents', 'contracts', serializer = json,
                  bucket = FakeBucket('procurement-documents', **db))
+
+    assert d.filename(('OP00032101',)) == 'contracts/OP00032101'
+    assert d.from_filename('contracts/OP00032101') == ('OP00032101',)
     assert list(d.keys()) == [('OP00032101',)]
     assert d['OP00032101'] == CONTRACT
