@@ -161,7 +161,7 @@ There's probably a problem with the serializer.''')
 
     def from_filename(self, filename):
         '''
-        Convert filename into key.
+        Convert an absolute filename into key.
         '''
         i = len(self.base_directory)
         if filename[:i] != self.base_directory:
