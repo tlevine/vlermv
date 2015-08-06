@@ -53,8 +53,8 @@ class AbstractVlermv:
     mutable = True
     tempdir = '.tmp'
     cache_exceptions = False
-    base_directory = ''
     extension = ''
+    base_directory = ''
 
     def __init__(self, **kwargs):
         '''
@@ -172,7 +172,7 @@ There's probably a problem with the serializer.''')
                 j = -len(self.extension)
             else:
                 j = None
-            return self.key_transformer.from_path(tuple(filename[i:j].split('/')))
+            return self.key_transformer.from_path(tuple(filename[i:j].strip('/').split('/')))
 
     def __iter__(self):
         return (k for k in self.keys())

@@ -145,6 +145,5 @@ class Vlermv(AbstractVlermv):
             if dirpath != os.path.join(self.base_directory, self.tempdir):
                 for filename in filenames:
                     path = self.from_filename(os.path.abspath(os.path.join(dirpath, filename)))
-                    print(path)
                     if path != None:
                         yield path
