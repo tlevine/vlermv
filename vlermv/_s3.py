@@ -6,15 +6,22 @@ from ._safe_buckets import SafeBuckets
 class S3Vlermv(AbstractVlermv):
     buckets = SafeBuckets()
 
-    def __init__(self, bucketname, *args, bucket = None, **kwargs):
+    def __init__(self, bucketname, *path, bucket = None, **kwargs):
         super(S3Vlermv, self).__init__(**kwargs)
         if bucket:
             self.bucket = bucket
         else:
             self.bucket = self.buckets[bucketname]
 
+        self.base_directory = '/'.join(path)
+        if self.base_directory != '':
+            self.base_directory += '/'
+
     def __repr__(self):
-        return 'S3Vlermv(%s)' % repr(self.bucket.name)
+        return 'S3Vlermv(%s/%s)' % (self.bucket.name, self.base_directory)
+
+    def filename(self, index):
+        return self.base_directory + super(S3Vlermv, self).filename(index)
 
     def __setitem__(self, index, obj):
         keyname = self.filename(index)
@@ -40,9 +47,9 @@ class S3Vlermv(AbstractVlermv):
         else:
             raise KeyError(keyname)
 
-    def keys(self, **kwargs):
-        for k in self.bucket.list(**kwargs):
-            index = self.from_filename(k.name) # .rstrip('/')
+    def keys(self):
+        for k in self.bucket.list(prefix = self.base_directory):
+            index = self.from_filename(k.name)
             if index != None:
                 yield index
 
