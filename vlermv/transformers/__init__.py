@@ -1,2 +1,2 @@
-from . import ( magic, base64, tuple, simple, )
+from . import ( magic, base64, tuple, simple, raw, )
 from ._delimit import ( slash, backslash, )
