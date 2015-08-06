@@ -68,6 +68,8 @@ def test_prefix():
     d = S3Vlermv('procurement-documents', 'contracts', serializer = json,
                  bucket = FakeBucket('procurement-documents', **db))
 
+    with pytest.raises(KeyError):
+        d.filename(tuple())
     assert d.filename(('OP00032101',)) == 'contracts/OP00032101'
     assert d.from_filename('contracts/OP00032101') == ('OP00032101',)
     assert list(d.keys()) == [('OP00032101',)]
