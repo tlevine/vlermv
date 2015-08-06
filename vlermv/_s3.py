@@ -20,13 +20,6 @@ class S3Vlermv(AbstractVlermv):
     def __repr__(self):
         return 'S3Vlermv(%s/%s)' % (self.bucket.name, self.base_directory)
 
-    def from_filename(self, filename):
-        i = len(self.base_directory)
-        if filename[:i] == self.base_directory:
-            return super(S3Vlermv, self).from_filename(filename[i:])
-        else:
-            raise ValueError('Filename must start with "%s".' % self.base_directory)
-
     def __setitem__(self, index, obj):
         keyname = self.filename(index)
         key = self.bucket.new_key(keyname)

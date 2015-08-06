@@ -166,6 +166,15 @@ There's probably a problem with the serializer.''')
             strpath = re.sub(self._extension() + '$', '', filename)
             return self.key_transformer.from_path(tuple(strpath.split('/')))
 
+    def from_filename(self, filename):
+        i = len(self.base_directory)
+        if filename[:i] == self.base_directory:
+            strpath = filename[i:]
+            return self.key_transformer.from_path(tuple(strpath.split('/')))
+        else:
+            raise ValueError('Filename must start with "%s".' % self.base_directory)
+
+
     def __iter__(self):
         return (k for k in self.keys())
 
