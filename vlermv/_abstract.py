@@ -54,6 +54,7 @@ class AbstractVlermv:
     tempdir = '.tmp'
     cache_exceptions = False
     base_directory = ''
+    extension = ''
 
     def __init__(self, **kwargs):
         '''
@@ -83,7 +84,7 @@ class AbstractVlermv:
             can't cache exceptions
         '''
         for key in ['serializer', 'appendable', 'mutable', 'base_directory',
-                    'key_transformer', 'cache_exceptions']:
+                    'key_transformer', 'cache_exceptions', 'extension']:
             setattr(self, key, kwargs.get(key, getattr(self.__class__, key)))
 
         if self.cache_exceptions and not getattr(self.serializer, 'cache_exceptions', True):
@@ -138,8 +139,8 @@ There's probably a problem with the serializer.''')
 
     def filename(self, index):
         '''
-        Get the filename corresponding to a key; that is, run the
-        key_transformer on the key.
+        Get the absolute filename corresponding to a key; run the
+        key_transformer on the key and do a few other small things.
 
         :raises TypeError: if the key_transformer returns something other than
             a :py:class:`tuple` of :py:class:`strings <str>`
@@ -156,24 +157,18 @@ There's probably a problem with the serializer.''')
         elif not all(isinstance(x, str) for x in subpath):
             msg = 'Elements of subpath should all be str; here is subpath:\n%s' % repr(subpath)
             raise TypeError(msg)
-        return os.path.join(self.base_directory, *safe_path(subpath)) + self._extension()
+        return os.path.join(self.base_directory, *safe_path(subpath)) + self.extension
 
     def from_filename(self, filename):
         '''
         Convert filename into key.
         '''
-        if filename.endswith(self._extension()):
-            strpath = re.sub(self._extension() + '$', '', filename)
-            return self.key_transformer.from_path(tuple(strpath.split('/')))
-
-    def from_filename(self, filename):
         i = len(self.base_directory)
-        if filename[:i] == self.base_directory:
-            strpath = filename[i:]
-            return self.key_transformer.from_path(tuple(strpath.split('/')))
-        else:
+        if filename[:i] != self.base_directory:
             raise ValueError('Filename must start with "%s".' % self.base_directory)
 
+        if filename.endswith(self.extension):
+            return self.key_transformer.from_path(tuple(filename[i:].split('/')))
 
     def __iter__(self):
         return (k for k in self.keys())
@@ -207,9 +202,6 @@ There's probably a problem with the serializer.''')
     def items(self):
         for key in self.keys():
             yield key, self[key]
-
-    def _extension(self):
-        return getattr(self.serializer, 'extension', '')
 
     def __setitem__(self, index, obj):
         raise NotImplementedError
