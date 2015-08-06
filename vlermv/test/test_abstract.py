@@ -71,14 +71,9 @@ def test_iter():
     assert next(iter(v)) == 8
 
 def test_extension():
-    class ChickenSerializer:
-        extension = '.chicken'
-
     class DictVlermv(a.AbstractVlermv):
         d = {}
-        serializer = ChickenSerializer
-
-    v = DictVlermv()
+    v = DictVlermv(extension = '.chicken')
     assert v.filename('def') == 'def.chicken'
-    assert v.from_filename('abc.chicken') == ('abc',)
     assert v.from_filename('abc.xls') == None
+    assert v.from_filename('abc.chicken') == ('abc',)
