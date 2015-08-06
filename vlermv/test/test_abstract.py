@@ -74,6 +74,7 @@ def test_extension():
     class DictVlermv(a.AbstractVlermv):
         d = {}
     v = DictVlermv(extension = '.chicken')
+    assert v.extension == '.chicken'
     assert v.filename('def') == 'def.chicken'
     assert v.from_filename('abc.xls') == None
     assert v.from_filename('abc.chicken') == ('abc',)

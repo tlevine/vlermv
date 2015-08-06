@@ -168,7 +168,11 @@ There's probably a problem with the serializer.''')
             raise ValueError('Filename must start with "%s".' % self.base_directory)
 
         if filename.endswith(self.extension):
-            return self.key_transformer.from_path(tuple(filename[i:].split('/')))
+            if len(self.extension) > 0:
+                j = -len(self.extension)
+            else:
+                j = None
+            return self.key_transformer.from_path(tuple(filename[i:j].split('/')))
 
     def __iter__(self):
         return (k for k in self.keys())
