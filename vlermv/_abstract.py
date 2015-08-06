@@ -165,7 +165,7 @@ There's probably a problem with the serializer.''')
         '''
         i = len(self.base_directory)
         if filename[:i] != self.base_directory:
-            raise ValueError('Filename must start with "%s".' % self.base_directory)
+            raise ValueError('Filename needs to start with "%s";\nyou passed "%s".' % (self.base_directory, filename))
 
         if filename.endswith(self.extension):
             if len(self.extension) > 0:
