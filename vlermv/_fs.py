@@ -92,6 +92,7 @@ class Vlermv(AbstractVlermv):
         return 'Vlermv(%s)' % repr(self.base_directory)
 
     def __setitem__(self, index, obj):
+        super(Vlermv, self).__setitem__(index, obj)
         fn = self.filename(index)
         os.makedirs(os.path.dirname(fn), exist_ok = True)
         exists = os.path.exists(fn)

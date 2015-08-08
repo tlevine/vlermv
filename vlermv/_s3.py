@@ -21,6 +21,7 @@ class S3Vlermv(AbstractVlermv):
         return 'S3Vlermv(%s/%s)' % (self.bucket.name, self.base_directory)
 
     def __setitem__(self, index, obj):
+        super(S3Vlermv, self).__setitem__(index, obj)
         keyname = self.filename(index)
         key = self.bucket.new_key(keyname)
         with tempfile.NamedTemporaryFile('w+' + self._b()) as tmp:

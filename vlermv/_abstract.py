@@ -208,7 +208,10 @@ There's probably a problem with the serializer.''')
             yield key, self[key]
 
     def __setitem__(self, index, obj):
-        raise NotImplementedError
+        if (not self.mutable) and (index in self):
+            raise PermissionError('This vlermv is not mutable, so you can\'t edit things.')
+        if (not self.appendable) and (index not in self):
+            raise PermissionError('This vlermv is not appendable, so you can\'t append new things.')
 
     def __getitem__(self, index):
         raise NotImplementedError
