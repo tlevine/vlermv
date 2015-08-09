@@ -32,3 +32,8 @@ Transformers: Set a regular expression or PyParsing parser or something.
 * For complicated filenames, you can reference this expression in the
     ``from_path`` and ``to_path`` functions.
 * When saving resources, raise an error if the expression is not met.
+
+Fancy relevant Python 3.5 features
+
+* https://www.python.org/dev/peps/pep-0471/
+* https://www.python.org/dev/peps/pep-0492/
