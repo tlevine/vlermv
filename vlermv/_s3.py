@@ -38,7 +38,10 @@ class S3Vlermv(AbstractVlermv):
         key = self.bucket.get_key(keyname)
         if key:
             with tempfile.NamedTemporaryFile('w+' + self._b()) as tmp:
+               #try:
                 key.get_contents_to_filename(tmp.name)
+               #except socket.timeout
+               #    ('The read operation timed out')
                 tmp.file.seek(0)
                 value = self.serializer.load(tmp.file)
             return value

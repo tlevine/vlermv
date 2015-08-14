@@ -8,32 +8,36 @@ class FakeBucket:
     def __init__(self, name, **db):
         self.db = db
         self.name = name
+        self.raise_timeout = False
     def list(self, prefix = ''):
         for key in self.db:
             if key.startswith(prefix):
                 yield self.new_key(key)
     def new_key(self, key):
-        return FakeKey(self.db, key)
+        return FakeKey(self, key)
     def get_key(self, key):
         if key in self.db:
-            return FakeKey(self.db, key)
+            return FakeKey(self, key)
     def delete_key(self, key):
         del(self.db[key])
 
 class FakeKey:
-    def __init__(self, db, name):
-        self.db = db
+    def __init__(self, bucket, name):
+        self.bucket = bucket
         self.name = name
     def get_contents_as_string(self):
-        return self.db[self.name]
+        return self.bucket.db[self.name]
     def get_contents_to_filename(self, filename):
-        with open(filename, 'wb') as fp:
-            fp.write(self.db[self.name])
+        if self.bucket.raise_timeout:
+            raise socket.timeout('The read operation timed out')
+        else:
+            with open(filename, 'wb') as fp:
+                fp.write(self.bucket.db[self.name])
     def set_contents_from_string(self, payload, **kwargs):
-        self.db[self.name] = payload
+        self.bucket.db[self.name] = payload
     def set_contents_from_filename(self, filename, **kwargs):
         with open(filename, 'rb') as fp:
-            self.db[self.name] = fp.read()
+            self.bucket.db[self.name] = fp.read()
 
 CONTRACT = {
     'bids': [],
@@ -74,3 +78,8 @@ def test_prefix():
     assert d.from_filename('contracts/OP00032101') == ('OP00032101',)
     assert list(d.keys()) == [('OP00032101',)]
     assert d['OP00032101'] == CONTRACT
+
+#ef test_handle_socket_timeout
+#socket.timeout('The read operation timed out')
+#   fakebucket = FakeBucket('aoeu')
+#   d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
