@@ -9,3 +9,16 @@ Neat trick ::
     @vlermv.S3Vlermv('tom-hundred')
     def hundred(x):
         return x * 100
+
+When we get a record with :py:class:`vlermv.S3Vlermv`, we call
+:py:module:`boto` to download the appropriate data from S3. It is
+possible that this download will time out; in this case,
+:py:class:`vlermv.S3Vlermv.Timeout` is called. ::
+
+    v = vlermv.S3Vlermv('kuoorur')
+    try:
+        x = v['guoqu']
+    except v.Timeout:
+        print('Download timed out.')
+    else:
+        print(x)
