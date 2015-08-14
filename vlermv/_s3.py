@@ -45,8 +45,14 @@ class S3Vlermv(AbstractVlermv):
                     key.get_contents_to_filename(tmp.name)
                 except socket.timeout:
                     raise self.__class__.Timeout('Timeout when reading from S3')
+
                 tmp.file.seek(0)
-                value = self.serializer.load(tmp.file)
+
+                try:
+                    value = self.serializer.load(tmp.file)
+                except FileNotFoundError:
+                    raise self.__class__.Timeout('Timeout when reading from S3')
+
             return value
         else:
             raise KeyError(keyname)
