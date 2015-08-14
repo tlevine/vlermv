@@ -85,6 +85,7 @@ def test_prefix():
 def test_handle_socket_timeout():
     fakebucket = FakeBucket('aoeu', raise_timeout = True)
     d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
+    d[9] = 'nine'
     with pytest.raises(S3Vlermv.Timeout):
         d[9]
 

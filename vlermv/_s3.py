@@ -1,4 +1,4 @@
-import tempfile
+import tempfile, socket
 
 from ._abstract import AbstractVlermv
 from ._safe_buckets import SafeBuckets
@@ -33,15 +33,18 @@ class S3Vlermv(AbstractVlermv):
         keyname = self.filename(index)
         return self.bucket.get_key(keyname) != None
 
+    class Timeout(socket.timeout):
+        pass
+
     def __getitem__(self, index):
         keyname = self.filename(index)
         key = self.bucket.get_key(keyname)
         if key:
             with tempfile.NamedTemporaryFile('w+' + self._b()) as tmp:
-               #try:
-                key.get_contents_to_filename(tmp.name)
-               #except socket.timeout
-               #    ('The read operation timed out')
+                try:
+                    key.get_contents_to_filename(tmp.name)
+                except socket.timeout:
+                    raise self.__class__.Timeout('Timeout when reading from S3')
                 tmp.file.seek(0)
                 value = self.serializer.load(tmp.file)
             return value
