@@ -85,6 +85,8 @@ def test_prefix():
 def test_handle_socket_timeout():
     fakebucket = FakeBucket('aoeu', raise_timeout = True)
     d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
+    with pytest.raises(S3Vlermv.Timeout):
+        d[9]
 
 tc = [
     ('get_contents_to_filename', ('/not/a/file',)),
