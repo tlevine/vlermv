@@ -26,7 +26,10 @@ class FakeKey:
         self.bucket = bucket
         self.name = name
     def get_contents_as_string(self):
-        return self.bucket.db[self.name]
+        if self.bucket.raise_timeout:
+            raise socket.timeout('The read operation timed out')
+        else:
+            return self.bucket.db[self.name]
     def get_contents_to_filename(self, filename):
         if self.bucket.raise_timeout:
             raise socket.timeout('The read operation timed out')
