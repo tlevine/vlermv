@@ -88,6 +88,8 @@ def test_handle_socket_timeout():
     d[9] = 'nine'
     with pytest.raises(S3Vlermv.Timeout):
         d[9]
+    with pytest.raises(d.Timeout):
+        d[9]
 
 tc = [
     ('get_contents_to_filename', ('/not/a/file',)),
