@@ -1,4 +1,4 @@
-import json
+import json, socket
 
 import pytest
 
@@ -83,9 +83,18 @@ def test_handle_socket_timeout():
     fakebucket = FakeBucket('aoeu', raise_timeout = True)
     d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
 
-def test_fake_key_timeout():
+tc = [
+    ('get_contents_to_filename', ('/not/a/file',)),
+    ('get_contents_as_string', tuple()),
+]
+@pytest.mark.parametrize('method, args', tc) 
+def test_fake_key_timeout(method, args):
     fakebucket = FakeBucket('aoeu', raise_timeout = True)
+    k = fakebucket.new_key('abc')
     try:
-        fakebucket.new_key('abc').get_contents_as_string()
+        getattr(fakebucket.new_key('abc'), method)(*args)
     except socket.timeout as t:
-        assert t == socket.timeout('The read operation timed out')
+        assert isinstance(t, socket.timeout)
+        assert t.args == ('The read operation timed out',)
+    else:
+        raise AssertionError('FakeBucket did not raise timeout.')
