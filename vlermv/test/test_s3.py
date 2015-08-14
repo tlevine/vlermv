@@ -5,10 +5,10 @@ import pytest
 from .._s3 import S3Vlermv
 
 class FakeBucket:
-    def __init__(self, name, **db):
+    def __init__(self, name, raise_timeout = False, **db):
         self.db = db
         self.name = name
-        self.raise_timeout = False
+        self.raise_timeout = raise_timeout
     def list(self, prefix = ''):
         for key in self.db:
             if key.startswith(prefix):
@@ -79,7 +79,13 @@ def test_prefix():
     assert list(d.keys()) == [('OP00032101',)]
     assert d['OP00032101'] == CONTRACT
 
-#ef test_handle_socket_timeout
-#socket.timeout('The read operation timed out')
-#   fakebucket = FakeBucket('aoeu')
-#   d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
+def test_handle_socket_timeout():
+    fakebucket = FakeBucket('aoeu', raise_timeout = True)
+    d = S3Vlermv('contracts', bucket = fakebucket, serializer = json)
+
+def test_fake_key_timeout():
+    fakebucket = FakeBucket('aoeu', raise_timeout = True)
+    try:
+        fakebucket.new_key('abc').get_contents_as_string()
+    except socket.timeout as t:
+        assert t == socket.timeout('The read operation timed out')
