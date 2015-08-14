@@ -37,3 +37,42 @@ Fancy relevant Python 3.5 features
 
 * https://www.python.org/dev/peps/pep-0471/
 * https://www.python.org/dev/peps/pep-0492/
+
+
+Add an ``inherit_contains`` kwarg that falls back to wrapped vlermvs for
+calls to the ``__contains__`` method when the present
+vlermv does not contain the stuff. Consider the following scenario
+
+    @vlermv.Vlermv.memoize('~/.abc')
+    @vlermv.S3Vlermv.memoize('abc')
+    def abc(x):
+        return 'squash'
+
+    S3abc = vlermv.S3Vlermv('abc')[1234] = 'carrots'
+    
+    assert (1234,) not in abc
+
+Without ``inherit_contains``, ``(1234,)`` is not in ``abc`` because
+``(1234,)`` is not stored in ``~/.abc``. It *is* in the "abc" S3 bucket,
+but we don't know that because we never check.
+
+    @vlermv.Vlermv.memoize('~/.abc', inherit_contains = True)
+    @vlermv.S3Vlermv.memoize('abc')
+    def abc(x):
+        return 'squash'
+
+    S3abc = vlermv.S3Vlermv('abc')[1234] = 'carrots'
+    
+    assert (1234,) in abc
+
+When we set ``inherit_contains = True``, we pass ``__contains__`` to the
+S3Vlermv; we use the local Vlermv for caching the data, but we use the
+S3Vlermv for checking whether data exist.
+
+The following assertions work the same in both cases.
+
+    assert (1234,) in abc
+    assert S3abc(1234) == 'carrots'
+    assert abc(1234) == 'carrots'
+
+    vlermv.S3Vlermv.memoize('abc', inherit_contains = True)
