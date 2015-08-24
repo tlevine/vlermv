@@ -81,10 +81,13 @@ def test_extension():
 
 def test_call():
     'Call should work on callables without __name__s.'
+    class EEE(Exception):
+        pass
+
     class Function:
         def __call__(self, *args):
-            raise ValueError
+            raise EEE
 
     f = a.AbstractVlermv.memoize()(Function())
-    with pytest.raises(ValueError):
+    with pytest.raises(EEE):
         f()
