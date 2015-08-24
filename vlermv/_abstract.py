@@ -101,13 +101,17 @@ class AbstractVlermv:
         if self.func == None:
             msg = 'Set %s.func to something if you want to call %s.'
             raise NotImplementedError(msg % (self, self))
+        
+        if not hasattr(self.func, '__call__'):
+            raise AttributeError('%s.func must be callable.' % self.__class__.__name__)
+
         if args in self:
             output = self[args]
         else:
             try:
                 result = self.func(*args, **kwargs)
             except Exception as error:
-                signature = self.__class__.__name__, self.func.__name__, args, kwargs
+                signature = self.__class__.__name__, getattr(self.func, '__name__', str(self.func)), args, kwargs
                 msg = 'Exception in %s calling this memoized function:\n%s(*%s, *%s)' % signature
                 logger.error(msg, exc_info = False)
                 if self.cache_exceptions:
