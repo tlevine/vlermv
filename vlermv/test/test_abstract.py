@@ -78,3 +78,13 @@ def test_extension():
     assert v.filename('def') == 'def.chicken'
     assert v.from_filename('abc.xls') == None
     assert v.from_filename('abc.chicken') == ('abc',)
+
+def test_call():
+    'Call should work on callables without __name__s.'
+    class Function:
+        def __call__(self, *args):
+            raise ValueError
+
+    f = a.AbstractVlermv.memoize()(Function())
+    with pytest.raises(ValueError):
+        f()
