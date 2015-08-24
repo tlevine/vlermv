@@ -39,7 +39,10 @@ class AbstractVlermv:
         '''
         def decorator(func):
             if len(args) == 0:
-                _args = (func.__name__,)
+                if hasattr(func, '__name__'): 
+                    _args = (func.__name__,)
+                else:
+                    raise ValueError('You must specify the location to store the vlermv.')
             else:
                 _args = args
             v = Class(*_args, **kwargs)
