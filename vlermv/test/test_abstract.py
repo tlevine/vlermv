@@ -84,10 +84,14 @@ def test_call():
     class EEE(Exception):
         pass
 
+    class V(a.AbstractVlermv):
+        def __init__(self, *args):
+            pass
+
     class Function:
         def __call__(self, *args):
             raise EEE
 
-    f = a.AbstractVlermv.memoize()(Function())
+    f = V.memoize('abc')(Function())
     with pytest.raises(EEE):
-        f()
+        f('def')
