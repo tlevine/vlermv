@@ -76,3 +76,14 @@ The following assertions work the same in both cases.
     assert abc(1234) == 'carrots'
 
     vlermv.S3Vlermv.memoize('abc', inherit_contains = True)
+
+More documentation changes to keep up with the new features
+
+* Setting of the extension
+* The raw key transformer
+* The compressed pickle serializer
+* S3Vlermv, including
+  * Safe bucket
+  * Timeouts
+* Stacking of vlermvs, and inheritance of __contains__
+* Why you need to inherit functions when you implement a new vlermv backend
