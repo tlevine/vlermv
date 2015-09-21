@@ -37,5 +37,9 @@ class identity_mmap_str(_identity):
     binary_mode = True
 
     @staticmethod
+    def dump(obj, fp):
+        fp.write(obj.encode('utf-8'))
+
+    @staticmethod
     def load(fp):
         return identity_mmap_bytes.load(fp).decode('utf-8')
