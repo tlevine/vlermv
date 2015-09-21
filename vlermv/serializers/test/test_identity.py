@@ -1,5 +1,5 @@
 from .base import Base
-from .. import identity_str, identity_bytes, identity_mmap
+from .. import identity_str, identity_bytes, identity_mmap_str, identity_mmap_bytes
 
 class TestIdentityStr(Base):
     serializer = identity_str
@@ -11,5 +11,13 @@ class TestIdentityBytes(Base):
     obj = 'abc'.encode('ascii')
     dumped_obj = 'abc'.encode('ascii')
 
-class TestIdentityMmap(TestIdentityBytes):
-    serializer = identity_mmap
+class TestIdentityMmapStr(TestIdentityBytes):
+    serializer = identity_mmap_str
+
+class TestIdentityMmapBytes(TestIdentityBytes):
+    serializer = identity_mmap_bytes
+
+class TestIdentityMmapEmpty(Base):
+    serializer = identity_mmap_bytes
+    obj = ''.encode('ascii')
+    dumped_obj = ''.encode('ascii')
