@@ -20,14 +20,18 @@ class identity_bytes(_identity):
     'Dump and load raw bytes.'
     binary_mode = True
 
-class identity_mmap_str(_identity):
-    'Dump and load raw bytes, loading with a memory-mapped file.'
-    binary_mode = True
-    def load(fp):
-        return mmap.mmap(fp.fileno(), 0).read().decode('utf-8')
-
 class identity_mmap_bytes(_identity):
     'Dump and load raw bytes, loading with a memory-mapped file.'
     binary_mode = True
+
+    @staticmethod
     def load(fp):
         return mmap.mmap(fp.fileno(), 0).read()
+
+class identity_mmap_str(identity_mmap_bytes):
+    'Dump and load raw strings, loading with a memory-mapped file.'
+    binary_mode = True
+
+    @staticmethod
+    def load(fp):
+        return identity_mmap_bytes.load(fp).decode('utf-8')
