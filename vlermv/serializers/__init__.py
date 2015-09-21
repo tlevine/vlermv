@@ -4,3 +4,4 @@ try:
 except ImportError:
     pass
 from . import pickle, compressed_pickle
+from ._mmap import _mmap as mmap
