@@ -11,7 +11,7 @@ class TestIdentityBytes(Base):
     obj = 'abc'.encode('ascii')
     dumped_obj = 'abc'.encode('ascii')
 
-class TestIdentityMmapStr(TestIdentityBytes):
+class TestIdentityMmapStr(TestIdentityStr):
     serializer = identity_mmap_str
 
 class TestIdentityMmapBytes(TestIdentityBytes):

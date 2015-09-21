@@ -32,7 +32,7 @@ class identity_mmap_bytes(_identity):
         else:
             return b''
 
-class identity_mmap_str(identity_mmap_bytes):
+class identity_mmap_str(_identity):
     'Dump and load raw strings, loading with a memory-mapped file.'
     binary_mode = True
 
