@@ -1,4 +1,5 @@
 import mmap
+import os
 
 class _identity:
     'Dump and load things that are already serialized.'
@@ -26,7 +27,10 @@ class identity_mmap_bytes(_identity):
 
     @staticmethod
     def load(fp):
-        return mmap.mmap(fp.fileno(), 0).read()
+        if os.stat(fp.name).st_size > 0:
+            return mmap.mmap(fp.fileno(), 0).read()
+        else:
+            return b''
 
 class identity_mmap_str(identity_mmap_bytes):
     'Dump and load raw strings, loading with a memory-mapped file.'
