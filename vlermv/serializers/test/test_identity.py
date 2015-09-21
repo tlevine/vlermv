@@ -11,11 +11,15 @@ class TestIdentityBytes(Base):
     obj = 'abc'.encode('ascii')
     dumped_obj = 'abc'.encode('ascii')
 
-class TestIdentityMmapStr(TestIdentityStr):
+class TestIdentityMmapStr(Base):
     serializer = identity_mmap_str
+    obj = 'abc'
+    dumped_obj = 'abc'.encode('ascii')
 
-class TestIdentityMmapBytes(TestIdentityBytes):
+class TestIdentityMmapBytes(Base):
     serializer = identity_mmap_bytes
+    obj = 'abc'.encode('ascii')
+    dumped_obj = 'abc'.encode('ascii')
 
 class TestIdentityMmapEmpty(Base):
     serializer = identity_mmap_bytes
