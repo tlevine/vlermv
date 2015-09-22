@@ -102,7 +102,7 @@ class Vlermv(AbstractVlermv):
             raise PermissionError('This warehouse not appendable, and %s does not exist.' % fn)
         else:
             tmp = mktemp(self.tempdir)
-            with open(tmp, 'w' + self._b()) as fp:
+            with open(tmp, 'w+' + self._b()) as fp:
                 try:
                     self.serializer.dump(obj, fp)
                 except Exception as e:
