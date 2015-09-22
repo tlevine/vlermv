@@ -10,7 +10,7 @@ class Base:
             b = 'b'
         else:
             b = ''
-        return TemporaryFile('w+' + b)
+        return TemporaryFile('r+' + b)
 
     def test_dump(self):
         with self.tmp() as fp:
