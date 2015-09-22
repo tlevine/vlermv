@@ -116,7 +116,7 @@ class Vlermv(AbstractVlermv):
 
     def __getitem__(self, index):
         try:
-            return _get_fn(self.filename(index), 'r' + self._b(), self.serializer.load)
+            return _get_fn(self.filename(index), 'r+' + self._b(), self.serializer.load)
         except OpenError:
             raise KeyError(index)
 
