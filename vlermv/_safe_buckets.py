@@ -6,6 +6,8 @@ from boto import connect_s3
 def create_buckets(create_bucket, log, state):
     while True:
         bucketname = log.get()
+        if create_bucket == None:
+            create_bucket = connect_s3().create_bucket
         state[bucketname] = create_bucket(bucketname)
 
 class SafeBuckets:
@@ -13,9 +15,6 @@ class SafeBuckets:
     Thread-safely create a bucket.
     '''
     def __init__(self, create_bucket = None):
-        if create_bucket == None:
-            connect_s3().create_bucket
-
         self.log = queue.Queue()
         self.state = {}
         creator = threading.Thread(target = create_buckets,
