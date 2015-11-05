@@ -12,7 +12,10 @@ class SafeBuckets:
     '''
     Thread-safely create a bucket.
     '''
-    def __init__(self, create_bucket = connect_s3().create_bucket):
+    def __init__(self, create_bucket = None):
+        if create_bucket == None:
+            connect_s3().create_bucket
+
         self.log = queue.Queue()
         self.state = {}
         creator = threading.Thread(target = create_buckets,
