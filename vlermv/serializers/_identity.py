@@ -28,7 +28,7 @@ class identity_mmap_bytes(_identity):
     @staticmethod
     def load(fp):
         if os.stat(fp.name).st_size > 0:
-            return mmap.mmap(fp.fileno(), 0).read()
+            return mmap.mmap(fp.fileno(), 0, prot = mmap.PROT_READ).read()
         else:
             return b''
 
