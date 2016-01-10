@@ -17,7 +17,7 @@ def test_logging():
         with pytest.raises(ZeroDivisionError):
             v(8,9,3)
 
-    msg = 'Exception in AbstractVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), *{})'
+    msg = 'Exception in AbstractVlermv calling this memoized function:\n<lambda>(*(8, 9, 3), **{})'
     l.check(*((('vlermv._abstract', 'ERROR', msg),) * 2))
 
 def test_logging_cache_exceptions():
