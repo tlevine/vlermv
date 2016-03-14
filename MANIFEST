@@ -16,5 +16,6 @@ vlermv/transformers/__init__.py
 vlermv/transformers/_delimit.py
 vlermv/transformers/base64.py
 vlermv/transformers/magic.py
+vlermv/transformers/raw.py
 vlermv/transformers/simple.py
 vlermv/transformers/tuple.py
