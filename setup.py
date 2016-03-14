@@ -14,6 +14,6 @@ setup(name='vlermv',
           'pytest>=2.6.4', 'testfixtures>=4.1.2',
       ],
       version='1.4.0',
-      license='LGPL',
+      license='AGPL',
       entry_points = {'console_scripts': ['dadaname = vlermv.transformers.magic:cli']},
 )
